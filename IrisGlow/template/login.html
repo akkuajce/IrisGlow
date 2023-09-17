@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="{% static 'asset/style.css' %}">
+    <title>Login</title>
+    <style>
+        body{
+            font-family: 'Poppins', sans-serif;
+            background-image: url('{% static '/assets/img/bulding.jpg' %}'); /* Replace with the path to your background image */
+            background-size: cover;
+            background-position: center;
+        }
+        .alert-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px; /* Adjust this width as needed */
+            z-index: 1000; /* Ensure the alert is on top of other content */
+        }
+</style>
+</head>
+
+<body>
+
+    <!----------------------- Main Container -------------------------->
+
+     <div class="container d-flex justify-content-center align-items-center min-vh-100">
+
+    <!----------------------- Login Container -------------------------->
+
+       <div class="row border rounded-5 p-3 bg-white shadow box-area">
+
+    <!--------------------------- Left Box ----------------------------->
+
+       <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #103cbe;">
+           <div class="featured-image mb-3">
+            {% comment %} <img src="{% static '/assets/images/findmynestlogo.jpg' %}" class="img-fluid" style="width: 250px;"> {% endcomment %}
+           </div>
+           <img src="{% static '/assets/img/safety_8399977.png' %}" class="img-fluid" style="width: 250px;">
+           <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">FindMyNest</p>
+           <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Your navigator to real estate excellences</small>
+       </div> 
+
+    <!-------------------- ------ Right Box ---------------------------->
+        
+       <div class="col-md-6 right-box">
+          <div class="row align-items-center">
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="header-text mb-4">
+                     <h2>Hello,Again</h2>
+                     <p>We are happy to have you back.</p>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Username" name="username" required>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" name="password" required>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="g-recaptcha" data-sitekey="6LcJj44nAAAAAM_NCztnb4EgTD6QHnfAgix5P25k"></div>
+                </div>
+                 <div class="input-group mb-5 d-flex justify-content-between">
+                    <div class="forgot">
+                        <small><a href="{% url 'reset_password' %}">Forgot Password?</a></small>
+                    </div>
+                </div> 
+
+                <div class="input-group mb-3">
+                    <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">Login</button>
+                </div>
+                {% load socialaccount %}
+                <div class="input-group mb-3">
+                    <button class="btn btn-lg btn-light w-100 fs-6"><img src="{% static '/assets/img/google.png' %}" style="width:20px"  class="me-2"><small><a href="{% provider_login_url 'google'%}">Sign In with Google</a></small></button>
+                </div>
+                <div class="row">
+                    <small>Don't have account? <a href="/register">Sign Up</a></small>
+                </div>
+            </form>
+          </div>
+       </div> 
+
+      </div>
+    </div>
+    <script src="https://www.google.com/recaptcha/api.js" async defer>
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const alertType = urlParams.get('alert');
+
+            if (alertType === 'invalid_captcha') {
+                showAlert('Invalid login Captcha', 'danger');
+            } else if (alertType === 'invalid_credentials') {
+                showAlert('Invalid login credentials.', 'danger');
+            } else if (alertType === 'fill_fields') {
+                showAlert('Please fill out all fields.', 'warning');
+            }
+
+            function showAlert(message, alertType) {
+                const alertDiv = document.createElement('div');
+                alertDiv.classList.add('alert', `alert-${alertType}`, 'alert-top');
+                alertDiv.textContent = message;
+
+                const container = document.querySelector('.container');
+                container.insertBefore(alertDiv, container.firstChild);
+
+                setTimeout(function() {
+                    alertDiv.remove();
+                }, 5000);  // Remove after 5 seconds
+            }
+        });
+    </script>
+
+</body>
+</html>
