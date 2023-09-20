@@ -6,25 +6,27 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def create_user(self, name, phone, email, password=None):
+    def create_user(self, first_name, last_name, phone, email, password=None):
         if not email:
             raise ValueError('User must have an email address')
 
         user = self.model(
             email=self.normalize_email(email),
-            name=name,
+            first_name=first_name,
+            last_name=last_name,
             phone=phone, 
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, name,phone, email, password=None):
+    def create_superuser(self,first_name, last_name ,phone, email, password=None):
         
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
-            name=name,
+           first_name=first_name,
+            last_name=last_name,
             phone=phone,
         )
         user.is_admin = True
@@ -49,10 +51,9 @@ class CustomUser(AbstractUser):
     )
 
     username=None
-    first_name = None
-    last_name = None
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     USERNAME_FIELD = 'email'
-    name = models.CharField(max_length=50)
     email = models.EmailField(max_length=100, unique=True)
     phone = models.CharField(max_length=12, blank=True)
     password = models.CharField(max_length=128)
@@ -65,7 +66,7 @@ class CustomUser(AbstractUser):
     is_superadmin = models.BooleanField(default=False)
 
     
-    REQUIRED_FIELDS = ['name', 'phone']
+    REQUIRED_FIELDS = ['first_name','last_name', 'phone']
 
     objects = UserManager()
 
