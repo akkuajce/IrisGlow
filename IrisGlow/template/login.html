@@ -45,8 +45,8 @@
             {% comment %} <img src="{% static '/assets/images/findmynestlogo.jpg' %}" class="img-fluid" style="width: 250px;"> {% endcomment %}
            </div>
            <img src="{% static '/assets/img/safety_8399977.png' %}" class="img-fluid" style="width: 250px;">
-           <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">FindMyNest</p>
-           <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Your navigator to real estate excellences</small>
+           <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">IrisGlow</p>
+           <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Caring for your eyes start here</small>
        </div> 
 
     <!-------------------- ------ Right Box ---------------------------->
@@ -58,8 +58,8 @@
                 {% csrf_token %}
 
                 <div class="header-text mb-4">
-                     <h2>Hello,Again</h2>
-                     <p>We are happy to have you back.</p>
+                     <h2>Hello, Again</h2>
+                     <p>We are happy to care your eyes.</p>
                 </div>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Username" name="username" required>
@@ -67,22 +67,15 @@
                 <div class="input-group mb-3">
                     <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" name="password" required>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="g-recaptcha" data-sitekey="6LcJj44nAAAAAM_NCztnb4EgTD6QHnfAgix5P25k"></div>
-                </div>
+                
                  <div class="input-group mb-5 d-flex justify-content-between">
-                    <div class="forgot">
-                        <small><a href="{% url 'reset_password' %}">Forgot Password?</a></small>
-                    </div>
+                    
                 </div> 
 
                 <div class="input-group mb-3">
                     <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">Login</button>
                 </div>
-                {% load socialaccount %}
-                <div class="input-group mb-3">
-                    <button class="btn btn-lg btn-light w-100 fs-6"><img src="{% static '/assets/img/google.png' %}" style="width:20px"  class="me-2"><small><a href="{% provider_login_url 'google'%}">Sign In with Google</a></small></button>
-                </div>
+                
                 <div class="row">
                     <small>Don't have account? <a href="/register">Sign Up</a></small>
                 </div>
