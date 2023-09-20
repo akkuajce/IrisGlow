@@ -12,3 +12,5 @@ def login(request):
     return render(request,'login.html',)
 def register(request):
     return render(request,'register.html',)
+def testimonial(request):
+    return render(request,'testimonial.html',)
