@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'IrisGlowApp'
+    'IrisGlowApp',
+    'jazzmin',
+    'django.contrib'
 ]
 
 MIDDLEWARE = [

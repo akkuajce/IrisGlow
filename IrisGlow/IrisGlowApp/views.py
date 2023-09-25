@@ -16,6 +16,7 @@ def about(request):
     return render(request,'about.html',)
 def appointment(request):
     return render(request,'appointment.html',)
+
 def login(request):
     return render(request,'login.html',)
 @user_not_authenticated
@@ -32,11 +33,11 @@ def register(request):
         if f_name and l_name and email and phone and password and role:
             if User.objects.filter(email=email).exists():
                 error_message = "Email is already registered."
-                return render(request, 'register2.html', {'error_message': error_message})
+                return render(request, 'register.html', {'error_message': error_message})
             
             elif password!=confirm_password:
                 error_message = "Password's Don't Match, Enter correct Password"
-                return render(request, 'register2.html', {'error_message': error_message})
+                return render(request, 'register.html', {'error_message': error_message})
 
             
             else:
@@ -67,11 +68,11 @@ def userlogin(request):
                 auth_login(request, user)
                 print("User authenticated:", user.email, user.role)
                 if request.user.role == CustomUser.PATIENT:
-                    print("user is client")
+                    print("user is patient")
                     return redirect('http://127.0.0.1:8000/')
                 elif request.user.role == CustomUser.DOCTOR:
-                    print("user is therapist")
-                    return redirect(reverse('therapist'))
+                    print("user is doctor")
+                    return redirect(reverse('doctor'))
                 elif request.user.role == CustomUser.ADMIN:
                     print("user is admin")                   
                     return redirect(reverse('adminindex'))
@@ -87,3 +88,12 @@ def userlogin(request):
             return render(request, 'login.html', {'error_message': error_message})
 
     return render(request,'login.html')
+def userLogout(request):
+    logout(request)
+    return redirect('http://127.0.0.1:8000/')
+
+
+def doctorregister(request):
+    return render(request,'doctorregister.html',)
+def doctordashboard(request):
+    return render(request,'doctordashboard.html',)
