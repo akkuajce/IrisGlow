@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js">
+    </head>
+    <body>
+        <div class="mt-5">
+    <h2 class="align-center text-dark">Register New Therapist</h2>
+    <div class="container p-5 card shadow">
+
+      <form method="post" class=" mx-auto w-75" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% comment %} <div class="form-group">
+          <label for="{{ user_form.first_name.id_for_label }}">First Name</label>
+           {{ user_form.first_name }} 
+           <div id="nameValidation" class="invalid-feedback">
+              Please enter a valid name containing only letters.
+          </div>
+          <p id="name" class="text-danger"></p>
+      </div>
+
+      <div class="form-group">
+        <label for="{{ user_form.last_name.id_for_label }}">Last Name</label>
+         {{ user_form.last_name }} 
+         <div id="nameValidation" class="invalid-feedback">
+            Please enter a valid name containing only letters.
+        </div>
+        <p id="name" class="text-danger"></p>
+    </div> {% endcomment %}
+
+    <div class="form-group ">
+        <label>Specialization</label>
+        <input type="text" class="form-control form-control-lg " onkeyup="validateUser_Name()" placeholder="Specialization" id="username" name="Specialization" required><br>
+        <div class="invalid-feedback"></div>
+        <div class="valid-feedback"></div>
+    </div>
+
+
+    <div class="form-group ">
+        <label>License No.</label>
+        <input type="text" class="form-control form-control-lg " onkeyup="validateUser_Name()" placeholder="License" id="username" name="License" required><br>
+        <div class="invalid-feedback"></div>
+        <div class="valid-feedback"></div>
+    </div>
+
+
+
+
+      {% comment %} <div class="form-group ">
+          <label for="{{ user_form.email.id_for_label }}">Email</label>
+          {{ user_form.email }}
+          <div id="emailValidation" class="invalid-feedback">
+              Please enter a valid email address.
+          </div>
+          {% for error in user_form.email.errors %}
+          <p class="text-danger">{{ error }}</p>
+          {% endfor %}
+      </div>
+      <div class="form-group mt-2">
+          <label for="{{userform.phone.id_for_label }}">Phone</label>
+          {{ user_form.phone }}
+          <div id="phoneValidation" class="invalid-feedback">
+              Please enter 10 digit valid phone number
+          </div>
+      </div>
+      <div class="form-group mt-2">
+          <label for="{{ user_form.password.id_for_label }}">Password</label>
+          {{ user_form.password }}
+          <div id="passValidation" class="invalid-feedback">
+              Password must be at least 8 characters long and contain at least one
+              uppercase
+              letter, one lowercase letter, one number, and one special character.
+          </div>
+          <div id="passValid" class="valid-feedback">
+              Looks good!
+          </div>
+      </div>
+      <div class="form-group mt-2">
+          <label for="{{ user_form.confirm_password.id_for_label }}">Confirm Password</label>
+          {{ user_form.confirm_password }}
+          <div id="cpassValidation" class="invalid-feedback">
+              Passwords do not match.
+          </div>
+          <div id="cpassValid" class="valid-feedback">
+              Passwords match!
+          </div>
+      </div> {% endcomment %}
+      {{ user_form.as_p }}
+
+      <div class="d-flex mt-5 justify-content-center w-100 align-items-center">
+        <button class="btn btn-dark sub-btn w-25" type="submit">ADD</button>
+    </div>
+    </form>
+  </div>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <script src="" async defer></script>
+    </body>
+</html>
