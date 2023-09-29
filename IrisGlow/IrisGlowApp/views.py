@@ -10,11 +10,23 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+
 
 User = get_user_model()
 
 # Create your views here.
 def index(request):
+    user=request.user
+    if request.user.is_authenticated:
+        if request.user.role == 4 and not request.path == reverse('admindashboard'):
+            return redirect(reverse('admindashboard'))
+        elif request.user.role == 2 and not request.path == reverse('doctor'):
+            return redirect(reverse('doctordashboard'))
+        elif request.user.role == 1 and not request.path == reverse('index'):
+            return redirect(reverse('index'))
+    
     return render(request,'index.html',)
 def about(request):
     return render(request,'about.html',)
@@ -24,8 +36,8 @@ def testimonial(request):
     return render(request,'testimonial.html',)
 def doctorregister(request):
     return render(request,'doctorregister.html',)
-def doctordashboard(request):
-    return render(request,'doctordashboard.html',)
+def admindashboard(request):
+    return render(request,'admindashboard.html',)
 # def login(request):
 #     return render(request,'login.html',)
 # def register(request):
@@ -102,8 +114,24 @@ def doctordashboard(request):
 #                 return redirect('login')  
             
 #     return render(request, 'register2.html')
+
+
 # login
+
 def login_view(request):
+
+    if request.user.is_authenticated:
+        user=request.user
+        if user.role == CustomUser.ADMIN:
+            return redirect(reverse('admindashboard'))
+        elif user.role == CustomUser.PATIENT:
+                    return redirect(reverse('index'))
+        elif user.role == CustomUser.DOCTOR:
+                    return redirect(reverse('doctordashbord'))
+        else:
+                    return redirect('/')
+      
+    
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -118,7 +146,7 @@ def login_view(request):
                 auth_login(request, user)
                 # Redirect based on user_type
                 if user.role == CustomUser.ADMIN:
-                    return redirect(reverse('admin:index'))
+                    return redirect(reverse('admindashboard'))
                 elif user.role == CustomUser.PATIENT:
                     return redirect(reverse('index'))
                 elif user.role == CustomUser.DOCTOR:
@@ -137,9 +165,18 @@ def userLogout(request):
     logout(request)
     return redirect('http://127.0.0.1:8000/') 
 
+# def userLogout(request):
+#     logout(request)
+#     return redirect('index')
+
 # Registration
 def register(request):
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        messages.warning(request, 'You are already logged in!')
+        return redirect('index')
+     
+
+    elif request.method == 'POST':
         
         first_name = request.POST.get('first_name', None)
         last_name = request.POST.get('last_name', None)
