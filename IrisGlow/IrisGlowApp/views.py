@@ -13,6 +13,8 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 
+from django.views.decorators.csrf import csrf_protect
+
 
 User = get_user_model()
 
@@ -38,6 +40,8 @@ def doctorregister(request):
     return render(request,'doctorregister.html',)
 def admindashboard(request):
     return render(request,'admindashboard.html',)
+def team(request):
+    return render(request,'team.html',)
 # def login(request):
 #     return render(request,'login.html',)
 # def register(request):
@@ -117,6 +121,7 @@ def admindashboard(request):
 
 
 # login
+@csrf_protect
 
 def login_view(request):
 
@@ -133,6 +138,8 @@ def login_view(request):
       
     
     if request.method == 'POST':
+
+        
         email = request.POST.get('email')
         password = request.POST.get('password')
         print(email,password)
@@ -170,6 +177,7 @@ def userLogout(request):
 #     return redirect('index')
 
 # Registration
+@csrf_protect
 def register(request):
     if request.user.is_authenticated:
         messages.warning(request, 'You are already logged in!')

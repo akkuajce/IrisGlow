@@ -60,7 +60,7 @@
             <div class="col-md-6 text-center text-lg-end">
                 <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
                     <div class="me-3 pe-3 border-end py-2">
-                        <p class="m-0"><i class="fa fa-envelope-open me-2"></i>Irisgloweyecare@gmail.com</p>
+                        <p class="m-0"><i class="fa fa-envelope-open me-2"></i>irisgloweyecare@gmail.com</p>
                     </div>
                     <div class="py-2">
                         <p class="m-0"><i class="fa fa-phone-alt me-2"></i>+91 98765 43210</p>
@@ -118,7 +118,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
                 <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                 <a href="service.html" class="nav-item nav-link">Service</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -134,7 +134,7 @@
             </div>
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="{% url 'register' %}" class="btn btn-primary py-2 px-4 ms-3">Sign UP</a>
-            <a href="{% url 'appointment' %}" class="btn btn-primary py-2 px-4 ms-3">Appointment</a>
+            <a href="{% url 'login' %}" class="btn btn-primary py-2 px-4 ms-3">Login</a>
         </div>
         {% endif %}
 
