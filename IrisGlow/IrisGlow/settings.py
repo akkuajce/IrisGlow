@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'IrisGlowApp',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'IrisGlowApp', 
+     
     'DoctorApp'  
 ]
 
@@ -137,7 +138,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'akkushaji1511@gmail.com'
-EMAIL_HOST_PASSWORD = 'rksfunoufjaytigu' 
-DEFAULT_FROM_EMAIL = 'akkushaji1511@gmail.com'
+EMAIL_HOST_USER = 'irisgloweyecare@gmail.com'
+EMAIL_HOST_PASSWORD = 'qejkpsttnoutecde' 
+DEFAULT_FROM_EMAIL = 'irisgloweyecare@gmail.com'
 PASSWORD_RESET_TIMEOUT = 14400

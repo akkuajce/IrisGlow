@@ -46,7 +46,7 @@
            </div>
            <img src="{% static 'img/logo1.png' %}" class="img-fluid" style="width: 250px;">
            <p class="text-white fs-2" style="font-family: 'Open Sans', normal; font-weight: 600;">IrisGlow</p>
-           <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Open Sans', normal;">Caring for your eyes start here</small>
+           <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Open Sans', normal;"><b>Caring for your eyes start here</b></small>
        </div> 
 
     <!-------------------- ------ Right Box ---------------------------->
@@ -80,7 +80,14 @@
                 </div>
                 
                 <div class="row">
-                    <small>Don't have account? <a href="{% url "register" %}">Signup </a>  </small>
+                    <small><b>Don't have account?</b> <button><a href="{% url "register" %}">Signup </a></button></small>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="row">
+                        <small>Forgot Password?  <button><a href="{% url "password_reset" %}">Click Here</a> </button></small>
+                    </div>
                 </div>
             </form>
           </div>

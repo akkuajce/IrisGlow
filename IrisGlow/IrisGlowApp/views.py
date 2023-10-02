@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
+
 from django.shortcuts import redirect
 from django.contrib.auth import logout
 
@@ -24,14 +25,25 @@ def index(request):
     if request.user.is_authenticated:
         if request.user.role == 4 and not request.path == reverse('admindashboard'):
             return redirect(reverse('admindashboard'))
-        elif request.user.role == 2 and not request.path == reverse('doctor'):
+        elif request.user.role == 2 and not request.path == reverse('doctordashboard'):
             return redirect(reverse('doctordashboard'))
         elif request.user.role == 1 and not request.path == reverse('index'):
             return redirect(reverse('index'))
+        
     
+    
+
+
+
+
     return render(request,'index.html',)
 def about(request):
     return render(request,'about.html',)
+def team(request):
+    return render(request,'team.html',)
+def doctordashboard(request):
+    return render(request,'doctordashboard.html',)
+
 def appointment(request):
     return render(request,'appointment.html',)
 def testimonial(request):
@@ -39,9 +51,36 @@ def testimonial(request):
 def doctorregister(request):
     return render(request,'doctorregister.html',)
 def admindashboard(request):
+    user=request.user
+    if request.user.is_authenticated:
+        if request.user.role == 4 and not request.path == reverse('admindashboard'):
+            return redirect(reverse('admindashboard'))
+        elif request.user.role == 2 and not request.path == reverse('doctordashboard'):
+            return redirect(reverse('doctordashboard'))
+        elif request.user.role == 1 and not request.path == reverse('index'):
+            return redirect(reverse('index'))
+    else:
+         return redirect(reverse('index'))   
     return render(request,'admindashboard.html',)
-def team(request):
-    return render(request,'team.html',)
+
+
+
+
+
+# def password_reset_complete(request):
+#     return render(request,'password_reset_complete.html',)
+# def password_reset_confirm(request):
+#     return render(request,'password_reset_confirm.html',)
+# def password_reset_done(request):
+#     return render(request,'password_reset_done.html',)
+# def password_reset_email(request):
+#     return render(request,'password_reset_email.html',)
+# def password_reset_form(request):
+#     return render(request,'password_reset_form.html',)
+
+
+
+
 # def login(request):
 #     return render(request,'login.html',)
 # def register(request):
@@ -132,7 +171,7 @@ def login_view(request):
         elif user.role == CustomUser.PATIENT:
                     return redirect(reverse('index'))
         elif user.role == CustomUser.DOCTOR:
-                    return redirect(reverse('doctordashbord'))
+                    return redirect(reverse('doctordashboard'))
         else:
                     return redirect('/')
       
@@ -157,7 +196,7 @@ def login_view(request):
                 elif user.role == CustomUser.PATIENT:
                     return redirect(reverse('index'))
                 elif user.role == CustomUser.DOCTOR:
-                    return redirect(reverse('doctordashbord'))
+                    return redirect(reverse('doctordashboard'))
                 else:
                     return redirect('/')
                 

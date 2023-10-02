@@ -14,6 +14,8 @@ from .models import Doctor
 User = get_user_model()
 
 
+
+
 # Create your views here.
 @login_required
 def addDoctor(request):
@@ -42,11 +44,11 @@ def addDoctor(request):
                 user.set_password(password)
                 user.is_active = True
 
-                user.user_type = CustomUser.DOCTOR  # Set the role to "Doctor"
+                user.role = CustomUser.DOCTOR  # Set the role to "Doctor"
                 user.save()
 
             # Check if the user has the role=2 (Doctor)
-                if user.user_type == CustomUser.DOCTOR:
+                if user.role == CustomUser.DOCTOR:
                     doctor = Doctor(user=user)  # Create a Doctor instance
                     doctor.qualification=Specialization
                     doctor.license=License
@@ -56,7 +58,7 @@ def addDoctor(request):
             
                 user_profile.save()
 
-                return redirect('index')
+                return redirect('admindashboard')
 
     else:
         user_form = CustomUserForm()
@@ -66,6 +68,7 @@ def addDoctor(request):
     }
 
     return render(request, 'admin/adddoctor.html', context)
+
 
 
 
@@ -93,3 +96,5 @@ def send_welcome_email(email, password, first_name, last_name):
     recipient_list = [email]
     
     send_mail(subject, message, from_email, recipient_list)
+
+

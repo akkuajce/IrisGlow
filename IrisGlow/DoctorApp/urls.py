@@ -11,6 +11,6 @@ urlpatterns = [
     # path('login/', views.login, name='login'),
     # path('testimonial/', views.testimonial, name='testimonial'), 
     # path('doctorregister/', views.doctorregister, name='doctorregister'), 
-    # path('doctordashboard/', views.doctordashboard, name='doctordashboard'), 
+    #  path('doctordashboard/', views.doctordashboard, name='doctordashboard'), 
     path('add-doctor/',views.addDoctor,name='addDoctor'),
 ]
