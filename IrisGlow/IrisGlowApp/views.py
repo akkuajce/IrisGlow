@@ -166,14 +166,19 @@ def login_view(request):
 
     if request.user.is_authenticated:
         user=request.user
+       
+
         if user.role == CustomUser.ADMIN:
+            messages.success(request, 'Login Success!!')
             return redirect(reverse('admindashboard'))
         elif user.role == CustomUser.PATIENT:
-                    return redirect(reverse('index'))
+            messages.warning(request, 'Login Success!!')    
+            return redirect(reverse('index'))
         elif user.role == CustomUser.DOCTOR:
-                    return redirect(reverse('doctordashboard'))
+            messages.success(request, 'Login Success!!')
+            return redirect(reverse('doctordashboard'))
         else:
-                    return redirect('/')
+            return redirect('/')
       
     
     if request.method == 'POST':
@@ -193,7 +198,7 @@ def login_view(request):
                 # Redirect based on user_type
                 if user.role == CustomUser.ADMIN:
                     return redirect(reverse('admindashboard'))
-                elif user.role == CustomUser.PATIENT:
+                elif user.role == CustomUser.PATIENT: 
                     return redirect(reverse('index'))
                 elif user.role == CustomUser.DOCTOR:
                     return redirect(reverse('doctordashboard'))

@@ -25,6 +25,8 @@
       max-width: 500px;
       z-index: 1000;
   }
+
+  
     </style>
 </head>
 <body>
@@ -47,6 +49,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validateFirst_Name()" placeholder="First Name" id="first_name" name="first_name" required><br>
+                            <span id="ferror"> </span>
                             <div class="invalid-feedback"></div>
                             <div class="valid-feedback"></div>
                         </div>
@@ -58,11 +61,11 @@
                       </div>
 
 
-                      <div class="input-group mb-3">
+                      {% comment %} <div class="input-group mb-3">
                         <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validateUser_Name()" placeholder="Username" id="username" name="username" required><br>
                         <div class="invalid-feedback"></div>
                         <div class="valid-feedback"></div>
-                    </div>
+                    </div> {% endcomment %}
 
 
                         
@@ -78,11 +81,16 @@
                             <div class="valid-feedback"></div>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control form-control-lg bg-light fs-6" onkeyup="validatePassword()" placeholder="Password" id="password" name="password" required><br>
-                            <span id="pw" class="text-danger"></span>
-                            <div class="invalid-feedback"></div>
-                            <div class="valid-feedback"></div>
-                        </div>
+                          <input type="password" class="form-control form-control-lg bg-light fs-6" onkeyup="validatePassword()" placeholder="Password" id="password" name="password" ><br>
+                          <span id="pw" class="text-danger"></span>
+                          <div class="invalid-feedback"></div>
+                          
+                          <div class="valid-feedback"></div>
+                      </div>
+                      
+                        
+
+                        
                         <div class="input-group mb-3">
                             <input type="password" class="form-control form-control-lg bg-light fs-6" onkeyup="validateConfirmPassword()" placeholder="Confirm Password" id="confirmPassword" name="confirmPassword" required><br>
                             <div class="invalid-feedback"></div>
@@ -100,11 +108,16 @@
         </div>
     </div>
 
+
+
+
+    
+    
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const first_nameInput = document.getElementById('first_name');
         const last_nameInput = document.getElementById('last_name');
-        const usernameInput = document.getElementById('username');
+        {% comment %} const usernameInput = document.getElementById('username'); {% endcomment %}
         const emailInput = document.getElementById('email');
         const phoneInput = document.getElementById('phone');
         const passwordInput = document.getElementById('password');
@@ -112,7 +125,7 @@
   
         first_nameInput.addEventListener('blur', function(event) { validateFirst_Name(); });
         last_nameInput.addEventListener('blur', function(event) { validateLast_Name(); });
-        usernameInput.addEventListener('blur', function(event) { validateUser_Name(); });
+        {% comment %} usernameInput.addEventListener('blur', function(event) { validateUser_Name(); }); {% endcomment %}
         emailInput.addEventListener('blur', function(event) { validateEmail(); });
         phoneInput.addEventListener('blur', function(event) { validatePhoneNumber(); });
         passwordInput.addEventListener('blur', function(event) { validatePassword(); });
@@ -145,7 +158,7 @@
           }
         }
 
-        function validateUser_Name() {
+        {% comment %} function validateUser_Name() {
           const namePattern = /^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\/\-\\]+$/;
           if (!namePattern.test(usernameInput.value)) {
             usernameInput.classList.add('is-invalid');
@@ -156,7 +169,7 @@
             usernameInput.classList.add('is-valid');
             return true;
           }
-        }
+        } {% endcomment %}
 
 
        
@@ -226,18 +239,21 @@
        }
   
 
-        function validatePassword() {
-          const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{}|;:'",.<>?/~`]).{8,}$/;
-          if (!passwordPattern.test(passwordInput.value)) {
-            passwordInput.classList.add('is-invalid');
-            passwordInput.classList.remove('is-valid');
-            return false;
-          } else {
-            passwordInput.classList.remove('is-invalid');
-            passwordInput.classList.add('is-valid');
-            return true;
-          }
+       function validatePassword() {
+        const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{}|;:'",.<>?/~`]).{8,}$/;
+        if (!passwordPattern.test(passwordInput.value)) {
+          passwordInput.classList.add('is-invalid');
+          passwordInput.classList.remove('is-valid');
+          return false;
+        } else {
+          passwordInput.classList.remove('is-invalid');
+          passwordInput.classList.add('is-valid');
+          return true;
         }
+      }
+
+
+    
 
         function validateConfirmPassword() {
           if (passwordInput.value !== confirmPasswordInput.value) {
