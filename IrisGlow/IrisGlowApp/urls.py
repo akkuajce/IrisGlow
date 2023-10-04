@@ -16,6 +16,12 @@ urlpatterns = [
     path('admindashboard/', views.admindashboard, name='admindashboard'), 
     path('logout/', views.userLogout, name='logout'), 
     path('team/', views.team, name='team'),
+    path('userdata/', views.display_user_data, name='userdata'),
+    path('profile/', views.profile, name='profile'),
+    path('edit_profile/', views.editprofile, name='edit-profile'),
+    path('change_password_patients/', views.change_password_patients, name='change_password_patients'),
+    
+
 
 #password reset urls
 

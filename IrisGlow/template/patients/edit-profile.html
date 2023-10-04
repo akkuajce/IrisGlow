@@ -1,0 +1,317 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>IrisGlow - Eye Care Hospital Website </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/twentytwenty/twentytwenty.css' %}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  <style>
+    body {
+      margin-top: 20px;
+      padding: 30px;
+      color: #9b9ca1;
+    }
+
+    .bg-secondary-soft {
+      background-color: rgba(208, 212, 217, 0.1) !important;
+    }
+
+    .rounded {
+      border-radius: 5px !important;
+    }
+
+    .py-5 {
+      padding-top: 3rem !important;
+      padding-bottom: 3rem !important;
+    }
+
+    .px-4 {
+      padding-right: 1.5rem !important;
+      padding-left: 1.5rem !important;
+    }
+
+    .file-upload .square {
+      height: 250px;
+      width: 250px;
+      margin: auto;
+      vertical-align: middle;
+      border: 1px solid #e5dfe4;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+
+    .text-secondary {
+      --bs-text-opacity: 1;
+      color: rgba(208, 212, 217, 0.5) !important;
+    }
+
+    .btn-success-soft {
+      color: #28a745;
+      background-color: rgba(40, 167, 69, 0.1);
+    }
+
+    .btn-danger-soft {
+      color: #dc3545;
+      background-color: rgba(220, 53, 69, 0.1);
+    }
+
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      font-size: 0.9375rem;
+      font-weight: 400;
+      line-height: 1.6;
+      color: #29292e;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #e5dfe4;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 5px;
+      -webkit-transition: border-color 0.15s ease-in-out,
+        -webkit-box-shadow 0.15s ease-in-out;
+      transition: border-color 0.15s ease-in-out,
+        -webkit-box-shadow 0.15s ease-in-out;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+        -webkit-box-shadow 0.15s ease-in-out;
+    }
+
+    .sub-btn {
+      width: 150px;
+    }
+
+    .dcontainer {
+      width: 100%;
+
+    }
+
+    .square {
+      height: 250px;
+      width: 250px;
+    }
+
+    select,
+    input {
+      display: block;
+      width: 100%;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    hr {
+      border: none;
+      /* Remove the default line */
+      height: 5px;
+      /* Set the height of the line */
+      background-color: #087c35;
+
+    }
+
+    select,
+    input::-ms-expand {
+      background-color: transparent;
+      border: 0;
+    }
+  </style>
+</head>
+
+<body class="p-5 p-lg-5">
+  <!-- <div class="dcontainer align-items-center p-5 card shadow"> -->
+  <h1 class="text-center fw-bold text-dark">Edit Profile</h1>
+  <hr class="mx-5">
+  <form class="w-100" method="post" enctype="multipart/form-data" id="pictureForm">
+    <div class="container">
+      <div class="d flex ">
+        <div>
+          <div class="d-flex justify-content-center">
+            {% csrf_token %}
+            {% if user_profile.profile_picture %}
+
+            <img class="m-3 rounded-circle square" src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" />
+            {% else %}
+            <div class="rounded-circle no-file-message">
+              <img class="rounded-circle" src="{% static 'img/profile_pic.png' %}" alt="Profile Picture"
+                style="width: 200px; height: 200px" />
+            </div>
+
+            {% endif %}
+          </div>
+        </div>
+        <div class="row m-0 p-5">
+          <div class="col-md-6 p-5">
+            <div class="form-group">
+              <label for="{{ user_form.first_name.id_for_label }}">First Name</label>
+              {{ user_form.first_name }}
+              <div id="nameValidation" class="invalid-feedback">
+                Please enter a valid name containing only letters.
+              </div>
+              <div class="form-group">
+                <label for="{{ user_form.last_name.id_for_label }}">Last Name</label>
+                {{ user_form.last_name }}
+                <div id="nameValidation" class="invalid-feedback">
+                  Please enter a valid name containing only letters.
+                </div>
+              <p id="last_name" class="text-danger"></p>
+            </div>
+            <div class="form-group mt-2">
+              <label for="{{ user_form.email.id_for_label }}">Email</label>
+              {{ user_form.email }}
+              <div id="emailValidation" class="invalid-feedback">
+                Please enter a valid email address.
+              </div>
+              {% for error in user_form.email.errors %}
+              <p class="text-danger">{{ error }}</p>
+              {% endfor %}
+            </div>
+            <div class="form-group mt-2">
+              <label for="{{userform.phone.id_for_label }}">Phone</label>
+              {{ user_form.phone }}
+              <div id="phoneValidation" class="invalid-feedback">
+                Please enter 10 digit valid phone number
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="{{ user_profile_form.profile_picture.id_for_label }}">Profile Picture</label>
+              {{ user_profile_form.profile_picture }}
+              <div id="pictureValidation" class="invalid-feedback">
+                Please select a valid image file (JPEG, PNG, GIF,JPG).
+              </div>
+              <p id="name" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+              <label for="{{ user_profile_form.gender.id_for_label }}">Gender</label>
+              {{ user_profile_form.gender }}
+            </div>
+            <div class="form-group">
+              <label for="{{ user_profile_form.dob.id_for_label }}">Date of Birth</label>
+              {{ user_profile_form.dob }}
+              <div id="dobclientValidation" class="invalid-feedback">
+                You must be at least 8 years old.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 p-5">
+            <div class="form-group">
+              <label for="{{ user_profile_form.address.id_for_label }}">Address Line 1</label>
+              {{ user_profile_form.address }}
+              <div id="addressValidation" class="invalid-feedback">
+                Please enter a valid address containing characters and allowing numbers, parentheses, commas, hyphens,
+                and
+                spaces.
+              </div>
+              <p id="name" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+              <label for="{{ user_profile_form.addressline1.id_for_label }}">Address Line 2</label>
+              {{ user_profile_form.addressline1 }}
+              <div id="addressValidation1" class="invalid-feedback">
+                Please enter a valid address containing characters and allowing numbers, parentheses, commas, hyphens,
+                and
+                spaces.
+              </div>
+              <p id="name" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+              <label for="{{ user_profile_form.addressline2.id_for_label }}">Address Line 3</label>
+              {{ user_profile_form.addressline2 }}
+              <div id="addressValidation2" class="invalid-feedback">
+                Please enter a valid address containing characters and allowing numbers, parentheses, commas, hyphens,
+                and
+                spaces.
+              </div>
+              <p id="name" class="text-danger"></p>
+            </div>
+            {% comment %} <div class="form-group">
+              <label for="{{ user_profile_form.country.id_for_label }}">Country</label>
+              {{ user_profile_form.country }}
+              <div id="countryValidation" class="invalid-feedback">
+                Please enter a valid name containing only letters.
+              </div> {% endcomment %}
+              <p id="name" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+              <label for="{{ user_profile_form.state.id_for_label }}">State</label>
+              {{ user_profile_form.state }}
+              <div id="nameValidation" class="invalid-feedback">
+                Please enter a valid name containing only letters.
+              </div>
+              <p id="name" class="text-danger"></p>
+            </div>
+            <div class="form-group">
+              <label for="{{ user_profile_form.city.id_for_label }}">City</label>
+              {{ user_profile_form.city }}
+              <div id="cityValidation" class="invalid-feedback">
+                Please enter a valid city containing only letters.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="{{ user_profile_form.pin_code.id_for_label }}">Pin Code</label>
+              {{ user_profile_form.pin_code }}
+              <div id="zipcodeValidation" class="invalid-feedback">
+                Please enter a valid 6-digit ZIP code.
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="d-flex justify-content-center w-100 align-items-center gap-3">
+          <a href=""><button class="btn btn-success sub-btn" type="submit">Discard Changes</button></a>
+          <button class="btn btn-success sub-btn" type="submit">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  </div>
+
+
+  </div>
+  <script>
+    $(document).ready(function () {
+      $('#{{ user_profile_form.dob.id_for_label }}').datepicker();
+    });
+  </script>
+
+  <script src="{% static 'js/vali.js' %}"></script>
+</body>
+
+</html>

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import login as auth_login ,authenticate, logout
 from django.shortcuts import render, redirect
+
+from .forms import BootstrapDateInput, BootstrapSelect, BootstrapTextInput
 from .models import CustomUser
 from .decorators import user_not_authenticated
 from .models import CustomUser,UserProfile
@@ -9,6 +11,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 from django.shortcuts import redirect
@@ -300,3 +303,166 @@ def register(request):
 #                 return HttpResponseRedirect(reverse('login') + '?alert=registered')
 
 #     return render(request, 'doctorregister.html')
+
+def display_user_data(request):
+    users = UserProfile.objects.all()  # Fetch all user profiles from the database
+    context = {'users': users}
+    return render(request, 'userdata.html', context)
+
+
+
+
+#edit profile
+
+
+@login_required
+def profile(request):
+    
+    user = request.user
+
+    # Initialize variables for user profile and therapist info
+    user_profile = None
+ 
+    if user.userprofile.user.role == 1:
+        try:
+            # Get the user profile information
+            user_profile = UserProfile.objects.get(user=user.userprofile.user)
+           
+        except UserProfile.DoesNotExist:
+            user_profile = None
+            
+
+    context = {
+        'user': user,
+        'user_profile': user_profile,  # User profile information
+    }
+
+    return render(request, 'patients/profile.html', context)
+
+
+
+
+
+@login_required
+def editprofile(request):
+    user_id = request.user.id
+    user = CustomUser.objects.get(id=user_id)
+    user_profile = UserProfile.objects.get(user=user)
+
+    if request.method == 'POST':
+        user_form = CustomUserForm(request.POST, instance=user)
+        user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if user_form.is_valid() and user_profile_form.is_valid():
+            user_form.save()
+            user_profile_form.save()
+            return redirect('doctordashboard')  # Redirect to the user's profile page after editing
+
+    else:
+        user_form = CustomUserForm(instance=user)
+        user_profile_form = UserProfileForm(instance=user_profile)
+    print(user_profile.profile_picture)
+    context = {
+        'user_form': user_form,
+        'user_profile_form': user_profile_form,
+        'user_profile':user_profile
+    }
+
+    return render(request, 'patients/edit-profile.html', context)
+
+########################################################################################################################
+
+#Update password
+
+########################################################################################################################
+
+
+@login_required
+def change_password_patients(request):
+    val = 0
+    
+    if request.method == 'POST':
+        # Get the current user
+        user = CustomUser.objects.get(email=request.user.email)
+        
+        # Get the new password and confirm password from the request
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # Check if the passwords are empty
+        if not new_password or not confirm_password:
+            messages.error(request, 'Please fill in both password fields.')
+            val = 2
+        else:
+            # Check if the passwords match
+            if new_password == confirm_password:
+                # Change the user's password
+                user.set_password(new_password)
+                user.save()
+                # Update the session and log the user back in
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password was successfully updated.')
+                val = 1
+            else:
+                messages.error(request, 'Passwords do not match.')
+
+    return render(request, 'patients/profile.html', {'msg': val})
+
+
+from django import forms
+from .models import CustomUser, UserProfile
+
+class BootstrapTextarea(forms.Textarea):
+    def init(self, *args, **kwargs):
+        kwargs.setdefault("attrs", {})
+        kwargs["attrs"]["class"] = "form-control form-control-lg"
+        kwargs["attrs"]["rows"] = 16  # Customize the number of rows as needed
+        super().init(*args, **kwargs)
+
+class BootstrapFileInput(forms.ClearableFileInput):
+    def init(self, *args, **kwargs):
+        kwargs.setdefault("attrs", {})
+        kwargs["attrs"]["class"] = "custom-file-input"
+        super().init(*args, **kwargs)
+
+class BootstrapImageInput(forms.ClearableFileInput):
+    def init(self, *args, **kwargs):
+        kwargs.setdefault("attrs", {})
+        kwargs["attrs"]["class"] = "custom-file-input"
+        super().init(*args, **kwargs)
+
+class CustomUserForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['first_name','last_name', 'email', 'phone']
+        widgets = {
+            'first_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your First Name', 'id': 'first_name'}),
+            'last_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your Last Name', 'id': 'last_name'}),
+            'email': BootstrapTextInput(attrs={'placeholder': 'Enter Your Email', 'id': 'email'}),
+            'phone': BootstrapTextInput(attrs={'placeholder': 'Enter Your Phone', 'id': 'phone'}),
+        }
+
+class UserProfileForm(forms.ModelForm):
+    dob = forms.DateField(
+        widget=BootstrapDateInput(attrs={'placeholder': 'YYYY-MM-DD', 'id': 'dobclient'})
+    )
+
+    profile_picture = forms.ImageField(
+        widget=BootstrapImageInput(attrs={'id': 'pictureInput'})
+    )
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture', 'address','addressline1', 'addressline2','country', 'state', 'city', 'pin_code', 'gender', 'dob']
+        widgets = {
+             'profile_picture': BootstrapFileInput(attrs={'placeholder': 'Upload Profile Picture'}),
+             'profile_picture': forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
+            'address': BootstrapTextInput(attrs={'placeholder': 'Address Line 1', 'id': 'address'}),
+            'addressline1': BootstrapTextInput(attrs={'placeholder': 'Address Line 2', 'id': 'address1'}),
+            'addressline2': BootstrapTextInput(attrs={'placeholder': 'Address Line 3', 'id': 'address2'}),
+            'country': BootstrapSelect(attrs={'placeholder': 'Select Country', 'id': 'country'}),
+            'state': BootstrapSelect(attrs={'placeholder': 'Select State', 'id': 'state'}),
+            'city': BootstrapTextInput(attrs={'placeholder': 'Enter City', 'id': 'city'}),
+            'pin_code': BootstrapTextInput(attrs={'placeholder': 'Enter Pin Code', 'id': 'zipcode'}),
+            'gender': BootstrapSelect(attrs={'placeholder': 'Select Gender', 'id': 'gender'}),
+            'dob': forms.DateInput(attrs={'placeholder': 'Select Date of Birth', 'id': 'dob'}),
+        }

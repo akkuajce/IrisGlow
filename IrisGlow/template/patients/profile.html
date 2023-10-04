@@ -1,0 +1,379 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>IrisGlow</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Free HTML Templates" name="keywords" />
+  <meta content="Free HTML Templates" name="description" />
+
+  <link href="{% static 'img/favicon.ico' %}" rel="icon" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- Libraries Stylesheet -->
+  <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+
+  <!-- Template Stylesheet -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <style>
+    body {
+
+      color: #9b9ca1;
+    }
+
+    .bg-secondary-soft {
+      background-color: rgba(208, 212, 217, 0.1) !important;
+    }
+
+    .rounded {
+      border-radius: 5px !important;
+    }
+
+    hr {
+      border: 2px solid #000;
+    }
+
+    .py-5 {
+      padding-top: 3rem !important;
+      padding-bottom: 3rem !important;
+    }
+
+    .px-4 {
+      padding-right: 1.5rem !important;
+      padding-left: 1.5rem !important;
+    }
+
+    .file-upload .square {
+      height: 255px;
+      width: 255px;
+      margin: auto;
+      vertical-align: middle;
+      border: 2px solid #e5dfe4;
+      border-radius: 50%;
+      background-color: #fff;
+    }
+
+    .pp {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+    }
+
+    .text-secondary {
+      --bs-text-opacity: 1;
+      color: rgba(208, 212, 217, 0.5) !important;
+    }
+
+    .btn-success-soft {
+      color: #28a745;
+      background-color: rgba(40, 167, 69, 0.1);
+    }
+
+    .btn-danger-soft {
+      color: #dc3545;
+      background-color: rgba(220, 53, 69, 0.1);
+    }
+
+    .txtsize {
+      font-size: large;
+      margin: 0;
+    }
+
+    .txtsize2 {
+      font-size: medium;
+      margin: 0;
+    }
+
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 1rem;
+      font-size: 0.9375rem;
+      font-weight: 400;
+      line-height: 1.6;
+      color: #29292e;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #e5dfe4;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border-radius: 5px;
+      -webkit-transition: border-color 0.15s ease-in-out,
+        -webkit-box-shadow 0.15s ease-in-out;
+      transition: border-color 0.15s ease-in-out,
+        -webkit-box-shadow 0.15s ease-in-out;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+        -webkit-box-shadow 0.15s ease-in-out;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar Start -->
+  <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+    <a href="index.html" class="navbar-brand p-0">
+        <h1 class="m-0 text-primary">
+            <img src="{% static 'img/img1.png' %}">
+          IrisGlow</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+        
+        {% if user.is_authenticated %}
+        <div class="collapse navbar-collapse ms-5 mr-5 justify-content-end" id="navbarCollapse">
+            <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
+                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+                {% comment %} <a href="{% url 'listtherapist' %}" class="nav-item nav-link">Find a Therapist</a> {% endcomment %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
+                    <div class="dropdown-menu m-0">
+                        {% comment %} <a href="{% url 'familytherapy' %}" class="dropdown-item">Family Therapy</a> {% endcomment %}
+                        {% comment %} <a href="{% url 'search' %}" class="dropdown-item">Search</a>
+                        <a href="appointment.html" class="dropdown-item">Appointment</a> {% endcomment %}
+                    </div>
+                </div> 
+                <a href="{% url 'about' %}" class="nav-item nav-link">About Us</a>
+
+                {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                        data-bs-toggle="dropdown">Welcome,{{user.first_name}}</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="{% url 'profile' %}" class="dropdown-item nav-linkd">My Profile</a>
+                        {% comment %} <a href="{% url 'view-appointment-client' %}" class="dropdown-item nav-linkd">View
+                            Appointments</a> {% endcomment %}
+                        <a href="{% url 'logout' %}" class="dropdown-item nav-linkd ">Logout</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {% else %}
+        <div class="collapse navbar-collapse ms-5 mr-5 justify-content-between" id="navbarCollapse">
+            <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
+
+
+                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+                {% comment %} <a href="{% url 'listtherapist' %}" class="nav-item nav-link">Find a Doctor</a> {% endcomment %}
+                {% comment %} <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="{% url 'familytherapy' %}" class="dropdown-item">Family Therapy</a> {% endcomment %}
+                        {% comment %} <a href="{% url 'search' %}" class="dropdown-item">Search</a>
+                        <a href="appointment.html" class="dropdown-item">Appointment</a> {% endcomment %}
+                    </div>
+                </div> 
+                {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
+                {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
+
+            </div>
+
+            <div class="d-flex">
+                <a href="{% url 'login' %}" class="nav-item nav-link btn btn-success mx-2 text-dark">Login</a>
+
+                <!-- Register button -->
+                <a href="{% url 'register' %}" class="nav-item nav-link btn btn-success text-dark">Register</a>
+            </div>
+            {% endif %}
+        </div>
+      </nav>
+    </div>
+  </div>
+  <!-- Navbar End -->
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <!-- Page title -->
+        <div class="my-5">
+          <h3 class="">My Profile</h3>
+          <hr />
+        </div>
+
+        <!-- Form START -->
+        {% comment %}
+        <form class="file-upload">
+          {% endcomment %}
+          <div class="row mb-5 gx-5 file-upload">
+            <!-- Upload profile -->
+            <div class="col-xxl-5">
+              <div class="bg-secondary-soft px-4 py-5 rounded">
+                <div class="row g-3">
+                  <div class="text-center mb-5">
+                    <!-- Image upload -->
+                    <div class="square position-relative display-2 mb-3">
+                      <i
+                        class="fas fa-fw fa-user position-absolute top-50 start-50 translate-middle text-secondary"></i>
+
+                      {% if user.userprofile.profile_picture %}
+                      <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture"
+                        class="position-absolute top-0 start-0 pp" />
+                      {% else %} 
+                      {% comment %} <div class="rounded-circle no-file-message">
+                        <img class="rounded-circle" src="{% static 'img/profile_pic.png' %}" alt="Profile Picture"
+                          style="width: 200px; height: 200px" />
+                      </div> {% endcomment %}
+                      {% endif %}
+                    </div>
+
+                    <!-- Button -->
+                    <a href="{% url 'edit-profile' %}"><input type="submit"id="customFile" name="file" hidden="" />
+                    <label class="btn btn-primary py-2 px-4 ms-3" for="customFile">Change</label></a>
+
+                    <p class="txtsize mx-3 mt-3">
+                      {{ user.userprofile.user.name }}
+                    </p>
+                  </div>
+                  <form method="post" action="{% url 'change_password_patients' %}">
+                    {% csrf_token %}
+                    <div class="mt-5">
+                      <h3 class="my-4 mt-5">Change Password</h3>
+                      <hr />
+                      <!-- New password -->
+                      <div class="col-md-12">
+                        <label for="exampleInputPassword2" class="form-label">New password *</label>
+                        <input type="password" name="new_password" class="form-control" id="exampleInputPassword2" />
+                      </div>
+                      <!-- Confirm password -->
+                      <div class="col-md-12">
+                        <label for="exampleInputPassword3" class="form-label">Confirm Password *</label>
+                        <input type="password" class="form-control" name="confirm_password"
+                          id="exampleInputPassword3" />
+                      </div>
+                    </div>
+                    <required><br>
+                    <div class="d-flex justify-content-center w-100 align-items-center">
+                      <button class="btn btn-primary py-2 px-4 ms-3" type="submit">
+                        Update Password
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              {% if msg == 1 %}
+              <span>Your password was successfully updated.</span>
+              {% elif msg == 2 %}
+              <span>Please fill in both password fields.</span>
+              {% endif %}
+            </div>
+
+            <!-- Contact detail -->
+            <div class="col-xxl-7 mb-5 mb-xxl-0">
+              <div class="bg-secondary-soft px-4 py-5 rounded">
+                <div class="row g-3">
+                  <!-- First Name -->
+
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong>First Name :</strong></label>
+                    <p class="txtsize mx-3">
+                      {{ user.userprofile.user.first_name }}
+                    </p>
+                  </div>
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> Last Name :</strong></label>
+                    <p class="txtsize mx-3">
+                      {{ user.userprofile.user.last_name }}
+                    </p>
+                  </div>
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> Email :</strong></label>
+                    <p class="txtsize mx-3">
+                      {{ user.userprofile.user.email }}
+                    </p>
+                  </div>
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> Phone :</strong></label>
+                    <p class="txtsize mx-3">
+                      +91 {{ user.userprofile.user.phone }}
+                    </p>
+                  </div>
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> Address :</strong></label>
+                    <p class="txtsize mx-3">{{ user.userprofile.address }},{{ user.userprofile.addressline1 }},{{user.userprofile.addressline2 }}</p>
+                  </div>
+                  {% comment %} <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> Country :</strong></label>
+                    <p class="txtsize mx-3">{{ user.userprofile.country }}</p>
+                  </div> {% endcomment %}
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> State :</strong></label>
+                    <p class="txtsize mx-3">{{ user.userprofile.state }}</p>
+                  </div>
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> City :</strong></label>
+                    <p class="txtsize mx-3">{{ user.userprofile.city }}</p>
+                  </div>
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> Pin Code :</strong></label>
+                    <p class="txtsize mx-3">
+                      {{ user.userprofile.pin_code }}
+                    </p>
+                  </div>
+                   <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> Gender :</strong></label>
+                    <p class="txtsize mx-3">
+                      {{ user.userprofile.gender }}
+                    </p>
+                  </div> 
+                  <div class="col-md-12 d-flex">
+                    <label class="txtsize"><strong> Date of Birth :</strong></label>
+                    <p class="txtsize mx-3">{{ user.userprofile.dob }}</p>
+                  </div>
+
+
+                </div>
+              </div>
+
+              <div class="gap-3 d-md-flex justify-content-md-center text-center">
+                <!-- <button type="button" class="btn btn-danger btn-lg">Delete profile</button> -->
+                <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-primary btn-lg mb-5">
+                    Edit profile
+                  </button></a>
+              </div>
+            </div>
+          </div>
+          <!-- Row END -->
+          {% comment %}
+        </form>
+        {% endcomment %}
+        <!-- Form END -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+  <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+  <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment.min.js' %}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
+  <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+
+  <!-- Template Javascript -->
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>

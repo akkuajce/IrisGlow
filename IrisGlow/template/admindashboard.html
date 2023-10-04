@@ -245,6 +245,17 @@
 
 <body>
     <!-- Topbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="m-0 text-primary">
+                <img src="{% static 'img/img1.png' %}">
+              Admin</h1>
+              <br>
+              <h1 class="m-0 text-primary">DashBoard</h1>
+        </a>
+                <required><br>
+
+    
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
@@ -262,7 +273,8 @@
 
                         <a href="{% url 'admindashboard' %}" class="nav-item nav-link active">Home</a>
                         <a href="{% url 'admin:index' %}" class="nav-item nav-link ">DashBoard</a>
-                       <a href="{% url 'addDoctor' %}" class="nav-item nav-link ">Add Doctor</a> 
+                       <a href="{% url 'addDoctor' %}" class="nav-item nav-link ">Add Doctor</a>
+                       <a href="{% url 'userdata' %}" class="nav-item nav-link ">Users</a> 
                         
                         <a href="" class="nav-item nav-link "><span>Welcome,{{user.first_name}}</span></a>
                         <a href="{% url 'logout' %}" class="nav-item nav-link ">Logout</a>
@@ -308,7 +320,7 @@
    
 
 
-    <div class=" d-flex justify-content-center admin-class">
+    {% comment %} <div class=" d-flex justify-content-center admin-class">
         <div class="bg-white shadow-lg mt-4 pb-3 rounded col-12 col-lg-8">
             <div class="d-flex mt-4 justify-content-center flex-lg-row align-items-center text-center flex-column">
                 <div class="d-flex col-2 justify-content-center flex-column align-items-center mx-2 text-dark"
@@ -334,7 +346,11 @@
                 </div>
             </div>
              <div class="row p-3">
-                <div class="col-lg-12">
+                <div class="col-lg-12"> {% endcomment %}
+    
+    
+    
+    
                     {% comment %} <a href="{% url 'susers' %}"> 
                         <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Users</p>
                     {% comment %} </a>

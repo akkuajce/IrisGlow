@@ -102,6 +102,8 @@
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
                 
             </div>
+            <a href="{% url 'profile' %}" class="nav-item nav-link active">My Profile</a>
+                        
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="" class="nav-item nav-link">Welcome,{{user.first_name}}</a>
             {% comment %} <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a> {% endcomment %}
@@ -359,7 +361,7 @@
             <div class="row g-5 mb-5">
                 <div class="col-lg-5 wow zoomIn" data-wow-delay="0.3s" style="min-height: 400px;">
                     <div class="twentytwenty-container position-relative h-100 rounded overflow-hidden">
-                        <img class="position-absolute w-100 h-100" src="{% static 'img/before2.jpg' %}" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100" src="{% static 'img/before23.jpg' %}" style="object-fit: cover;">
                         <img class="position-absolute w-100 h-100" src="{% static 'img/after1.jpg' %}" style="object-fit: cover;">
                     </div>
                 </div>
