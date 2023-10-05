@@ -48,17 +48,16 @@
                             <p>Get started by filling out the form below.</p>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validateFirst_Name()" placeholder="First Name" id="first_name" name="first_name" required><br>
-                            <span id="ferror"> </span>
-                            <div class="invalid-feedback"></div>
-                            <div class="valid-feedback"></div>
-                        </div>
+                          <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validateFirst_Name()" placeholder="First Name" id="first_name" name="first_name" required><br>
+                          <div class="invalid-feedback" id="fnamevalid">Numbers and special characters are not allowed</div>
+                          <div class="valid-feedback" id="fnvalid"></div>
+                        </div> 
 
                         <div class="input-group mb-3">
                           <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validateLast_Name()" placeholder="Last Name" id="last_name" name="last_name" required><br>
-                          <div class="invalid-feedback"></div>
-                          <div class="valid-feedback"></div>
-                      </div>
+                          <div class="invalid-feedback" id="lnamevalid">Numbers and special characters are not allowed</div>
+                          <div class="valid-feedback" id="lnvalid"></div>
+                        </div> 
 
 
                       {% comment %} <div class="input-group mb-3">
@@ -83,9 +82,17 @@
                         <div class="input-group mb-3">
                           <input type="password" class="form-control form-control-lg bg-light fs-6" onkeyup="validatePassword()" placeholder="Password" id="password" name="password" ><br>
                           <span id="pw" class="text-danger"></span>
-                          <div class="invalid-feedback"></div>
+                          {% comment %} <div class="invalid-feedback" id="passValidation">Password not ok</div>
                           
-                          <div class="valid-feedback"></div>
+                          <div class="valid-feedback"></div> {% endcomment %}
+                          <div id="passValidation" class="invalid-feedback">
+                            Password must be at least 8 characters long and contain at least one
+                            uppercase
+                            letter, one lowercase letter, one number, and one special character.
+                        </div>
+                        <div id="passValid" class="valid-feedback">
+                            Looks good!
+                        </div>
                       </div>
                       
                         
@@ -123,13 +130,13 @@
         const passwordInput = document.getElementById('password');
         const confirmPasswordInput = document.getElementById('confirmPassword');
   
-        first_nameInput.addEventListener('blur', function(event) { validateFirst_Name(); });
-        last_nameInput.addEventListener('blur', function(event) { validateLast_Name(); });
-        {% comment %} usernameInput.addEventListener('blur', function(event) { validateUser_Name(); }); {% endcomment %}
+        first_nameInput.addEventListener('keyup', function(event) { validateFirst_Name(); });
+        last_nameInput.addEventListener('keyup', function(event) { validateLast_Name(); });
+       
         emailInput.addEventListener('blur', function(event) { validateEmail(); });
         phoneInput.addEventListener('blur', function(event) { validatePhoneNumber(); });
-        passwordInput.addEventListener('blur', function(event) { validatePassword(); });
-        confirmPasswordInput.addEventListener('blur', function(event) { validateConfirmPassword(); });
+        passwordInput.addEventListener('keyup', function(event) { validatePassword(); });
+        confirmPasswordInput.addEventListener('keyup', function(event) { validateConfirmPassword(); });
 
 
         function validateFirst_Name() {
@@ -145,6 +152,7 @@
           }
         }
 
+
         function validateLast_Name() {
           const namePattern = /^[A-Za-z]+$/;
           if (!namePattern.test(last_nameInput.value)) {
@@ -158,18 +166,9 @@
           }
         }
 
-        {% comment %} function validateUser_Name() {
-          const namePattern = /^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\/\-\\]+$/;
-          if (!namePattern.test(usernameInput.value)) {
-            usernameInput.classList.add('is-invalid');
-            usernameInput.classList.remove('is-valid');
-            return false;
-          } else {
-            usernameInput.classList.remove('is-invalid');
-            usernameInput.classList.add('is-valid');
-            return true;
-          }
-        } {% endcomment %}
+        
+
+        
 
 
        
@@ -241,32 +240,42 @@
 
        function validatePassword() {
         const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{}|;:'",.<>?/~`]).{8,}$/;
-        if (!passwordPattern.test(passwordInput.value)) {
-          passwordInput.classList.add('is-invalid');
-          passwordInput.classList.remove('is-valid');
-          return false;
-        } else {
-          passwordInput.classList.remove('is-invalid');
-          passwordInput.classList.add('is-valid');
-          return true;
-        }
-      }
+        const passValidation = document.getElementById('passValidation');
+        const passValid = document.getElementById('passValid');
 
+        if (!passwordPattern.test(passwordInput.value)) {
+            passwordInput.classList.add('is-invalid');
+            passwordInput.classList.remove('is-valid');
+            passValidation.style.display = 'block';
+            passValid.style.display = 'none';
+        } else {
+            passwordInput.classList.remove('is-invalid');
+            passwordInput.classList.add('is-valid');
+            passValidation.style.display = 'none';
+            passValid.style.display = 'block';
+        }
+    }
+
+    function validateConfirmPassword() {
+        const confirmPasswordValidation = document.getElementById('cpassValidation');
+        const confirmPasswordValid = document.getElementById('cpassValid');
+
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            confirmPasswordInput.classList.add('is-invalid');
+            confirmPasswordInput.classList.remove('is-valid');
+            confirmPasswordValidation.style.display = 'block';
+            confirmPasswordValid.style.display = 'none';
+        } else {
+            confirmPasswordInput.classList.remove('is-invalid');
+            confirmPasswordInput.classList.add('is-valid');
+            confirmPasswordValidation.style.display = 'none';
+            confirmPasswordValid.style.display = 'block';
+        }
+    }
 
     
 
-        function validateConfirmPassword() {
-          if (passwordInput.value !== confirmPasswordInput.value) {
-            confirmPasswordInput.classList.add('is-invalid');
-            confirmPasswordInput.classList.remove('is-valid');
-            return false;
-          } else {
-            confirmPasswordInput.classList.remove('is-invalid');
-            confirmPasswordInput.classList.add('is-valid');
-            return true;
-          }
-        }
-
+       
         function checkall() {
           if (validateFirst_Name() && validateLast_Name() && validateUser_Name() && validateEmail() && validatePassword() && validateConfirmPassword() && validatePhoneNumber()) {
             return true;

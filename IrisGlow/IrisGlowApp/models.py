@@ -83,17 +83,65 @@ class CustomUser(AbstractUser):
 
 class UserProfile(models.Model):
 
+    GENDER_CHOICES = (
+        ('F', 'Female'),
+        ('M', 'Male'),
+        ('NB', 'Non Binary'),
+        ('TF', 'Transfeminine'),
+        ('TM', 'Transmasculine'),
+    )
+
+    STATE_CHOICES = [
+        ('Andhra Pradesh', 'Andhra Pradesh'),
+        ('Arunachal Pradesh', 'Arunachal Pradesh'),
+        ('Assam', 'Assam'),
+        ('Bihar', 'Bihar'),
+        ('Chhattisgarh', 'Chhattisgarh'),
+        ('Goa', 'Goa'),
+        ('Gujarat', 'Gujarat'),
+        ('Haryana', 'Haryana'),
+        ('Himachal Pradesh', 'Himachal Pradesh'),
+        ('Jharkhand', 'Jharkhand'),
+        ('Karnataka', 'Karnataka'),
+        ('Kerala', 'Kerala'),
+        ('Madhya Pradesh', 'Madhya Pradesh'),
+        ('Maharashtra', 'Maharashtra'),
+        ('Manipur', 'Manipur'),
+        ('Meghalaya', 'Meghalaya'),
+        ('Mizoram', 'Mizoram'),
+        ('Nagaland', 'Nagaland'),
+        ('Odisha', 'Odisha'),
+        ('Punjab', 'Punjab'),
+        ('Rajasthan', 'Rajasthan'),
+        ('Sikkim', 'Sikkim'),
+        ('Tamil Nadu', 'Tamil Nadu'),
+        ('Telangana', 'Telangana'),
+        ('Tripura', 'Tripura'),
+        ('Uttar Pradesh', 'Uttar Pradesh'),
+        ('Uttarakhand', 'Uttarakhand'),
+        ('West Bengal', 'West Bengal'),
+    ]
+
+    ASIAN_COUNTRY_CHOICES = [
+    ('India', 'India'),
+    ]
+
+
+
+
+
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to='media/profile_picture', blank=True, null=True)
     address = models.CharField(max_length=50, blank=True, null=True)
     addressline1 = models.CharField(max_length=50, blank=True, null=True)
     addressline2 = models.CharField(max_length=50, blank=True, null=True)
-    country = models.CharField(max_length=15, default="India", blank=True, null=True)
-    country = models.CharField(max_length=50, blank=True, null=True)
-    state = models.CharField(max_length=50, blank=True, null=True)
+    
+    country = models.CharField(max_length=50, choices=ASIAN_COUNTRY_CHOICES, default='India', blank=True, null=True)
+    state = models.CharField(("Select State"),max_length=40, choices=STATE_CHOICES, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     pin_code = models.CharField(max_length=50, blank=True, null=True)
-    gender = models.CharField(max_length=50, blank=True, null=True)
+    gender = models.CharField(("Select Gender"),max_length=4, choices=GENDER_CHOICES, blank=True, null=True)
+
     dob = models.DateField(blank=True, null=True)
     profile_created_at = models.DateTimeField(auto_now_add=True)
     profile_modified_at = models.DateTimeField(auto_now=True)
