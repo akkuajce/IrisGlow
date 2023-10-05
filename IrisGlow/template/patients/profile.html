@@ -245,7 +245,7 @@
                       {{ user.userprofile.user.name }}
                     </p>
                   </div>
-                  <form method="post" action="{% url 'change_password_patients' %}">
+                  <form method="post" action="{% url 'change_password_patient' %}">
                     {% csrf_token %}
                     <div class="mt-5">
                       <h3 class="my-4 mt-5">Change Password</h3>
@@ -312,10 +312,10 @@
                     <label class="txtsize"><strong> Address :</strong></label>
                     <p class="txtsize mx-3">{{ user.userprofile.address }},{{ user.userprofile.addressline1 }},{{user.userprofile.addressline2 }}</p>
                   </div>
-                  {% comment %} <div class="col-md-12 d-flex">
+                  <div class="col-md-12 d-flex">
                     <label class="txtsize"><strong> Country :</strong></label>
                     <p class="txtsize mx-3">{{ user.userprofile.country }}</p>
-                  </div> {% endcomment %}
+                  </div>
                   <div class="col-md-12 d-flex">
                     <label class="txtsize"><strong> State :</strong></label>
                     <p class="txtsize mx-3">{{ user.userprofile.state }}</p>

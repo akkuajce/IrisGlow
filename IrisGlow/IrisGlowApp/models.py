@@ -88,7 +88,7 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=50, blank=True, null=True)
     addressline1 = models.CharField(max_length=50, blank=True, null=True)
     addressline2 = models.CharField(max_length=50, blank=True, null=True)
-    # country = models.CharField(max_length=15, default="India", blank=True, null=True)
+    country = models.CharField(max_length=15, default="India", blank=True, null=True)
     country = models.CharField(max_length=50, blank=True, null=True)
     state = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)

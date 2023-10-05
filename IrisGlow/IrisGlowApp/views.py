@@ -12,6 +12,10 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+
+# Your view code here
+
 
 
 from django.shortcuts import redirect
@@ -378,7 +382,7 @@ def editprofile(request):
 
 
 @login_required
-def change_password_patients(request):
+def change_password_patient(request):
     val = 0
     
     if request.method == 'POST':

@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('',views.index,name='index'),
@@ -19,7 +20,7 @@ urlpatterns = [
     path('userdata/', views.display_user_data, name='userdata'),
     path('profile/', views.profile, name='profile'),
     path('edit_profile/', views.editprofile, name='edit-profile'),
-    path('change_password_patients/', views.change_password_patients, name='change_password_patients'),
+    path('change_password_patient/', views.change_password_patient, name='change_password_patient'),
     
 
 
