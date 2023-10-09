@@ -21,6 +21,15 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('edit_profile/', views.editprofile, name='edit-profile'),
     path('change_password_patient/', views.change_password_patient, name='change_password_patient'),
+    # path('toggle_status/<int:user_id>/', views.toggle_user_status, name='toggle_user_status'),
+    # path('deactivated_users/', views.deactivated_users_list, name='deactivated_users_list'),
+    # path('userdata/', views.userdata, name='usersata'),
+    path('updateStauts/<int:update_id>',views.updateStatus,name="updateStatus"),
+
+
+    path('deactivated-users/', views.deactivated_users, name='deactivated_users'),
+    path('activate-user/<int:user_id>/', views.activate_user, name='activate_user'),
+
     
 
 

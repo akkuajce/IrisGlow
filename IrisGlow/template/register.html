@@ -69,22 +69,29 @@
 
                         
 
-                        <div class="input-group mb-3">
+                        {% comment %} <div class="input-group mb-3">
                             <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validateEmail()" placeholder="Email Address" id="email" name="email" required><br>
                             <div class="invalid-feedback"></div>
                             <div class="valid-feedback"></div>
-                        </div>
+                        </div> {% endcomment %}
+                        <div class="form-container">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validatePhoneNumber()" placeholder="Phone no" id="phone" name="phone" required><br>
-                            <div class="invalid-feedback"></div>
-                            <div class="valid-feedback"></div>
-                        </div>
+                          <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validateEmail()" placeholder="Email Address" id="email" name="email" required><br>
+                          <div class="invalid-feedback" id="emailInvalid">Invalid email address</div>
+                          <div class="valid-feedback" id="emailValid"></div>
+                      </div
+
+
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control form-control-lg bg-light fs-6" onkeyup="validatePhoneNumber()" placeholder="Phone no" id="phone" name="phone" required><br>
+                        <div class="invalid-feedback" id="phoneInvalid">Invalid phone number</div>
+                        <div class="valid-feedback" id="phoneValid"></div>
+                    </div>
+                    
                         <div class="input-group mb-3">
                           <input type="password" class="form-control form-control-lg bg-light fs-6" onkeyup="validatePassword()" placeholder="Password" id="password" name="password" ><br>
                           <span id="pw" class="text-danger"></span>
-                          {% comment %} <div class="invalid-feedback" id="passValidation">Password not ok</div>
-                          
-                          <div class="valid-feedback"></div> {% endcomment %}
+                         
                           <div id="passValidation" class="invalid-feedback">
                             Password must be at least 8 characters long and contain at least one
                             uppercase
@@ -133,8 +140,8 @@
         first_nameInput.addEventListener('keyup', function(event) { validateFirst_Name(); });
         last_nameInput.addEventListener('keyup', function(event) { validateLast_Name(); });
        
-        emailInput.addEventListener('blur', function(event) { validateEmail(); });
-        phoneInput.addEventListener('blur', function(event) { validatePhoneNumber(); });
+        emailInput.addEventListener('keyup', function(event) { validateEmail(); });
+        phoneInput.addEventListener('keyup', function(event) { validatePhoneNumber(); });
         passwordInput.addEventListener('keyup', function(event) { validatePassword(); });
         confirmPasswordInput.addEventListener('keyup', function(event) { validateConfirmPassword(); });
 
@@ -207,8 +214,8 @@
           return (
               emailRegex.test(email) &&
               validProviders.includes(provider)
-          );
-      }
+              );
+          }
       
       function validateEmail() {
           const emailInput = document.getElementById('email');

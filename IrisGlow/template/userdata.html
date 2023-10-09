@@ -102,26 +102,83 @@
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-               
-                <th>Password</th>
-                <th>Role</th>
+                <th>Status</th> 
+                <th>Action</th> 
+
             </tr>
         </thead>
         <tbody>
             {% for user in users %}
             <tr>
-                <td>{{ user.user.first_name }}</td>
-                <td>{{ user.user.last_name }}</td>
-                <td>{{ user.user.email }}</td>
-                <td>{{ user.user.phone }}</td>
-                <td>{{ user.user.password }}</td>
-                {% comment %} <td>{{ user.address }}</td>
-                <td>{{ user.age }}</td> {% endcomment %}
-                {% comment %} <td>{{ user.get_gender_display }}</td> {% endcomment %}
-                 <td>{{ user.user.role }}</td> 
-            </tr>
-            {% endfor %}
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                
+                
+
+                <td>
+                    {% if user.is_active %}
+                    <span style="color: green;">
+                        <i class="bi bi-circle-fill"></i> Active
+                    </span>
+                    {% else %}
+                    <span style="color: red;">
+                        <i class="bi bi-circle-fill"></i> Inactive
+                    </span>
+                    {% endif %}
+                </td>
+                <td class="cell" style="border: .5px solid rgb(186, 240, 186); ">
+                    <a href="{% url 'updateStatus' user.id %}"><button
+                      class="btn btn-primary"><i class="bi bi-pencil-square"></i></button></a>
+                    </td>
+        </tr>
+        {% endfor %}
+
         </tbody>
-    </table>
+    {% comment %} </table>
+    <br>
+    <br>
+    <h2>Deactivated Users</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+            </tr>
+        </thead> {% endcomment %}
+        {% comment %} <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>
+                    {% if user.inactive_users %}
+
+                    <span style="color: red;">
+                        <i class="bi bi-circle-fill"></i> Inactive
+                    </span>
+                    
+                    {% else %}
+                    
+
+                    <span style="color: green;">
+                        <i class="bi bi-circle-fill"></i> Active
+                    </span>
+                    {% endif %}
+                </td>
+                <td class="cell" style="border: .5px solid rgb(186, 240, 186); ">
+                    <a href="{% url 'updateStatus' user.id %}"><button
+                      class="btn btn-primary"><i class="bi bi-pencil-square"></i></button></a>
+                    </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table> {% endcomment %}
 </body>
 </html>

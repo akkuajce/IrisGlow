@@ -13,6 +13,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
+
 
 # Your view code here
 
@@ -27,21 +31,19 @@ from django.views.decorators.csrf import csrf_protect
 User = get_user_model()
 
 # Create your views here.
+
+
 def index(request):
     user=request.user
     if request.user.is_authenticated:
         if request.user.role == 4 and not request.path == reverse('admindashboard'):
+
             return redirect(reverse('admindashboard'))
         elif request.user.role == 2 and not request.path == reverse('doctordashboard'):
             return redirect(reverse('doctordashboard'))
         elif request.user.role == 1 and not request.path == reverse('index'):
             return redirect(reverse('index'))
         
-    
-    
-
-
-
 
     return render(request,'index.html',)
 def about(request):
@@ -167,7 +169,9 @@ def admindashboard(request):
 
 
 # login
-@csrf_protect
+# @csrf_protect
+
+
 
 def login_view(request):
 
@@ -308,10 +312,12 @@ def register(request):
 
 #     return render(request, 'doctorregister.html')
 
-def display_user_data(request):
-    users = UserProfile.objects.all()  # Fetch all user profiles from the database
-    context = {'users': users}
-    return render(request, 'userdata.html', context)
+
+
+
+    # users = UserProfile.objects.all()  # Fetch all user profiles from the database
+    # context = {'users': users}
+    # return render(request, 'userdata.html', context)
 
 
 
@@ -411,3 +417,59 @@ def change_password_patient(request):
                 messages.error(request, 'Passwords do not match.')
 
     return render(request, 'patients/profile.html', {'msg': val})
+
+
+
+
+# def toggle_user_status(request, user_id):
+#     try:
+#         user = User.objects.get(id=user_id)
+#         user.is_active = not user.is_active  # Toggle the user's active status
+#         user.save()
+#         return redirect('userdata')  # Redirect to the user list page or any other page you prefer
+#     except User.DoesNotExist:
+#         return redirect('userdata')  # Handle the case where the user does not exist
+    
+
+# @login_required
+# def deactivated_users_list(request):
+#     deactivated_users = User.objects.filter(is_active=False)
+#     return render(request, 'deactivated_users_list.html', {'deactivated_users': deactivated_users})
+
+# @login_required
+# def userdata(request):
+#     active_users = User.objects.filter(is_active=True)
+#     deactivated_users = User.objects.filter(is_active=False)
+#     return render(request, 'userdata.html', {'active_users': active_users, 'deactivated_users': deactivated_users})
+
+#user data view
+def display_user_data(request):
+    users = CustomUser.objects.filter(~Q(is_superuser=True), is_active=True)
+    inactive_users = CustomUser.objects.filter(~Q(is_superuser=True), is_active=False)
+    return render(request, 'userdata.html', {'users': users,'inactive_users':inactive_users})
+
+#update status
+
+def updateStatus(request,update_id):
+    updateUser=User.objects.get(id=update_id)
+    if updateUser.is_active==True:
+        updateUser.is_active=False
+    else:
+        updateUser.is_active=True
+    updateUser.save()
+    return redirect('userdata')
+
+
+#deactivate users view
+
+def deactivated_users(request):
+    deactivated_users = CustomUser.objects.filter(is_active=False)
+    return render(request, 'deactivated_users.html', {'deactivated_users': deactivated_users})
+
+#to activate users
+
+def activate_user(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    user.is_active = True
+    user.save()
+    return redirect(reverse('deactivated_users'))

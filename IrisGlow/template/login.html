@@ -73,7 +73,16 @@
                 
                  <div class="input-group mb-5 d-flex justify-content-between">
                     
-                </div> 
+                </div>
+                
+                {% comment %} <script>
+                    // Clear form fields on page load
+                    window.addEventListener('load', function() {
+                        document.getElementById('login').reset();
+                    });
+                </script> {% endcomment %}
+
+
 
                 <div class="input-group mb-3">
                     <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">Login</button>

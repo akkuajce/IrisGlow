@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'IrisGlowApp.middleware.NoCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'IrisGlow.urls'
@@ -145,3 +146,20 @@ PASSWORD_RESET_TIMEOUT = 14400
 MESSAGE_TAGS={
     messages.ERROR:'danger',
 }
+
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_NAME = 'my_session_cookie'
+SESSION_COOKIE_SECURE = True  # Set to True in production with HTTPS
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Set to True if you want session data to expire on browser close
+SESSION_COOKIE_AGE = 3600  # Session duration in seconds (1 hour)
+
+# Authentication Settings
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default database-backed authentication
+    # Add custom authentication backends if needed
+]
+
+LOGIN_URL = '/login/'  # URL for the login page
+LOGIN_REDIRECT_URL = '/index/'  # URL to redirect to after login
+LOGOUT_REDIRECT_URL = '/login/'  # URL to redirect to after logout
