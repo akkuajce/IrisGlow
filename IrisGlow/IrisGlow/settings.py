@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
     'IrisGlowApp',
     'jazzmin',
     'django.contrib.admin',
@@ -40,8 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'DoctorApp'  
-]
+    # 'social_django',
+    'DoctorApp',
+    
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+ ]
+
+SITE_ID = 1
+SOCIALACCOUNT_LOGIN_ON_GET=True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +63,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'IrisGlowApp.middleware.NoCacheMiddleware',
+     'allauth.account.middleware.AccountMiddleware',
+    # 'allauth.account.middleware.AuthenticationMiddleware',
+    # 'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'IrisGlow.urls'
@@ -67,6 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'social_django.context_processors.backends',
             ],
         },
     },
@@ -130,7 +145,34 @@ MEDIA_URL = ''
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+
+
+
 AUTH_USER_MODEL = 'IrisGlowApp.CustomUser'
+
+
+
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+
+LOGIN_URL = 'login'  # URL for the login page
+LOGIN_REDIRECT_URL = 'index'  # URL to redirect to after login
+LOGOUT_REDIRECT_URL = 'logout'  # URL to redirect to after logout
 
 
 
@@ -155,11 +197,17 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Set to True if you want session data 
 SESSION_COOKIE_AGE = 3600  # Session duration in seconds (1 hour)
 
 # Authentication Settings
+#social app custom settings
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Default database-backed authentication
+    'social_core.backends.google.GoogleOAuth2',
+    # 'users.backends.EmailBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+     
+
+    # 'django.contrib.auth.backends.ModelBackend'  # Default database-backed authentication
     # Add custom authentication backends if needed
 ]
 
-LOGIN_URL = '/login/'  # URL for the login page
-LOGIN_REDIRECT_URL = '/index/'  # URL to redirect to after login
-LOGOUT_REDIRECT_URL = '/login/'  # URL to redirect to after logout
+
+
+

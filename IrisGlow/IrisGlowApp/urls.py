@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from . import views
-from django.contrib.auth import views as auth_views
+# from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('',views.index,name='index'),
@@ -29,6 +29,10 @@ urlpatterns = [
 
     path('deactivated-users/', views.deactivated_users, name='deactivated_users'),
     path('activate-user/<int:user_id>/', views.activate_user, name='activate_user'),
+    #google authentication
+    # path('social-auth/', include('social_django.urls', namespace='social')),
+     path("", include("allauth.urls")), #most important
+    
 
     
 

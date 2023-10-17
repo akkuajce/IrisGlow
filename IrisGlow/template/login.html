@@ -1,4 +1,7 @@
 {% load static %}
+{% load socialaccount %}
+
+{% comment %} {% block content %} {% endcomment %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,6 +90,19 @@
                 <div class="input-group mb-3">
                     <button class="btn btn-lg btn-primary w-100 fs-6" type="submit">Login</button>
                 </div>
+
+{% comment %} google login {% endcomment %}
+                <div>
+
+                <button class="btn btn-outline-info">
+                    <a href="{% provider_login_url 'google'%}?next=/">
+                        <i class="fab fa-google"></i>
+                        Login with Google
+                    </a>
+                </button>
+            </div>
+
+            
                 
                 <div class="row">
                     <small><b>Don't have account?</b> <button><a href="{% url "register" %}">Signup </a></button></small>
@@ -99,6 +115,7 @@
                     </div>
                 </div>
             </form>
+            
           </div>
        </div> 
 
@@ -106,6 +123,7 @@
     </div>
     <script src="https://www.google.com/recaptcha/api.js" async defer>
     </script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -136,3 +154,4 @@
 
 </body>
 </html>
+{% comment %} {% endblock content %} {% endcomment %}

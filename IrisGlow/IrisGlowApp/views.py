@@ -16,6 +16,10 @@ from django.contrib.auth import update_session_auth_hash
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from social_django.models import UserSocialAuth
+from social_django.utils import psa
+
+from django.contrib.auth.models import User
 
 
 # Your view code here
@@ -421,14 +425,7 @@ def change_password_patient(request):
 
 
 
-# def toggle_user_status(request, user_id):
-#     try:
-#         user = User.objects.get(id=user_id)
-#         user.is_active = not user.is_active  # Toggle the user's active status
-#         user.save()
-#         return redirect('userdata')  # Redirect to the user list page or any other page you prefer
-#     except User.DoesNotExist:
-#         return redirect('userdata')  # Handle the case where the user does not exist
+
     
 
 # @login_required
@@ -473,3 +470,23 @@ def activate_user(request, user_id):
     user.is_active = True
     user.save()
     return redirect(reverse('deactivated_users'))
+
+
+# def google_authenticate(request):
+#     # Handle the Google OAuth2 authentication process
+#     # ...
+
+#     # After successful authentication, create or get the user
+#     try:
+#         user_social = UserSocialAuth.objects.get(provider='google-oauth2', user=request.user)
+#         user = user_social.user
+#     except UserSocialAuth.DoesNotExist:
+#         user = request.user
+
+#     # Set a default role for users signing in with Google (e.g., "Patient")
+#     user.role == 'CustomUser.Patient'
+#     user.save()
+
+#     # Redirect to the desired page (phome.html for Patient role)
+#     if user.role == CustomUser.PATIENT:
+#         return redirect('index')  # Make sure you have a URL named 'phome'
