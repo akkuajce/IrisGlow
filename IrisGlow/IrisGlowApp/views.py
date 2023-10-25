@@ -370,7 +370,7 @@ def editprofile(request):
         if user_form.is_valid() and user_profile_form.is_valid():
             user_form.save()
             user_profile_form.save()
-            return redirect('profile ')  # Redirect to the user's profile page after editing
+            return redirect('profile')  # Redirect to the user's profile page after editing
 
     else:
         user_form = CustomUserForm(instance=user)

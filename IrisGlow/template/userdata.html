@@ -129,8 +129,13 @@
                     {% endif %}
                 </td>
                 <td class="cell" style="border: .5px solid rgb(186, 240, 186); ">
+                    {% if user.id != request.user.id %} {# Check if the user is not the currently logged-in admin user #}
                     <a href="{% url 'updateStatus' user.id %}"><button
                       class="btn btn-primary"><i class="bi bi-pencil-square"></i></button></a>
+                      {% else %}
+                <!-- Display a message or handle as desired for the admin user -->
+                <span>This is the admin user</span>
+            {% endif %}
                     </td>
         </tr>
         {% endfor %}
