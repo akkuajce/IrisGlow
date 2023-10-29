@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Account Deactivation</title>
 </head>
 <body>
-    <p>Your account has been deactivated with the following reason: {{ reason }}</p>
+    <h1>Your IrisGlow Account Has Been Deactivated</h1>
+    <p>Dear {{ user.first_name }},</p>
+    <p>Your IrisGlow account has been deactivated due to the following reason:</p>
+    <p>{{ reason }}</p>
+    <p>If you believe this deactivation was a mistake or have any questions, please contact our support team.</p>
 </body>
 </html>
+
 
