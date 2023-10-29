@@ -1,0 +1,262 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>IrisGlow - Eye Care Hospital Website </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/twentytwenty/twentytwenty.css' %}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    {% comment %} <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-dark m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> {% endcomment %}
+    <!-- Spinner End -->
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-light ps-5 pe-0 d-none d-lg-block">
+        <div class="row gx-0">
+            <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center">
+                    <small class="py-2"><i class="far fa-clock text-primary me-2"></i>Opening Hours: Mon - Sat : 6.00 am - 10.00 pm, Sunday Closed </small>
+                </div>
+            </div>
+            <div class="col-md-6 text-center text-lg-end">
+                <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
+                    <div class="me-3 pe-3 border-end py-2">
+                        <p class="m-0"><i class="fa fa-envelope-open me-2"></i>irisgloweyecare@gmail.com</p>
+                    </div>
+                    <div class="py-2">
+                        <p class="m-0"><i class="fa fa-phone-alt me-2"></i>+91 98765 43210</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="m-0 text-primary">
+                <img src="{% static 'img/img1.png' %}">
+              IrisGlow</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+         {% if user.is_authenticated %}
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="index.html" class="nav-item nav-link active">Home</a>
+                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="price.html" class="dropdown-item">Pricing Plan</a>
+                        <a href="team.html" class="dropdown-item">Our Doctors</a>
+                        <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
+                        <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Specialities</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="{% url 'cataract' %}" class="dropdown-item">Cataract</a>
+                        
+                        <a href="{% url 'gloucoma' %}" class="dropdown-item">Gloucoma</a>
+                        <a href="{% url 'diabeticretinopathy' %}" class="dropdown-item">Diabetic Retinopathy</a>
+                    </div>
+                </div>
+
+                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                
+            </div>
+            <a href="{% url 'profile' %}" class="nav-item nav-link">My Profile</a>
+                        
+            <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
+            <a href="" class="nav-item nav-link">Welcome,{{user.first_name}}</a>
+            {% comment %} <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a> {% endcomment %}
+
+             <a href="{% url 'logout' %}?next=/index.html">Logout</a>
+
+            
+        </div>
+
+        {% else %}  
+
+
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="index.html" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+                <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="price.html" class="dropdown-item">Pricing Plan</a>
+                        <a href="team.html" class="dropdown-item">Our Doctors</a>
+                        <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
+                        <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Specialities</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="{% url 'cataract' %}" class="dropdown-item">Cataract</a>
+                        
+                        <a href="{% url 'gloucoma' %}" class="dropdown-item">Gloucoma</a>
+                        <a href="{% url 'diabeticretinopathy' %}" class="dropdown-item">Diabetic Retinopathy</a>
+                    </div>
+                </div>
+                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                
+            </div>
+            <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
+            <a href="{% url 'register' %}" class="btn btn-primary py-2 px-4 ms-3">Signup</a>
+            <a href="{% url 'login' %}" class="btn btn-primary py-2 px-4 ms-3">Login</a>
+        </div>
+      {% endif %} 
+
+
+    </nav>
+    <!-- Navbar End -->
+
+
+    <!-- Cataract Section -->
+    <section class="container py-5">
+        <h1 class="text-primary">Cataract</h1>
+        <h2>Understanding Cataracts: Causes, Symptoms, and Treatment</h2>
+        <p>Cataracts can opacify the eye's natural lens and limit your ability to see clearly.</p>
+
+        <h3>Introduction</h3>
+        <p>Cataracts are a common eye condition that affects millions of people worldwide. In this article, we will delve into the causes, symptoms, and available treatment options for cataracts.</p>
+
+        <h3>What are Cataracts and How They Develop?</h3>
+        <p><strong>Anatomy of the Eye:</strong> A cataract is when your eye's natural lens becomes cloudy. Proteins in your lens break down and cause things to look blurry, hazy, or less colorful, and other vision problems.</p>
+
+        <h3>Types of Cataracts</h3>
+        <p>Explore different types of cataracts, including age-related, congenital, secondary, and traumatic cataracts.</p>
+        <br>
+
+        <center><img class="img-fluid" src="{% static 'img/cataract/cataract.png' %}" alt="" style="width: 500px; height: 450px;"></center>
+
+        <br>
+        <br>
+
+
+        <div class="container">
+
+            <h3>Symptoms of Cataracts</h3>
+        <p>How do you know if you have cataracts? If you have cataracts, you may observe the following symptoms:</p>
+            
+    
+            <ul>
+                <li><strong>Cloudy Vision</strong></li>
+                <li><strong>Sensitivity to Light</strong></li>
+                <li><strong>Diffuse Light</strong></li>
+                <li><strong>Colors Appear Faded</strong> </li>
+                <li><strong>Double Vision in One Eye</strong></li>
+                <li><strong>Changing Prescription of Glasses</strong></li>
+            </ul>
+
+            <h3>Causes and Risk Factors</h3>
+        <p>There are several causes and risk factors associated with cataracts:</p>
+        <ul>
+            <li><strong>Age:</strong> Discuss how aging is the primary risk factor for cataracts.</li>
+            <li><strong>Medical conditions:</strong> Explore how certain medical conditions, such as diabetes or hypertension, can increase the risk.</li>
+            <li><strong>Lifestyle factors:</strong> Address the impact of smoking, excessive alcohol consumption, poor nutrition, and prolonged exposure to sunlight.</li>
+        </ul>
+
+        <h3>Diagnosis</h3>
+        <p>Diagnosing cataracts involves the following:</p>
+        <ul>
+            <li><strong>Eye examination:</strong> Describe the comprehensive eye examination, including visual acuity test, slit-lamp examination, OCT, and dilated eye examination.</li>
+            <li><strong>Medical history and discussion:</strong> Explain the importance of providing detailed information about symptoms and medical history to assist in the diagnosis.</li>
+        </ul>
+        </div>
+
+
+        <div class="container treat-margin">
+            <div class="row">
+            <div class="text-center">&nbsp;</div>
+            <h2 class="text-center"><span style="font-size: 14pt;">Treatments</span></h2>
+            <div class="text-center">
+            <p class="management servicepage_content">Restore your vision &amp; restore your life with the most modern cataract management options available today</p>
+            </div>
+            </div>
+            <div class="row mt-5">
+            <div class="col-md-3">&nbsp;</div>
+            <div class="col-md-6">
+            <div class="row">
+            <div class="col">
+            <div class="Treatments"><img class="img-fluid" src="https://massueno.com/asg/public/storage/specialities/May2023/Catarac1011.png" alt="upload photo" width="118" height="118"></div>
+            <p class="Treatments-paro mt-3 servicepage_content">Robotic Femto</p>
+            </div>
+            <div class="col">
+            <div class="Treatments"><img class="img-fluid" src="https://massueno.com/asg/public/storage/specialities/May2023/Catarac1021.png" alt="upload photo" width="118" height="118"></div>
+            <p class="Treatments-paro mt-3  servicepage_content">MICS / PHACO</p>
+            </div>
+            <div class="col">
+            <div class="Treatments"><img class="img-fluid" src="https://massueno.com/asg/public/storage/specialities/May2023/Catarac1031.png" alt="upload photo" width="118" height="118"></div>
+            <p class="Treatments-paro mt-3  servicepage_content">Multifocal and Toric IOLs</p>
+            </div>
+            </div>
+            </div>
+            <div class="col-md-3">&nbsp;</div>
+            </div>
+            </div>
+
+
+    </section>
+
+    <!-- ... rest of your HTML ... -->
+</body>
+</html>
+
+
+
+
+

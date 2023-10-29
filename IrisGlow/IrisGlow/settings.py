@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'IrisGlowApp.middleware.NoCacheMiddleware',
-     'allauth.account.middleware.AccountMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     # 'allauth.account.middleware.AuthenticationMiddleware',
     # 'social_django.middleware.SocialAuthExceptionMiddleware',
 ]

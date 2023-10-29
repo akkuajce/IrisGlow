@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
     emailInput.addEventListener("blur", validateEmail);
     if (passwordInput) {
       // Check if the addressInput element exists
-      passwordInput.addEventListener("blur", validatePassword);
+      passwordInput.addEventListener("keyup", validatePassword);
     }
     if (confirmPasswordInput) {
       // Check if the addressInput element exists
-      confirmPasswordInput.addEventListener("blur", validateConfirmPassword);
+      confirmPasswordInput.addEventListener("keyup", validateConfirmPassword);
     }
   
     phoneInput.addEventListener("blur", validatePhoneNumber);
@@ -94,22 +94,46 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   
-    function validatePhoneNumber() {
-      const phonePattern = /^(?!0)(?!.*0{5})[0-9 ]{10,}$/; // Phone number must not start with 0, and no sequence of 5 consecutive 0s
-      const phoneInput = document.getElementById("validatePhoneNumber");
+    // function validatePhoneNumber() {
+    //   const phonePattern = /^(?!0)(?!.*0{5})[0-9 ]{10,}$/; // Phone number must not start with 0, and no sequence of 5 consecutive 0s
+    //   const phoneInput = document.getElementById("validatePhoneNumber");
   
-      if (!phonePattern.test(phoneInput.value.replace(/\s/g, ""))) {
-        phoneInput.classList.add("is-invalid"); // Adding invalid class to show input in red
-        phoneInput.classList.remove("is-valid"); // Removing valid class
-        phoneInput.nextElementSibling.textContent = "Enter a valid phone number"; // Display error message
-        return false;
+    //   if (!phonePattern.test(phoneInput.value.replace(/\s/g, ""))) {
+    //     phoneInput.classList.add("is-invalid"); // Adding invalid class to show input in red
+    //     phoneInput.classList.remove("is-valid"); // Removing valid class
+    //     phoneInput.nextElementSibling.textContent = "Enter a valid phone number"; // Display error message
+    //     return false;
+    //   } else {
+    //     phoneInput.classList.remove("is-invalid"); // Removing invalid class
+    //     phoneInput.classList.add("is-valid"); // Adding valid class
+    //     phoneInput.nextElementSibling.textContent = ""; // Clear error message
+    //     return true;
+    //   }
+    // }
+
+    function validatePhoneNumber() {
+      const phonePattern = /^[0-9 ]*$/; // Only allow numeric digits and spaces
+      const phoneInput = document.getElementById("phone");
+  
+      if (!phonePattern.test(phoneInput.value)) {
+          phoneInput.classList.add("is-invalid");
+          phoneInput.classList.remove("is-valid");
+          document.getElementById("phoneValidation").textContent = "Enter a valid phone number containing only numbers and spaces";
+          return false;
       } else {
-        phoneInput.classList.remove("is-invalid"); // Removing invalid class
-        phoneInput.classList.add("is-valid"); // Adding valid class
-        phoneInput.nextElementSibling.textContent = ""; // Clear error message
-        return true;
+          phoneInput.classList.remove("is-invalid");
+          phoneInput.classList.add("is-valid");
+          document.getElementById("phoneValidation").textContent = "";
+          return true;
       }
-    }
+  }
+  
+  // Add an event listener to trigger the validation function when the input field changes
+  document.getElementById("phone").addEventListener("input", validatePhoneNumber);
+  
+  
+  
+  
   
     function validatePassword() {
       const passwordPattern =
@@ -156,10 +180,10 @@ document.addEventListener("DOMContentLoaded", function () {
       cityInput.addEventListener("onchange", validateCity);
     }
   //   
-      addressInput.addEventListener("blur", validateAddress);
-      addressInput2.addEventListener("blur", validateAddress1);
-      addressInput3.addEventListener("blur", validateAddress2);
-      cityInput.addEventListener("blur", validateCity);
+      addressInput.addEventListener("keyup", validateAddress);
+      addressInput2.addEventListener("keyup", validateAddress1);
+      addressInput3.addEventListener("keyup", validateAddress2);
+      cityInput.addEventListener("keyup", validateCity);
   
   
       function validateCity() {
@@ -243,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
   
         const zipcodeInput = document.getElementById("zipcode");
-        zipcodeInput.addEventListener("blur", validateZipcode);
+        zipcodeInput.addEventListener("keyup", validateZipcode);
   
       function validateZipcode() {
         console.log("validateZipcode function called");
@@ -271,7 +295,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (dobInput) {
         // Check if the addressInput element exists
      
-        dobInput.addEventListener("blur", validateDOB);
+        dobInput.addEventListener("keyup", validateDOB);
       }
       // dobInput.addEventListener("blur", validateDOB);
   

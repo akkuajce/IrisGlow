@@ -53,8 +53,8 @@ class CustomUserForm(forms.ModelForm):
         model = CustomUser
         fields = ['first_name','last_name', 'email', 'phone']
         widgets = {
-            'first_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your Name', 'id': 'first_name'}),
-            'last_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your Name', 'id': 'last_name'}),
+            'first_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your First Name', 'id': 'first_name'}),
+            'last_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your Last Name', 'id': 'last_name'}),
             'email': BootstrapTextInput(attrs={'placeholder': 'Enter Your Email', 'id': 'email'}),
             'phone': BootstrapTextInput(attrs={'placeholder': 'Enter Your Phone', 'id': 'phone'}),
         }
@@ -71,8 +71,8 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ['profile_picture', 'address','addressline1', 'addressline2','country', 'state', 'city', 'pin_code', 'gender', 'dob']
         widgets = {
-            # 'profile_picture': BootstrapFileInput(attrs={'placeholder': 'Upload Profile Picture'}),
-            # 'profile_picture': forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
+             'profile_picture': BootstrapFileInput(attrs={'placeholder': 'Upload Profile Picture'}),
+             'profile_picture': forms.ClearableFileInput(attrs={'class': 'custom-file-input'}),
             'address': BootstrapTextInput(attrs={'placeholder': 'Address Line 1', 'id': 'address'}),
             'addressline1': BootstrapTextInput(attrs={'placeholder': 'Address Line 2', 'id': 'address1'}),
             'addressline2': BootstrapTextInput(attrs={'placeholder': 'Address Line 3', 'id': 'address2'}),
@@ -81,5 +81,5 @@ class UserProfileForm(forms.ModelForm):
             'city': BootstrapTextInput(attrs={'placeholder': 'Enter City', 'id': 'city'}),
             'pin_code': BootstrapTextInput(attrs={'placeholder': 'Enter Pin Code', 'id': 'zipcode'}),
             'gender': BootstrapSelect(attrs={'placeholder': 'Select Gender', 'id': 'gender'}),
-            # 'dob': forms.DateInput(attrs={'placeholder': 'Select Date of Birth', 'id': 'dob'}),
+            #'dob': forms.DateInput(attrs={'placeholder': 'Select Date of Birth', 'id': 'dob'}),
         }

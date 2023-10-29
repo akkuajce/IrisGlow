@@ -11,7 +11,11 @@ urlpatterns = [
     path('appointment/', views.appointment, name='appointment'),
     path('register/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
-    path('testimonial/', views.testimonial, name='testimonial'), 
+    path('testimonial/', views.testimonial, name='testimonial'),
+    path('service/', views.service, name='service'),
+    path('cataract/', views.cataract, name='cataract'),
+    path('gloucoma/', views.gloucoma, name='gloucoma'),
+    path('diabeticretinopathy/', views.diabeticretinopathy, name='diabeticretinopathy'), 
     # path('doctorregister/', views.doctorregister, name='doctorregister'),
     path('doctordashboard/', views.doctordashboard, name='doctordashboard'), 
     path('admindashboard/', views.admindashboard, name='admindashboard'), 
@@ -24,7 +28,8 @@ urlpatterns = [
     # path('toggle_status/<int:user_id>/', views.toggle_user_status, name='toggle_user_status'),
     # path('deactivated_users/', views.deactivated_users_list, name='deactivated_users_list'),
     # path('userdata/', views.userdata, name='usersata'),
-    path('updateStauts/<int:update_id>',views.updateStatus,name="updateStatus"),
+    # path('updateStauts/<int:update_id>',views.updateStatus,name="updateStatus"),
+    path('update-status/<int:user_id>/', views.updateStatus, name='updateStatus'),
 
 
     path('deactivated-users/', views.deactivated_users, name='deactivated_users'),

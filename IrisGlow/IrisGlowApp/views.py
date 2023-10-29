@@ -21,6 +21,8 @@ from social_django.utils import psa
 
 from django.contrib.auth.models import User
 
+from django.views.decorators.csrf import csrf_protect
+
 
 # Your view code here
 
@@ -36,7 +38,7 @@ User = get_user_model()
 
 # Create your views here.
 
-
+@csrf_protect
 def index(request):
     user=request.user
     if request.user.is_authenticated:
@@ -61,6 +63,15 @@ def appointment(request):
     return render(request,'appointment.html',)
 def testimonial(request):
     return render(request,'testimonial.html',)
+def service(request):
+    return render(request,'service.html',)
+def cataract(request):
+    return render(request,'cataract.html',)
+def gloucoma(request):
+    return render(request,'gloucoma.html',)
+def diabeticretinopathy(request):
+    return render(request,'diabeticretinopathy.html',)
+
 def doctorregister(request):
     return render(request,'doctorregister.html',)
 def admindashboard(request):
@@ -356,7 +367,7 @@ def profile(request):
 
 
 
-
+@csrf_protect
 @login_required
 def editprofile(request):
     user_id = request.user.id
@@ -426,19 +437,6 @@ def change_password_patient(request):
 
 
 
-    
-
-# @login_required
-# def deactivated_users_list(request):
-#     deactivated_users = User.objects.filter(is_active=False)
-#     return render(request, 'deactivated_users_list.html', {'deactivated_users': deactivated_users})
-
-# @login_required
-# def userdata(request):
-#     active_users = User.objects.filter(is_active=True)
-#     deactivated_users = User.objects.filter(is_active=False)
-#     return render(request, 'userdata.html', {'active_users': active_users, 'deactivated_users': deactivated_users})
-
 #user data view
 def display_user_data(request):
     users = CustomUser.objects.filter(~Q(is_superuser=True), is_active=True)
@@ -447,21 +445,53 @@ def display_user_data(request):
 
 #update status
 
-def updateStatus(request,update_id):
-    updateUser=User.objects.get(id=update_id)
-    if updateUser.is_active==True:
-        updateUser.is_active=False
+# def updateStatus(request,update_id):
+#     updateUser=User.objects.get(id=update_id)
+# def updateStatus(request, update_id):
+#     updateUser = CustomUser.objects.get(id=update_id)
+#     if updateUser.is_active==True:
+#         updateUser.is_active=False
+#     else:
+#         updateUser.is_active=True
+#     updateUser.save()
+    
+#     return redirect('userdata')
+
+
+
+# The activation and deactivation of user accounts and mail sending for reason
+
+
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.shortcuts import redirect
+
+#  update status views.py
+def updateStatus(request, user_id):
+    updateUser = CustomUser.objects.get(id=user_id)
+    if updateUser.is_active:
+        updateUser.is_active = False
     else:
-        updateUser.is_active=True
+        updateUser.is_active = True
     updateUser.save()
-    return redirect('userdata')
+    reason = "Your account has been activated for a specific reason." if updateUser.is_active else "Your account has been deactivated for a specific reason."  # Set your specific reason here
+    send_deactivation_email(updateUser, reason)
+    return redirect('deactivated_users')  # Or redirect to the appropriate page
 
-
-#deactivate users view
-
+# View for displaying deactivated users
 def deactivated_users(request):
     deactivated_users = CustomUser.objects.filter(is_active=False)
     return render(request, 'deactivated_users.html', {'deactivated_users': deactivated_users})
+
+# View for deactivating a user
+def deactivate_user(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    user.is_active = False
+    user.save()
+    reason = "Your account has been deactivated for not using the account for more than 1 month."  # Set your specific reason here
+    send_deactivation_email(user, reason)
+    return redirect('deactivated_users')
+
 
 #to activate users
 
@@ -469,24 +499,34 @@ def activate_user(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_active = True
     user.save()
-    return redirect(reverse('deactivated_users'))
+    reason = "Your account has been activated for a specific reason."  # Set your specific reason here
+    send_activation_email(user, reason)
+    return redirect('deactivated_users')
 
 
-# def google_authenticate(request):
-#     # Handle the Google OAuth2 authentication process
-#     # ...
+# Import your CustomUser model
+from .models import CustomUser
 
-#     # After successful authentication, create or get the user
-#     try:
-#         user_social = UserSocialAuth.objects.get(provider='google-oauth2', user=request.user)
-#         user = user_social.user
-#     except UserSocialAuth.DoesNotExist:
-#         user = request.user
+# Send Activation Email Function
+def send_activation_email(user, reason):
+    subject = 'Account Activation'
+    message = render_to_string('activation_email.html', {'reason': reason})
+    from_email = 'irisgloweyecare@gmail.com'  # Your email address
+    to_email = user.email
 
-#     # Set a default role for users signing in with Google (e.g., "Patient")
-#     user.role == 'CustomUser.Patient'
-#     user.save()
+    email = EmailMessage(subject, message, from_email, [to_email])
+    email.content_subtype = "html"
+    email.send()
 
-#     # Redirect to the desired page (phome.html for Patient role)
-#     if user.role == CustomUser.PATIENT:
-#         return redirect('index')  # Make sure you have a URL named 'phome'
+# Send Deactivation Email Function
+
+
+def send_deactivation_email(user, reason):
+    subject = 'Account Deactivation'
+    message = render_to_string('deactivation_email.html', {'reason': reason})
+    from_email = 'irisgloweyecare@gmail.com'  # Your email address
+    to_email = user.email
+
+    email = EmailMessage(subject, message, from_email, [to_email])
+    email.content_subtype = "html"
+    email.send()
