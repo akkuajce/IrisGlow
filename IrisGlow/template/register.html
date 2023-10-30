@@ -101,15 +101,29 @@
                             Looks good!
                         </div>
                       </div>
+
+
+                      <div class="input-group mb-3">
+                        <input type="password" class="form-control form-control-lg bg-light fs-6" onkeyup="validateConfirmPassword()" placeholder="Confirm Password" id="confirmPassword" name="confirmPassword" required><br>
+                    
+                        <div id="confirmValidation" class="invalid-feedback">
+                            Passwords do not match.
+                        </div>
+                        <div id="cpassValid" class="valid-feedback">
+                            Passwords match!
+                        </div>
+                    </div>
                       
                         
 
                         
-                        <div class="input-group mb-3">
+                        {% comment %} <div class="input-group mb-3">
                             <input type="password" class="form-control form-control-lg bg-light fs-6" onkeyup="validateConfirmPassword()" placeholder="Confirm Password" id="confirmPassword" name="confirmPassword" required><br>
+                            
+                            
                             <div class="invalid-feedback"></div>
                             <div class="valid-feedback"></div>
-                        </div>
+                        </div> {% endcomment %}
                         <div class="input-group mb-3">
                             <button class="btn btn-lg btn-primary w-100 fs-6" type="submit" onclick="return checkall()" >Register</button>
                         </div>

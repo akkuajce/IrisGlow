@@ -16,6 +16,8 @@ urlpatterns = [
     path('cataract/', views.cataract, name='cataract'),
     path('gloucoma/', views.gloucoma, name='gloucoma'),
     path('diabeticretinopathy/', views.diabeticretinopathy, name='diabeticretinopathy'), 
+
+    path('contact/', views.contact, name='contact'),
     # path('doctorregister/', views.doctorregister, name='doctorregister'),
     path('doctordashboard/', views.doctordashboard, name='doctordashboard'), 
     path('admindashboard/', views.admindashboard, name='admindashboard'), 

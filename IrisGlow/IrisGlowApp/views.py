@@ -63,6 +63,8 @@ def appointment(request):
     return render(request,'appointment.html',)
 def testimonial(request):
     return render(request,'testimonial.html',)
+def contact(request):
+    return render(request,'contact.html',)
 def service(request):
     return render(request,'service.html',)
 def cataract(request):
