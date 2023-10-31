@@ -199,7 +199,8 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.phone }}</td>
                     <td>
-                        <a href="{% url 'activate_user' user.id %}">Activate</a>
+                        <a href="{% url 'activate_user' user.id %}">  <button
+                            class="btn btn-primary"> <i class="bi bi-pencil-square">Activate</i></button></a>
                     </td>
                 </tr>
             {% empty %}
