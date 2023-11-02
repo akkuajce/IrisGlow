@@ -169,6 +169,9 @@ class UserProfile(models.Model):
             user_role = 'Spects'
         return user_role
     
+    def __str__(self):
+        return self.user.email
+    
 
 
 

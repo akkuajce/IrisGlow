@@ -54,8 +54,12 @@ def index(request):
     return render(request,'index.html',)
 def about(request):
     return render(request,'about.html',)
-def team(request):
-    return render(request,'team.html',)
+# def team(request):
+#     return render(request,'team.html',)
+
+def doctor1(request):
+    return render(request, 'teams/doctor1.html')
+
 def doctordashboard(request):
     return render(request,'doctordashboard.html',)
 

@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from itertools import zip_longest
+from django.shortcuts import get_object_or_404, render, redirect
 from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
@@ -98,3 +99,40 @@ def send_welcome_email(email, password, first_name, last_name):
     send_mail(subject, message, from_email, recipient_list)
 
 
+
+#02/11
+
+
+from django.core.paginator import Paginator
+
+def doctor(request):
+    therapists = Doctor.objects.all()
+    cuser = CustomUser.objects.filter(role=CustomUser.DOCTOR, id__in=therapists.values_list('user_id', flat=True))
+    uprofile = UserProfile.objects.filter(user_id__in=cuser.values_list('id', flat=True))
+    combined_data = list(zip_longest(cuser, uprofile, therapists))
+
+    # Create a Paginator object with a specified number of therapists per page
+    paginator = Paginator(combined_data, per_page=4)  # Change '10' to the number of therapists per page you prefer
+
+    # Get the current page number from the request's GET parameters
+    page_number = request.GET.get('page')
+
+    # Retrieve the therapists for the current page
+    therapists_page = paginator.get_page(page_number)                   
+    return render(request, 'team.html' , {'therapists_page': therapists_page})
+
+
+
+@login_required
+def viewdoctor(request, user_id):
+    users = get_object_or_404(CustomUser, id=user_id)
+    print(users.first_name)
+    therapist = Doctor.objects.get(user=users)
+    profile = UserProfile.objects.get(user=users)
+
+    context={
+        'users' : users,
+        'userprofile' : profile,
+        'therapist' : therapist
+        }
+    return render(request, 'teams/doctor1.html', context)

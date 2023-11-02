@@ -39,6 +39,10 @@ class Specialities(models.Model):
     diagnosis = models.CharField(max_length=30)
     treatments = models.TextField(blank=True, null=True)
 
+    def __str__(self):
+        return self.speciality_name
+
+
 class Doctor(models.Model):
     bio = models.TextField(blank=True, null=True)
     qualification = models.CharField(max_length=50, blank=True)

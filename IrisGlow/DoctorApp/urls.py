@@ -13,4 +13,8 @@ urlpatterns = [
     # path('doctorregister/', views.doctorregister, name='doctorregister'), 
     #  path('doctordashboard/', views.doctordashboard, name='doctordashboard'), 
     path('add-doctor/',views.addDoctor,name='addDoctor'),
+    
+    path('team/', views.doctor, name='team'),
+    path('view-doctor/<int:user_id>/',views.viewdoctor,name='view-doctor'),
+    
 ]

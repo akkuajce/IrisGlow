@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,6 +35,9 @@
 </head>
 
 <body>
+    
+    
+
 
     <!-- Topbar Start -->
     <div class="container-fluid bg-light ps-5 pe-0 d-none d-lg-block">
@@ -69,18 +73,18 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-         {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+                <a href="index.html" class="nav-item nav-link active">Home</a>
                 <a href="about.html" class="nav-item nav-link">About</a>
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
                         <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                        <a href="team.html" class="dropdown-item">Our Doctors</a>
+                        <a href="{% url 'team' %}" class="dropdown-item">Our Doctors</a>
                         <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
                         <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a>
                     </div>
@@ -96,34 +100,34 @@
                     </div>
                 </div>
 
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                 
             </div>
-            <a href="{% url 'profile' %}" class="nav-item nav-link">My Profile</a>
+            <a href="{% url 'profile' %}" class="nav-item nav-link active">My Profile</a>
                         
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="" class="nav-item nav-link">Welcome,{{user.first_name}}</a>
             {% comment %} <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a> {% endcomment %}
 
-             <a href="{% url 'logout' %}?next=/index.html">Logout</a>
+            <a href="{% url 'logout' %}?next=/index.html">Logout</a>
 
             
         </div>
 
-        {% else %}  
+        {% else %}
 
 
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+                <a href="index.html" class="nav-item nav-link active">Home</a>
                 <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
                         <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                        <a href="team.html" class="dropdown-item">Our Doctors</a>
+                        <a href="{% url 'team' %}" class="dropdown-item">Our Doctors</a>
                         <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
                         <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a>
                     </div>
@@ -137,152 +141,66 @@
                         <a href="{% url 'diabeticretinopathy' %}" class="dropdown-item">Diabetic Retinopathy</a>
                     </div>
                 </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                 
             </div>
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="{% url 'register' %}" class="btn btn-primary py-2 px-4 ms-3">Signup</a>
             <a href="{% url 'login' %}" class="btn btn-primary py-2 px-4 ms-3">Login</a>
         </div>
-      {% endif %} 
+        {% endif %}
 
 
     </nav>
     <!-- Navbar End -->
 
-    <!-- Page Content -->
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-lg-8">
-                <h1 class="text-primary">Gloucoma</h1>
-                <p>
-                    Glaucoma is a group of eye diseases in which the optic nerve is damaged leading to irreversible loss of visual field. The optic nerve damage is caused by the raised intraocular pressure (IOP) although it may occur with normal IOP (Normal Tension Glaucoma) & even with low IOP (Low Tension Glaucoma). The raised intraocular pressure (IOP) is caused by the imbalance between the production and drainage of aqueous in the anterior chamber of the eye.
-                </p>
+<br>
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="doctor-box">
+                <div class="doctor-image">
+                    <img src="{{ userprofile.profile_picture.url}}" alt="{{ users.first_name }}" class="img-fluid rounded-circle">
+                </div>
             </div>
-            <div class="col-lg-4">
-                <img src="{% static 'img/specialities/glaucoma.png' %}" alt="Doctor Image" class="img-fluid">
-
-                
+        </div>
+        <div class="col-lg-8">
+            <div class="doctor-box">
+                <h2>{{ users.first_name }} {{ users.last_name }}</h2>
+                <p><strong>Education:</strong> {{ therapist.qualification }}</p>
+                <p><strong>Specialization:</strong> {{ therapist.speciality_name }}</p>
             </div>
-        
+            <div class="bio-box">
+                <h3>Bio</h3>
+                <p>{{ therapist.bio }}</p>
+            </div>
+        </div>
     </div>
+</div>
 
-    <h3>How do I know if I have Glaucoma?</h3>
-                <p><strong>Symptoms:</strong> If you have glaucoma, you may observe:</p>
-                <ul>
-                    <li>Blurred Vision</li>
-                    <li>Severe Eye or Forehead Pain</li>
-                    <li>Peripheral Vision Loss</li>
-                    <li>Halos Around Lights</li>
-                    <li>Redness of the Eyes</li>
-                    <li>Blind Spots in Field of Vision</li>
-                </ul>
-            </div>
-           
-        </div>
+<style>
+    .doctor-box, .bio-box {
+        border: 2px solid #007bff; /* Blue outline color, you can change it */
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
 
+    .doctor-image {
+        width: 150px; /* Adjust the size as needed */
+        height: 150px; /* Adjust the size as needed */
+        border: 2px solid #007bff; /* Blue outline color, you can change it */
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
 
-        <div class="container mt-4">
-            <h3>How do I know if I have Glaucoma?</h3>
-            <p>Symptoms: If you have glaucoma, you may observe:</p>
-            <ul>
-                <li>
-                    <div class="row">
-                        
-                        <div class="col-md-10">
-                            <p>Blurred Vision</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row">
-                        
-                        <div class="col-md-10">
-                            <p>Severe Eye or Forehead Pain</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row">
-                        
-                        <div class="col-md-10">
-                            <p>Peripheral Vision Loss</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row">
-                        
-                        <div class="col-md-10">
-                            <p>Halos Around Lights</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row">
-                        
-                        <div class="col-md-10">
-                            <p>Redness of the Eyes</p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="row">
-                        
-                        <div class="col-md-10">
-                            <p>Blind Spots in Field of Vision</p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="container mt-4">
-            <h3>Treatment Options</h3>
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        {% comment %} <img src="{% static 'img/specialities/blur.png' %}" alt="Prescription Eyedrops" class="img-fluid mb-2"> {% endcomment %}
-                        <p>Prescription Eyedrops</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        {% comment %} <img src="{% static 'img/oral_medications.jpg' %}" alt="Oral Medications" class="img-fluid mb-2"> {% endcomment %}
-                        <p>Oral Medications</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        {% comment %} <img src="{% static 'img/ologen_assisted_filtering_surgery.jpg' %}" alt="Ologen Assisted Filtering Surgery" class="img-fluid mb-2"> {% endcomment %}
-                        <p>Ologen Assisted Filtering Surgery</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        {% comment %} <img src="{% static 'img/glaucoma_valv_shunt.jpg' %}" alt="Glaucoma Valv/ Shunt" class="img-fluid mb-2"> {% endcomment %}
-                        <p>Glaucoma Valv/ Shunt</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        {% comment %} <img src="{% static 'img/drainage_tubes.jpg' %}" alt="Drainage Tubes" class="img-fluid mb-2"> {% endcomment %}
-                        <p>Drainage Tubes</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="text-center">
-                        {% comment %} <img src="{% static 'img/blind_spots.jpg' %}" alt="Blind Spots in Field of Vision" class="img-fluid mb-2"> {% endcomment %}
-                        <p>Blind Spots in Field of Vision</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    <!-- Bootstrap JS and Custom Scripts -->
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
-</body>
-</html>
+    .doctor-image img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+{% endblock %}
