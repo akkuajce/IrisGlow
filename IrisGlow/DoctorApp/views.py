@@ -4,6 +4,7 @@ from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from IrisGlowApp.forms import UserProfileForm
 from IrisGlowApp.models import CustomUser,UserProfile
 from .forms import CustomUserForm
 from .models import Doctor
@@ -136,3 +137,134 @@ def viewdoctor(request, user_id):
         'therapist' : therapist
         }
     return render(request, 'teams/doctor1.html', context)
+
+
+
+
+def doctor_dashboard(request):
+     return render(request,'doctor_dashboard.html',)
+
+
+@login_required
+def doctorprofile(request):
+    
+    user = request.user
+
+    # Initialize variables for user profile and therapist info
+    user_profile = None
+ 
+    if user.userprofile.user.role == 2:
+        try:
+            # Get the user profile information
+            user_profile = UserProfile.objects.get(user=user.userprofile.user)
+           
+        except UserProfile.DoesNotExist:
+            user_profile = None
+            
+
+    context = {
+        'user': user,
+        'user_profile': user_profile,  # User profile information
+    }
+
+    
+@login_required
+def doctorprofile(request):
+    
+    # Retrieve the logged-in user's information
+    user = request.user
+
+    # Initialize variables for user profile and therapist info
+    user_profile = None
+    therapist_info = None
+    if user.userprofile.user.role == 1:
+        return redirect("profile")
+    # Check if the user has a therapist role (role == 2)
+    elif user.userprofile.user.role == 2:
+        try:
+            # Get the user profile information
+            user_profile = UserProfile.objects.get(user=user.userprofile.user)
+            # Get the therapist's specific information
+            therapist = Doctor.objects.get(user=user.userprofile.user)
+
+            # Include all fields from the Therapist model in therapist_info
+            therapist_info = {
+                'bio': therapist.bio,
+                'qualification': therapist.qualification,
+                'license': therapist.license,
+                'experience': therapist.experience,
+                'speciality_name': therapist.speciality_name,
+            }
+        except UserProfile.DoesNotExist or Doctor.DoesNotExist:
+            user_profile = None
+            therapist_info = None
+
+    context = {
+        'user': user,
+        'user_profile': user_profile,  # User profile information
+        'therapist_info': therapist_info,  # Therapist-specific information
+    }
+
+    return render(request, 'doctor/view_doctor_profile.html', context)
+
+
+
+
+@login_required
+def editdoctorprofile(request):
+    user_id = request.user.id
+    user = CustomUser.objects.get(id=user_id)
+    user_profile = UserProfile.objects.get(user=user)
+
+    if request.method == 'POST':
+        user_form = CustomUserForm(request.POST, instance=user)
+        user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if user_form.is_valid() and user_profile_form.is_valid():
+            user_form.save()
+            user_profile_form.save()
+            return redirect('profile')  # Redirect to the user's profile page after editing
+
+    else:
+        user_form = CustomUserForm(instance=user)
+        user_profile_form = UserProfileForm(instance=user_profile)
+    print(user_profile.profile_picture)
+    context = {
+        'user_form': user_form,
+        'user_profile_form': user_profile_form,
+        'user_profile':user_profile
+    }
+
+    
+
+
+@login_required
+def editdoctorprofile(request):
+    user_id = request.user.id
+    user = CustomUser.objects.get(id=user_id)
+    therapist = Doctor.objects.get(user=user)
+    user_profile = UserProfile.objects.get(user=user)
+
+    if request.method == 'POST':
+        user_form = CustomUserForm(request.POST, instance=user)
+        therapist_form = TherapistForm(request.POST, instance=therapist)
+        user_profile_form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if user_form.is_valid() and therapist_form.is_valid() and user_profile_form.is_valid():
+            user_form.save()
+            therapist_form.save()
+            user_profile_form.save()
+            return redirect('doctorprofile')  # Redirect to the user's profile page after editing
+
+    else:
+        user_form = CustomUserForm(instance=user)
+        therapist_form = TherapistForm(instance=therapist)
+        user_profile_form = UserProfileForm(instance=user_profile)
+    context = {
+        'user_form': user_form,
+        'therapist_form': therapist_form,
+        'user_profile_form': user_profile_form,
+        'user_profile':user_profile
+    }
+
+    return render(request, 'doctor/edit_doctor_profile.html', context)

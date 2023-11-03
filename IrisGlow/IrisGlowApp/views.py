@@ -85,8 +85,8 @@ def admindashboard(request):
     if request.user.is_authenticated:
         if request.user.role == 4 and not request.path == reverse('admindashboard'):
             return redirect(reverse('admindashboard'))
-        elif request.user.role == 2 and not request.path == reverse('doctordashboard'):
-            return redirect(reverse('doctordashboard'))
+        elif request.user.role == 2 and not request.path == reverse('doctor_dashboard'):
+            return redirect(reverse('doctor_dashboard'))
         elif request.user.role == 1 and not request.path == reverse('index'):
             return redirect(reverse('index'))
     else:
@@ -536,3 +536,11 @@ def send_deactivation_email(user, reason):
     email = EmailMessage(subject, message, from_email, [to_email])
     email.content_subtype = "html"
     email.send()
+
+
+
+
+
+
+
+

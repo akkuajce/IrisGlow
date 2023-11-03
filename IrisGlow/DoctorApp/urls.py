@@ -4,17 +4,23 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    # path('',views.index,name='index'),
-    # path('about/', views.about, name='about'),
-    # path('appointment/', views.appointment, name='appointment'),
-    # path('register/', views.register, name='register'),
-    # path('login/', views.login, name='login'),
-    # path('testimonial/', views.testimonial, name='testimonial'), 
-    # path('doctorregister/', views.doctorregister, name='doctorregister'), 
-    #  path('doctordashboard/', views.doctordashboard, name='doctordashboard'), 
+   
     path('add-doctor/',views.addDoctor,name='addDoctor'),
     
     path('team/', views.doctor, name='team'),
     path('view-doctor/<int:user_id>/',views.viewdoctor,name='view-doctor'),
+
+    path('doctor_dashboard/', views.doctor_dashboard, name='doctor_dashboard'),
     
+
+    # ... other URL patterns ...
+
+    # URL for viewing a doctor's profile
+   
+    # URL for editing a doctor's profile
+    path('doctorprofile/', views.doctorprofile, name='doctorprofile'),
+    path('editdoctorprofile/', views.editdoctorprofile, name='editdoctorprofile'),
 ]
+
+   
+    

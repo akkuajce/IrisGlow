@@ -37,16 +37,16 @@
     </style>
 </head>
 <body>
-    <header>
+    {% comment %} <header>
         <h1>IrisGlow Doctor Panel</h1>
-    </header>
+    </header> {% endcomment %}
     
         <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
         <a href="index.html" class="navbar-brand p-0">
             <h1 class="m-0 text-primary">
                 <img src="{% static 'img/img1.png' %}">
-              IrisGlow</h1>
+              IrisGlow Doctor Panel</h1>
         </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -72,9 +72,10 @@
        
 </div>
 
+<a href="{% url 'doctorprofile' %}"> 
+    <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">View Profile</p>
+</a>
 
-
-</div>
-    <!-- Add any JavaScript scripts here -->
-</body>
-</html>
+<a href="{% url 'editdoctorprofile' %}"> 
+    <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Edit Profile</p>
+</a>

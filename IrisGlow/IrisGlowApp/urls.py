@@ -43,7 +43,7 @@ urlpatterns = [
      path("", include("allauth.urls")), #most important
     
 
-    
+   
 
 
 #password reset urls
