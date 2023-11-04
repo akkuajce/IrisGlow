@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import login as auth_login ,authenticate, logout
 from django.shortcuts import render, redirect
 
@@ -63,8 +63,7 @@ def doctor1(request):
 def doctordashboard(request):
     return render(request,'doctordashboard.html',)
 
-def appointment(request):
-    return render(request,'appointment.html',)
+
 def testimonial(request):
     return render(request,'testimonial.html',)
 def contact(request):
@@ -536,11 +535,5 @@ def send_deactivation_email(user, reason):
     email = EmailMessage(subject, message, from_email, [to_email])
     email.content_subtype = "html"
     email.send()
-
-
-
-
-
-
 
 

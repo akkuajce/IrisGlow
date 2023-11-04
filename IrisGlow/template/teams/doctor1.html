@@ -86,7 +86,7 @@
                         <a href="price.html" class="dropdown-item">Pricing Plan</a>
                         <a href="{% url 'team' %}" class="dropdown-item">Our Doctors</a>
                         <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
-                        <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a>
+                        {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
                     </div>
                 </div>
 
@@ -129,7 +129,7 @@
                         <a href="price.html" class="dropdown-item">Pricing Plan</a>
                         <a href="{% url 'team' %}" class="dropdown-item">Our Doctors</a>
                         <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
-                        <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a>
+                        {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
                     </div>
                 </div>
                 <div class="nav-item dropdown">
@@ -165,7 +165,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-8">
+
+        <div class="col-lg-4">
+            <div class="doctor-box d-flex justify-content-center align-items-center">
+                <a href="{% url 'appointment' t_id=therapist.user.id %}">
+                    <button class="btn btn-primary btn-lg mb-5">Make an Appointment</button>
+                </a>
+            </div>
+        </div>
+        
+
+
             <div class="doctor-box">
                 <h2>{{ users.first_name }} {{ users.last_name }}</h2>
                 <p><strong>Education:</strong> {{ therapist.qualification }}</p>

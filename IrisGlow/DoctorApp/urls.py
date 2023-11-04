@@ -20,6 +20,10 @@ urlpatterns = [
     # URL for editing a doctor's profile
     path('doctorprofile/', views.doctorprofile, name='doctorprofile'),
     path('editdoctorprofile/', views.editdoctorprofile, name='editdoctorprofile'),
+
+
+    path('appointment/<int:t_id>/', views.appointment, name='appointment'),
+    path('get-available-time-slots/', views.get_available_time_slots, name='get-available-time-slots'),
 ]
 
    
