@@ -56,7 +56,7 @@
 
                         <a href="{% url 'doctordashboard' %}" class="nav-item nav-link active">Home</a>
                         <a href="{% url 'doctordashboard' %}" class="nav-item nav-link ">DashBoard</a>
-                       <a href="{% url 'appointment' %}" class="nav-item nav-link ">Appointments</a> 
+                       {% comment %} <a href="{% url 'appointment' %}" class="nav-item nav-link ">Appointments</a>  {% endcomment %}
                         
                         <a href="" class="nav-item nav-link "><span>Welcome,{{user.first_name}}</span></a>
                         <a href="{% url 'logout' %}" class="nav-item nav-link ">Logout</a>
@@ -78,4 +78,8 @@
 
 <a href="{% url 'editdoctorprofile' %}"> 
     <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Edit Profile</p>
+</a>
+
+<a href="{% url 'view-appointments' %}"> 
+    <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">View Appointments</p>
 </a>

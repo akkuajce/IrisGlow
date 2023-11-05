@@ -471,3 +471,31 @@ def get_available_time_slots(request):
     available_time_slots = [time_slot.strftime('%I:%M %p') for time_slot, is_available in time_slot_availability.items() if is_available]
 
     return JsonResponse({'available_time_slots': available_time_slots})
+
+
+
+
+
+
+
+
+#view appointments
+
+from django.shortcuts import render
+from .models import Appointments
+
+def view_appointments(request):
+    # Assuming you have a way to identify the currently logged-in doctor
+    doctor = request.user  # Replace this with your own logic to get the doctor
+
+    # Fetch the doctor's appointments
+    appointments = Appointments.objects.filter(therapist=doctor)
+
+    context = {
+        'doctor': doctor,
+        'appointments': appointments,
+    }
+
+    return render(request, 'doctor/view_appointments.html', context)
+
+

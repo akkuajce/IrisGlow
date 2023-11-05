@@ -24,6 +24,11 @@ urlpatterns = [
 
     path('appointment/<int:t_id>/', views.appointment, name='appointment'),
     path('get-available-time-slots/', views.get_available_time_slots, name='get-available-time-slots'),
+
+
+    # urls.py
+path('view-appointments/', views.view_appointments, name='view-appointments'),
+
 ]
 
    

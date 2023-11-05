@@ -253,9 +253,11 @@
                             <div class="col-lg-6">{{user_form.as_p}}</div>
 
                             <div class="col-12">
-                                <button class="btn btn-success w-100 py-3" type="submit">
+                                <button class="btn btn-primary w-100 py-3" type="submit">
                                     Make An Appointment
                                 </button>
+                            </div>
+                            
                             </div>
                         </div>
                     </form>
@@ -301,7 +303,7 @@
                 // Invalid date format, do not make the AJAX request
                 return;
             }
-// Send an AJAX request to your Django view to get available slots
+Send an AJAX request to your Django view to get available slots
             $.ajax({
                 type: "GET",
                 url: "{% url 'get-available-time-slots' %}",
@@ -358,6 +360,72 @@
 </script> {% endcomment %}
 
 
+<script>
+    $(document).ready(function () {
+        // Function to update available slots based on selected date
+        function updateAvailableSlots() {
+            // Get the selected date from the date input field
+            var selectedDate = $("#date").val();
+            var therapistId = "{{ therapist.id }}"; // Replace with the therapist's ID
+
+            // Validate the selected date format
+            var datePattern = /^\d{4}-\d{2}-\d{2}$/;
+            if (!datePattern.test(selectedDate)) {
+                // Invalid date format, do not make the AJAX request
+                return;
+            }
+
+            // Send an AJAX request to your Django view to get available slots
+            $.ajax({
+                type: "GET",
+                url: "{% url 'get-available-time-slots' %}",
+                data: { date: selectedDate, therapist_id: therapistId },
+                dataType: "json",
+                success: function (data) {
+                    // Update the available slots in the HTML
+                    var availableSlots = data.available_time_slots;
+                    var slotsList = $("#available-slots");
+                    var description = $("#available-slots-description");
+                    var navslot = $("#navslot");
+
+                    slotsList.empty(); // Clear the existing list
+                    if (availableSlots.length > 0) {
+                        description.text("The available slots for the selected date are:");
+                        $.each(availableSlots, function (index, slot) {
+                            // Create a button element with the class "slot-button"
+                            var slotButton = $("<button></button>")
+                                .addClass("slot-button")
+                                .text(slot);
+
+                            // Always set the button's class to "available"
+                            slotButton.addClass("available");
+
+                            // Append the button to the list
+                            slotsList.append(slotButton);
+                            slotButton.css("margin-right", "10px");
+                        });
+                        navslot.text("Select your Desired Time from the Dropdown in the Appointment Form");
+                    } else {
+                        description.text("No available slots for the selected date.");
+                        slotsList.append("<p>No available slots</p>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors if needed
+                    console.error(xhr.responseText);
+                },
+            });
+        }
+
+        // Listen for changes in the date input field
+        $("#date").on("change", function () {
+            updateAvailableSlots();
+        });
+
+        // Initialize available slots when the page loads
+        updateAvailableSlots();
+    });
+</script>
 
 
 
@@ -411,7 +479,7 @@
                     <p class="mb-md-0">&copy; <a class="text-white border-bottom" href="#">IrisGlow</a>. All Rights Reserved.</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
-                    <p class="mb-0">Designed by Akku Shaji<a class="text-white border-bottom" href="https://htmlcodex.com">HTML Codex</a></p>
+                    
                 </div>
             </div>
         </div>

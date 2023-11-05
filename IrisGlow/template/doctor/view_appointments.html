@@ -1,0 +1,25 @@
+{% block content %}
+<div class="container">
+    <h2>Doctor's Appointments</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Serial No</th>
+                <th>Patient Name</th>
+                <th>Appointment Date</th>
+                <th>Appointment Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ forloop.counter }}</td> {# Serial number using forloop.counter #}
+                <td>{{ appointment.client.first_name }}</td> {# Assuming patient name is in the User model #}
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.time_slot }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
