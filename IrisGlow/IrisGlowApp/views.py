@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import login as auth_login ,authenticate, logout
 from django.shortcuts import render, redirect
 
+from DoctorApp.models import Appointments
+
 from .forms import BootstrapDateInput, BootstrapSelect, BootstrapTextInput, CustomUserForm, UserProfileForm
 from .models import CustomUser
 from .decorators import user_not_authenticated
@@ -537,3 +539,28 @@ def send_deactivation_email(user, reason):
     email.send()
 
 
+
+
+
+
+def patient_appointment(request):
+    doctor = request.user
+    appointments = Appointments.objects.filter(therapist=doctor)
+
+    # Group appointments by date using Python code
+    grouped_appointments = {}
+    for appointment in appointments:
+        date = appointment.date
+        if date not in grouped_appointments:
+            grouped_appointments[date] = []
+        grouped_appointments[date].append(appointment)
+
+    # Sort the grouped appointments by date
+    sorted_grouped_appointments = dict(sorted(grouped_appointments.items()))
+
+    context = {
+        'doctor': doctor,
+        'grouped_appointments': sorted_grouped_appointments,
+    }
+
+    return render(request, 'patients/patient_appointment.html', context)

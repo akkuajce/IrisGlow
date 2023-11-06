@@ -1,0 +1,7 @@
+<!-- doctor_list.html -->
+<h1>List of Doctors</h1>
+<ul>
+    {% for doctor in doctors %}
+        <li>{{ doctor.first_name }} {{ doctor.last_name }}</li>
+    {% endfor %}
+</ul>

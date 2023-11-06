@@ -172,7 +172,7 @@
     <!-- Full Screen Search End -->
 
 
-    <!-- Hero Start -->
+    {% comment %} <!-- Hero Start -->
     <div class="container-fluid bg-primary py-5 hero-header mb-5">
         <div class="row py-3">
             <div class="col-12 text-center">
@@ -183,7 +183,7 @@
             </div>
         </div>
     </div>
-    <!-- Hero End -->
+    <!-- Hero End --> {% endcomment %}
 
 
     {% comment %} <!-- Team Start -->
@@ -216,6 +216,185 @@
 <div class="container-fluid py-5">
     <div class="container">
         <div class="row g-5">
+
+
+
+
+            <form id="search-form">
+                <div class="input-group mb-3">
+                    <input type="text" id="search-input" class="form-control" placeholder="Search by first name, last name, or speciality" />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+            
+            <div id="search-results">
+                <!-- Display search results here -->
+            </div>
+
+
+
+            <!-- Include jQuery -->
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    // Function to make an AJAX request to search for doctors
+                    function searchDoctors(query) {
+                        $.ajax({
+                            url: '/search_doctor/',  // Replace with the actual URL of your search view
+                            method: 'GET',
+                            data: { query: query },
+                            success: function(data) {
+                                displayResults(data.doctors);
+                            },
+                            error: function() {
+                                console.log('An error occurred while searching for doctors.');
+                            }
+                        });
+                    }
+                
+                    // Function to display search results in the results container
+                    function displayResults(doctors) {
+                        var resultsContainer = $('#search-results');
+                        resultsContainer.empty();
+                
+                        if (doctors.length === 0) {
+                            resultsContainer.html('<p>No doctors found.</p>');
+                        } else {
+                            doctors.forEach(function(doctor) {
+                                var doctorHtml = `
+                                    <div class="doctor-item">
+                                        <img src="${doctor.profile_picture}" alt="Doctor">
+                                        <p>${doctor.first_name} ${doctor.last_name}</p>
+                                        <p>${doctor.speciality_name}</p>
+                                        <p>${doctor.qualification}</p>
+                                        <p>${doctor.experience} years of experience</p>
+                                    </div>
+                                `;
+                                resultsContainer.append(doctorHtml);
+                            });
+                        }
+                    }
+                
+                    // Handle input changes in the search input field
+                    $('#search-input').on('input', function() {
+                        var query = $(this).val();
+                        searchDoctors(query);
+                    });
+                });
+                </script>
+                
+
+
+            
+
+
+            {% comment %} <!-- Search Start -->
+            <div class="container-fluid pt-5">
+                <div class="container">
+
+                    <div class="mx-auto" style="width: 100%; max-width: 600px; height:50px">
+                        <form id="search-form">
+                            <div class="input-group" style="height:50px">
+                                <input class="form-control border-primary w-50" type="text" id="query" name="query"
+                                    placeholder="Search by Doctor Name or Speciality">
+                               
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- Search End -->
+
+            <div class="container m-5" id="results">
+                <!-- Results will be displayed here using JavaScript -->
+            </div>
+
+
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+
+        $(document).ready(function () {
+
+            const searchResultsContainer = $('#team');
+            const initial_state = searchResultsContainer.html();
+
+            $("#query").keyup(function () {
+                // Get search query from input field
+                var query = $(this).val();
+        
+                // Send AJAX request
+                if (query.length>=3){
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'team' %}",  // Replace with the actual URL
+                    data: { query: query },
+                    dataType: "json",
+                    success: function (data) {
+                        // Check if there are therapists in the results
+                        if (data.therapists.length === 0) {
+                            // Display a "No results found" message
+                            $("#team").html("<p>No results found</p>");
+                            return; // Exit the function early
+                        }
+        
+                        // Initialize the results HTML
+                        var resultsHtml = "<div class='row'>";
+                        
+                        data.therapists.forEach(function (therapist) {
+                            // Create the therapist URL using JavaScript
+                            var therapistUrl = '/team/' + therapist.id + '/';
+                            
+                            resultsHtml += '<div class="col-md-3 mt-4">';
+                            resultsHtml += '<a href="' + therapistUrl + '">';
+                            resultsHtml += '<div class="card profile-card-5">';
+                            resultsHtml += '<div class="card-img-block">';
+                            resultsHtml += '<img class="card-img-top" src="' + therapist.profile_picture + '" alt="Card image cap">';
+                            resultsHtml += '</div>';
+                            resultsHtml += '<div class="card-body pt-0">';
+                            resultsHtml += '<h2 class="mt-3 w-100 float-left text-success text-center">' + therapist.first_name + '</h2>';
+                            resultsHtml += '<h2 class="mt-3 w-100 float-left text-success text-center">' + therapist.last_name + '</h2>';
+                            resultsHtml += '<h5 class="mt-2 w-100 float-left text-center">' + therapist.speciality_name + '</h5>';
+                            resultsHtml += '<p class="mt-2 w-100 float-left text-center"><strong>Experience: ' + therapist.experience + ' Years</strong></p>';
+                            resultsHtml += '<p class="mt-2 w-100 float-left text-center"><strong>' + therapist.qualification + '</strong></p>';
+                            resultsHtml += '</div>';
+                            resultsHtml += '</div>';
+                            resultsHtml += '</a>';
+                            resultsHtml += '</div>';
+                        });
+                        
+                        // Close the row
+                        resultsHtml += "</div>";
+                        
+                        // Replace the content of the therapists list container
+                        $("#therapists-list").html(resultsHtml);
+                    },
+                    error: function (xhr, status, error) {
+                        // Log any errors to the console
+                        console.error(xhr.responseText);
+                    },
+                });
+                }
+                else if (query.length==0){
+                    searchResultsContainer.html(initial_state);
+                    searchResultsContainer.show();
+                }
+            });
+        });
+    </script> {% endcomment %}
+
+
+
+
+
+
+
+
+            
 
             {% for user, profile, therapist in therapists_page %}
 

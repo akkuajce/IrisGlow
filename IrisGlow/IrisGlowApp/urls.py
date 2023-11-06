@@ -41,6 +41,13 @@ urlpatterns = [
     #google authentication
     # path('social-auth/', include('social_django.urls', namespace='social')),
      path("", include("allauth.urls")), #most important
+
+
+     path('patient-appointment/', views.patient_appointment, name='patient_appointment'),
+
+
+     
+
     
 
    

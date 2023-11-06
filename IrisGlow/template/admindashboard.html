@@ -152,12 +152,14 @@
                     <a href="{% url 'addDoctor' %}">
                         <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Add Doctor</p>
                     </a>
-                    {% comment %} <a href="{% url 'appointment' %}">
-                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">View Appointments</p> {% endcomment %}
+                     <a href="{% url 'doctor-list' %}">
+                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Doctors</p> 
                     </a>
                     <a href="{% url 'deactivated_users' %}">
                         <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Deactivated Users</p>
                     </a>
+
+                    
                     {% comment %} <a href="{% url 'view-appointments' %}">
                         <p class="m-4 text-secondary text-center btn-lg btn-primary fs-5 fw-bold">View Appointments</p>
                     </a>

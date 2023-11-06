@@ -30,7 +30,11 @@ urlpatterns = [
     path('view-appointments/', views.view_appointments, name='view-appointments'),
 
 
-    path('appointment-confirmation/<int:appointment_id>/', views.appointment_confirmation, name='appointment_confirmation'),
+    path('appointment-confirmation/<int:appointment_id>/', views.appointment_confirmation, name='appointment-confirmation'),
+
+    path('doctor-list/', views.doctor_list, name='doctor-list'),
+
+    path('search_doctor/', views.search_doctor, name='search_doctor'),
 
 ]
 
