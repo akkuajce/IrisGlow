@@ -481,21 +481,44 @@ def get_available_time_slots(request):
 
 #view appointments
 
-from django.shortcuts import render
-from .models import Appointments
+# from django.shortcuts import render
+# from .models import Appointments
+
+# def view_appointments(request):
+#     # Assuming you have a way to identify the currently logged-in doctor
+#     doctor = request.user  # Replace this with your own logic to get the doctor
+
+#     # Fetch the doctor's appointments
+#     appointments = Appointments.objects.filter(therapist=doctor)
+
+#     context = {
+#         'doctor': doctor,
+#         'appointments': appointments,
+#     }
+
+#     return render(request, 'doctor/view_appointments.html', context)
 
 def view_appointments(request):
-    # Assuming you have a way to identify the currently logged-in doctor
-    doctor = request.user  # Replace this with your own logic to get the doctor
-
-    # Fetch the doctor's appointments
+    doctor = request.user
     appointments = Appointments.objects.filter(therapist=doctor)
+
+    # Group appointments by date using Python code
+    grouped_appointments = {}
+    for appointment in appointments:
+        date = appointment.date
+        if date not in grouped_appointments:
+            grouped_appointments[date] = []
+        grouped_appointments[date].append(appointment)
+
+    # Sort the grouped appointments by date
+    sorted_grouped_appointments = dict(sorted(grouped_appointments.items()))
 
     context = {
         'doctor': doctor,
-        'appointments': appointments,
+        'grouped_appointments': sorted_grouped_appointments,
     }
 
     return render(request, 'doctor/view_appointments.html', context)
+
 
 

@@ -1,0 +1,11 @@
+
+
+{% block content %}
+<div class="container">
+    <h2>Appointment Confirmation</h2>
+    <p>Your appointment has been confirmed with Dr. {{ appointment.therapist }}</p>
+    <p>Date: {{ appointment.date }}</p>
+    <p>Time: {{ appointment.time_slot }}</p>
+    <!-- Add more details as needed -->
+</div>
+{% endblock %}

@@ -27,7 +27,10 @@ urlpatterns = [
 
 
     # urls.py
-path('view-appointments/', views.view_appointments, name='view-appointments'),
+    path('view-appointments/', views.view_appointments, name='view-appointments'),
+
+
+    path('appointment-confirmation/<int:appointment_id>/', views.appointment_confirmation, name='appointment_confirmation'),
 
 ]
 
