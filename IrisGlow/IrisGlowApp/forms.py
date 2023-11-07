@@ -1,4 +1,6 @@
 from django import forms
+
+from DoctorApp.models import Specialities
 from .models import CustomUser, UserProfile
 
 from datetime import date, timedelta
@@ -83,3 +85,59 @@ class UserProfileForm(forms.ModelForm):
             'gender': BootstrapSelect(attrs={'placeholder': 'Select Gender', 'id': 'gender'}),
             #'dob': forms.DateInput(attrs={'placeholder': 'Select Date of Birth', 'id': 'dob'}),
         }
+
+
+
+
+
+from DoctorApp.models import Specialities
+# from .validators import allow_only_images_validator
+
+class SpecialityForm(forms.ModelForm):
+    
+    speciality_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control form-control-lg",
+                'placeholder': 'Enter Therapy Name',
+                'id':'tname',
+            }
+        )
+    )
+    
+
+    symptoms = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows':'4',
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Enter Breif Description',
+                'id':'therapyDescription'
+                }
+            )
+        )
+    
+    diagnosis = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows':'4',
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Enter Breif Description',
+                'id':'therapyDescription'
+                }
+            )
+        )
+
+    treatments = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'rows':'3',
+                'class': 'form-control form-control-lg',
+                'placeholder': 'Enter the benefits','id':'benefits',
+                }
+            )
+        )
+
+    class Meta:
+        model = Specialities
+        fields = ['speciality_name','symptoms', 'diagnosis','treatments']

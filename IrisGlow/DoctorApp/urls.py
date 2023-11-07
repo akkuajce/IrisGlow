@@ -22,8 +22,11 @@ urlpatterns = [
     path('editdoctorprofile/', views.editdoctorprofile, name='editdoctorprofile'),
 
 
+    
+
     path('appointment/<int:t_id>/', views.appointment, name='appointment'),
     path('get-available-time-slots/', views.get_available_time_slots, name='get-available-time-slots'),
+    path('appointment-confirmation/<int:appointment_id>/', views.appointment_confirmation, name='appointment_confirmation'),
 
 
     # urls.py

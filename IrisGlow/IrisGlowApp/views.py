@@ -2,9 +2,9 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import login as auth_login ,authenticate, logout
 from django.shortcuts import render, redirect
 
-from DoctorApp.models import Appointments
+from DoctorApp.models import Appointments, Specialities
 
-from .forms import BootstrapDateInput, BootstrapSelect, BootstrapTextInput, CustomUserForm, UserProfileForm
+from .forms import BootstrapDateInput, BootstrapSelect, BootstrapTextInput, CustomUserForm, SpecialityForm, UserProfileForm
 from .models import CustomUser
 from .decorators import user_not_authenticated
 from .models import CustomUser,UserProfile
@@ -564,3 +564,38 @@ def patient_appointment(request):
     }
 
     return render(request, 'patients/patient_appointment.html', context)
+
+
+
+
+
+
+
+
+
+
+# Create your views here.
+@login_required
+def addSpeciality(request):
+    if request.method == 'POST':
+        form = SpecialityForm(request.POST)
+        if form.is_valid():
+            speciality_name = form.cleaned_data['speciality_name']
+            symptoms = form.cleaned_data['symptoms']
+            diagnosis = form.cleaned_data['diagnosis']
+            treatments = form.cleaned_data['treatments']
+            
+            # Check if a therapy with the same name already exists
+            if Specialities.objects.filter( speciality_name=speciality_name).exists():
+                error_message = "Speciality with this name already exists."
+            else:
+                therapy = Specialities.objects.create(speciality_name=speciality_name, symptoms=symptoms, diagnosis=diagnosis, treatments=treatments)
+                therapy.save()
+                return redirect('index')  # Redirect to the index page after successful registration
+        else:
+            error_message = "Form is not valid."
+    else:
+        form = SpecialityForm()
+        error_message = None
+
+    return render(request, 'specialities.html', {'form': form, 'error_message': error_message})

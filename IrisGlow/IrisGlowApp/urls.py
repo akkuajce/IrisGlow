@@ -46,6 +46,11 @@ urlpatterns = [
      path('patient-appointment/', views.patient_appointment, name='patient_appointment'),
 
 
+     path('addSpeciality/', views.addSpeciality, name='addSpeciality'),
+
+
+
+
      
 
     

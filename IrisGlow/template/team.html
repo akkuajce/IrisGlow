@@ -172,51 +172,13 @@
     <!-- Full Screen Search End -->
 
 
-    {% comment %} <!-- Hero Start -->
-    <div class="container-fluid bg-primary py-5 hero-header mb-5">
-        <div class="row py-3">
-            <div class="col-12 text-center">
-                <h1 class="display-3 text-white animated zoomIn">Doctors</h1>
-                <a href="" class="h4 text-white">Home</a>
-                <i class="far fa-circle text-white px-2"></i>
-                <a href="" class="h4 text-white">Doctors</a>
-            </div>
-        </div>
-    </div>
-    <!-- Hero End --> {% endcomment %}
-
-
-    {% comment %} <!-- Team Start -->
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="row g-5">
-
-                {% for user, profile, therapist in therapists_page %}
-
-                <div class="col-lg-4 wow slideInUp" data-wow-delay="0.3s">
-                    <a href="{% url 'view-doctor' user_id=therapist.user.id %}"> <!-- Add the link to doctor1.html in the "team" folder -->
-                        <div class="team-item">
-                            <div class="position-relative rounded-top" style="z-index: 1;">
-                                <img class="img-fluid rounded-top w-100" src="{{profile.profile_picture.url}}" alt="">
-                                
-                            </div>
-                            <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
-                                <h4 class="mb-2">{{user.first_name}}{{user.last_name}}</h4>
-                                <p class="text-primary mb-0">{{therapist.qualification}}</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                {% endfor %}
-            </div>
-        </div> {% endcomment %}
-
+   
 
 
 {% comment %} search {% endcomment %}
         <!-- Team Start -->
 <div class="container-fluid py-5">
-    <div class="container">
+    <div class="container" id="doctors">
         <div class="row g-5">
 
 
@@ -240,8 +202,17 @@
 
             <script>
                 $(document).ready(function() {
+                    
+
+                const searchResultsContainer = $('#doctors');
+                const initial_state = searchResultsContainer.html();
+
+
+
                     // Function to make an AJAX request to search for doctors
                     function searchDoctors(query) {
+                        if (query.length>=3)
+                        {
                         $.ajax({
                             url: '/search_doctor/',  // Replace with the actual URL of your search view
                             method: 'GET',
@@ -254,30 +225,39 @@
                             }
                         });
                     }
+                    else if (query.length==0){
+                        searchResultsContainer.html(initial_state);
+                        searchResultsContainer.show();
+                    }
+                    }
                 
                     // Function to display search results in the results container
                     function displayResults(doctors) {
                         var resultsContainer = $('#search-results');
                         resultsContainer.empty();
-                
+                    
                         if (doctors.length === 0) {
                             resultsContainer.html('<p>No doctors found.</p>');
                         } else {
                             doctors.forEach(function(doctor) {
+                                var doctorUrl = '/view-doctor/' + doctor.id + '/'; // Construct the URL
                                 var doctorHtml = `
-                                    <div class="doctor-item">
-                                        
-                                        <img src="${doctor.profile_picture}" alt="Doctor">
-                                        <p>${doctor.first_name} ${doctor.last_name}</p>
-                                        <p>${doctor.speciality_name}</p>
-                                        <p>${doctor.qualification}</p>
-                                        <p>${doctor.experience} years of experience</p>
-                                    </div>
+                                    <a href="${doctorUrl}"> <!-- Use the constructed URL -->
+                                        <div class="doctor-item">
+                                            <img src="${doctor.profile_picture}" alt="Doctor">
+                                            <p>${doctor.first_name} ${doctor.last_name}</p>
+                                            <p>${doctor.speciality_name}</p>
+                                            <p>${doctor.qualification}</p>
+                                            <p>${doctor.experience} years of experience</p>
+                                        </div>
+                                    </a>
                                 `;
                                 resultsContainer.append(doctorHtml);
                             });
                         }
                     }
+                    
+                    
                 
                     // Handle input changes in the search input field
                     $('#search-input').on('input', function() {
@@ -292,108 +272,7 @@
             
 
 
-            {% comment %} <!-- Search Start -->
-            <div class="container-fluid pt-5">
-                <div class="container">
-
-                    <div class="mx-auto" style="width: 100%; max-width: 600px; height:50px">
-                        <form id="search-form">
-                            <div class="input-group" style="height:50px">
-                                <input class="form-control border-primary w-50" type="text" id="query" name="query"
-                                    placeholder="Search by Doctor Name or Speciality">
-                               
-                            </div>
-                        </form>
-
-
-                    </div>
-                </div>
-            </div>
-            <!-- Search End -->
-
-            <div class="container m-5" id="results">
-                <!-- Results will be displayed here using JavaScript -->
-            </div>
-
-
-
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-
-
-        $(document).ready(function () {
-
-            const searchResultsContainer = $('#team');
-            const initial_state = searchResultsContainer.html();
-
-            $("#query").keyup(function () {
-                // Get search query from input field
-                var query = $(this).val();
-        
-                // Send AJAX request
-                if (query.length>=3){
-                $.ajax({
-                    type: "GET",
-                    url: "{% url 'team' %}",  // Replace with the actual URL
-                    data: { query: query },
-                    dataType: "json",
-                    success: function (data) {
-                        // Check if there are therapists in the results
-                        if (data.therapists.length === 0) {
-                            // Display a "No results found" message
-                            $("#team").html("<p>No results found</p>");
-                            return; // Exit the function early
-                        }
-        
-                        // Initialize the results HTML
-                        var resultsHtml = "<div class='row'>";
-                        
-                        data.therapists.forEach(function (therapist) {
-                            // Create the therapist URL using JavaScript
-                            var therapistUrl = '/team/' + therapist.id + '/';
-                            
-                            resultsHtml += '<div class="col-md-3 mt-4">';
-                            resultsHtml += '<a href="' + therapistUrl + '">';
-                            resultsHtml += '<div class="card profile-card-5">';
-                            resultsHtml += '<div class="card-img-block">';
-                            resultsHtml += '<img class="card-img-top" src="' + therapist.profile_picture + '" alt="Card image cap">';
-                            resultsHtml += '</div>';
-                            resultsHtml += '<div class="card-body pt-0">';
-                            resultsHtml += '<h2 class="mt-3 w-100 float-left text-success text-center">' + therapist.first_name + '</h2>';
-                            resultsHtml += '<h2 class="mt-3 w-100 float-left text-success text-center">' + therapist.last_name + '</h2>';
-                            resultsHtml += '<h5 class="mt-2 w-100 float-left text-center">' + therapist.speciality_name + '</h5>';
-                            resultsHtml += '<p class="mt-2 w-100 float-left text-center"><strong>Experience: ' + therapist.experience + ' Years</strong></p>';
-                            resultsHtml += '<p class="mt-2 w-100 float-left text-center"><strong>' + therapist.qualification + '</strong></p>';
-                            resultsHtml += '</div>';
-                            resultsHtml += '</div>';
-                            resultsHtml += '</a>';
-                            resultsHtml += '</div>';
-                        });
-                        
-                        // Close the row
-                        resultsHtml += "</div>";
-                        
-                        // Replace the content of the therapists list container
-                        $("#therapists-list").html(resultsHtml);
-                    },
-                    error: function (xhr, status, error) {
-                        // Log any errors to the console
-                        console.error(xhr.responseText);
-                    },
-                });
-                }
-                else if (query.length==0){
-                    searchResultsContainer.html(initial_state);
-                    searchResultsContainer.show();
-                }
-            });
-        });
-    </script> {% endcomment %}
-
-
-
-
-
+            
 
 
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div class="mt-5">
+            <h2 class="align-center text-dark">Add New Therapy</h2>
+            <div class="container p-5 card ">
+              {% if error_message %}
+              <div><span style="color:red;">{{error_message}}</span><br/><br/></div>
+              {% endif %}
+              <form method="post" class=" mx-auto w-75" enctype="multipart/form-data">
+                <div id="therapyNameValidation" class="invalid-feedback text-center">
+                  Please enter a valid therapy name containing only letters
+                </div>
+                <div id="therapyDescriptionValidation" class="invalid-feedback text-center">
+                  Therapy description must contain at least 25 words.
+                </div>
+                <div id="durationValidation" class="invalid-feedback text-center">
+                  Duration upto 20 weeks
+                </div>
+                <div id="feesValidation" class="invalid-feedback text-center">
+                  Please enter a valid positive numbers.
+                </div>
+                
+                <div id="benefitsValidation" class="invalid-feedback">
+                  Benefits must contain at least 25 words.
+                </div>
+                {% csrf_token %}
+                {{ form.as_p}}
+                
+        
+        
+                <div class="d-flex mt-5 justify-content-center w-100 align-items-center">
+                  <button class="btn btn-dark sub-btn w-25" type="submit">ADD</button>
+                </div>
+              </form>
+            </div>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <script src="" async defer></script>
+    </body>
+</html>

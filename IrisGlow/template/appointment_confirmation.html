@@ -1,11 +1,14 @@
-
-
-{% block content %}
-<div class="container">
-    <h2>Appointment Confirmation</h2>
-    <p>Your appointment has been confirmed with Dr. {{ appointment.therapist }}</p>
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Confirmation</title>
+</head>
+<body>
+    <h1>Appointment Confirmation</h1>
+    <p>Your appointment with {{ appointment.therapist.first_name }} has been scheduled for:</p>
     <p>Date: {{ appointment.date }}</p>
     <p>Time: {{ appointment.time_slot }}</p>
-    <!-- Add more details as needed -->
-</div>
-{% endblock %}
+    <p>Doctor's Name: {{ appointment.therapist.first_name }}</p>
+</body>
+</html>
