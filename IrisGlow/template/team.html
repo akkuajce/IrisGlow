@@ -212,6 +212,8 @@
         </div> {% endcomment %}
 
 
+
+{% comment %} search {% endcomment %}
         <!-- Team Start -->
 <div class="container-fluid py-5">
     <div class="container">
@@ -264,6 +266,7 @@
                             doctors.forEach(function(doctor) {
                                 var doctorHtml = `
                                     <div class="doctor-item">
+                                        
                                         <img src="${doctor.profile_picture}" alt="Doctor">
                                         <p>${doctor.first_name} ${doctor.last_name}</p>
                                         <p>${doctor.speciality_name}</p>
@@ -409,6 +412,8 @@
                         <div class="team-text position-relative bg-light text-center rounded-bottom p-4 pt-5">
                             <h4 class="mb-2">{{ user.first_name }} {{ user.last_name }}</h4>
                             <p class="text-primary mb-0">{{ therapist.qualification }}</p>
+                            <br>
+                            <p class="text-primary mb-0">{{ therapist.speciality_name }}</p>
                         </div>
                     </div>
                 </a>

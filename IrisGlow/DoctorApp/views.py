@@ -282,6 +282,58 @@ from datetime import time
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
+# @login_required
+# def appointment(request, t_id):
+#     therapist = get_object_or_404(CustomUser, id=t_id)
+#     context = None
+
+#     if request.method == 'POST':
+#         date = request.POST.get('date')
+#         time_slot = request.POST.get('time_slot')
+
+#         # Check if the current user (client) has already booked an appointment for the same date and time slot
+#         existing_appointment = Appointments.objects.filter(client=request.user, date=date, time_slot=time_slot).first()
+
+#         if existing_appointment:
+#             context = {
+#                 'error': 'You have already scheduled an appointment for the selected Date and Time Slot',
+#                 'therapist': therapist,
+#             }
+#         else:
+#             # Check if the selected time slot is available
+#             is_time_slot_available = is_time_slot_available_for_doctor(therapist, date, time_slot)
+#             if is_time_slot_available:
+#                 form = AppointmentForm(request.POST)
+#                 form.instance.client = request.user
+#                 form.instance.therapist = therapist
+
+#                 if form.is_valid():
+#                     form.save()
+#                     return redirect('index')
+#             else:
+#                 context = {
+#                     'error': 'The selected time slot is not available. Please choose a different time slot.',
+#                     'therapist': therapist,
+#                 }
+
+#     else:
+#         user = request.user
+#         initial_data = {
+#             'client': user,
+#             'client_name': user.first_name,
+#             'client_phone': user.phone,
+#             'therapist': therapist.id,
+#             'therapist_name': therapist.first_name,
+#         }
+#         appointment_form = AppointmentForm(initial=initial_data)
+#         user_form = CurrentUserForm(instance=user)
+#         context = {'appointment_form': appointment_form, 'user_form': user_form, 'therapist': therapist}
+
+#     return render(request, 'appointment.html', context)
+
+
+from django.utils import timezone  # Import timezone module
+
 @login_required
 def appointment(request, t_id):
     therapist = get_object_or_404(CustomUser, id=t_id)
@@ -291,12 +343,12 @@ def appointment(request, t_id):
         date = request.POST.get('date')
         time_slot = request.POST.get('time_slot')
 
-        # Check if the current user (client) has already booked an appointment for the same date and time slot
-        existing_appointment = Appointments.objects.filter(client=request.user, date=date, time_slot=time_slot).first()
-
-        if existing_appointment:
+        # Check if the current user (client) has already booked an appointment for the same date
+        existing_appointments = Appointments.objects.filter(client=request.user, date=date)
+        
+        if existing_appointments.exists():
             context = {
-                'error': 'You have already scheduled an appointment for the selected Date and Time Slot',
+                'error': 'You have already scheduled an appointment for the selected Date.',
                 'therapist': therapist,
             }
         else:
@@ -330,6 +382,7 @@ def appointment(request, t_id):
         context = {'appointment_form': appointment_form, 'user_form': user_form, 'therapist': therapist}
 
     return render(request, 'appointment.html', context)
+
 
 def is_time_slot_available_for_doctor(therapist, date, time_slot):
     # Check if the time slot is available for the specific doctor and date
