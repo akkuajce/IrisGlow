@@ -115,111 +115,94 @@
    
 
 
-    {% comment %} <div class=" d-flex justify-content-center admin-class">
-        <div class="bg-white shadow-lg mt-4 pb-3 rounded col-12 col-lg-8">
-            <div class="d-flex mt-4 justify-content-center flex-lg-row align-items-center text-center flex-column">
-                <div class="d-flex col-2 justify-content-center flex-column align-items-center mx-2 text-dark"
-                    style="border: 3px solid #181515; border-radius: 10px; background-color: #ffffff;">
-                    <p class="fs-4 text-dark" style="font-weight: bold;">Total Patients</p>
-                    <p class="fs-4" style="font-weight: bold;">{{patients}}</p>
-                </div>
-                <div class="d-flex col-2 justify-content-center flex-column align-items-center mx-2 text-dark"
-                    style="border: 3px solid #181515; border-radius: 10px; background-color: #ffffff;">
-                    <p class="fs-4 text-success" style="font-weight: bold;">Active Users</p>
-                    <p class="fs-4 text-success" style="font-weight: bold;">{{activeusers}}</p>
-                </div>
-                <div class="d-flex col-2 justify-content-center flex-column align-items-center mx-2 text-dark"
-                    style="border: 3px solid #181515; border-radius: 10px; background-color: #ffffff;">
-                    <p class="fs-4 text-danger" style="font-weight: bold;">InActive Users</p>
-                    <p class="fs-4 text-danger" style="font-weight: bold;">{{inactiveusers}}</p>
-                </div>
+   
+    
+    
+    
+    
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
 
-                <div class="d-flex col-2 justify-content-center flex-column align-items-center mx-2 text-dark"
-                    style="border: 3px solid #181515; border-radius: 10px; background-color: #ffffff;">
-                    <p class="fs-4 text-dark" style="font-weight: bold;">Total Doctors</p>
-                    <p class="fs-4" style="font-weight: bold;">{{doctor}}</p>
+    <!-- Custom CSS styles for the containers and links -->
+    <style>
+        /* Style for the sidebar and containers */
+        .sidebar {
+            background-color: #f8f9fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container-box {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        /* Style for the links within the containers */
+        .container-box a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .container-box a:hover {
+            color: #007bff;
+        }
+
+        /* Additional styling for the main content area */
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Your existing HTML code -->
+    {% comment %}
+    ... (your existing HTML code)
+    {% endcomment %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <!-- Active Users Container -->
+                <div class="container-box">
+                    <a href="{% url 'userdata' %}">
+                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary fs-5 fw-bold">Active Users</p>
+                    </a>
+                    <p class="text-secondary text-center">Total Active Users: {{ active_user_count }}</p>  <!-- Display the count of active users -->
                 </div>
-            </div>
-             <div class="row p-3">
-                <div class="col-lg-12"> {% endcomment %}
     
-    
-    
-    
-                    <a href="{% url 'userdata' %}"> 
-                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Users</p>
-                    </a>
-                    <a href="{% url 'addDoctor' %}">
-                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Add Doctor</p>
-                    </a>
-                     <a href="{% url 'doctor-list' %}">
-                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Doctors</p> 
-                    </a>
+                <!-- Deactivated Users Container -->
+                <div class="container-box">
                     <a href="{% url 'deactivated_users' %}">
-                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Deactivated Users</p>
+                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary fs-5 fw-bold">Deactivated Users</p>
                     </a>
-                    <a href="{% url 'addSpeciality' %}">
-                        <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary  fs-5 fw-bold">Add Specialities</p>
-                    </a>
-
-                    
-                    {% comment %} <a href="{% url 'view-appointments' %}">
-                        <p class="m-4 text-secondary text-center btn-lg btn-primary fs-5 fw-bold">View Appointments</p>
-                    </a>
-                    <a href="{% url 'addTherapy' %}">
-                        <p class="m-4 text-secondary text-center btn-lg btn-primary fs-5 fw-bold">Add Therapy</p>
-                    </a>
-                    <a href="{% url 'addTherapist' %}">
-                        <p class="m-4 text-secondary text-center btn-lg btn-primary fs-5 fw-bold">Add Therapist</p>
-                    </a> {% endcomment %}  
-                </div>  
-
+                    <p class="text-secondary text-center">Total Deactivated Users: {{ deactivated_user_count }}</p>  <!-- Display the count of deactivated users -->
+                </div>
+    
+                <!-- Other Links or Containers (Add more links as needed) -->
             </div>
-
-            
-
+    
+            <!-- Content -->
+            <div class="col-md-9 content">
+                <!-- Links for Doctors and other content -->
+                <a href="{% url 'addDoctor' %}">
+                    <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary fs-5 fw-bold">Add Doctor</p>
+                </a>
+                <a href="{% url 'doctor-list' %}">
+                    <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary fs-5 fw-bold">View Doctors</p>
+                </a>
+                <a href="{% url 'addSpeciality' %}">
+                    <p class="m-4 text-secondary text-center text-dark btn-lg btn-primary fs-5 fw-bold">Add Specialities</p>
+                </a>
+            </div>
         </div>
-
-        <hr>
-
-
-        <!-- <div class="table-responsive m-4">
-                <table class="table rounded text-center table-hover table-bordered">
-                    <tr class="thead fw-bold">
-
-                        <td>Email</td>
-                        <td>User Role</td>
-                        <td>Status</td>
-                        <td>Edit Status</td>
-                        <td>Delete User</td>
-
-                    </tr>
-                    {% for i in users %}
-                    {% if not i.is_staff %}
-                    <tr>
-
-                        <td>{{i.email}}</td>
-                        <td>{% if i.role == 1 %}
-                            Client
-                            {% elif i.role == 2 %}
-                            Therapist
-                            {% else %}
-                            Editor
-                            {% endif %}</td>
-                        <td>{{i.is_active}}</td>
-                        <td class="text-white"><a href="{% url 'updateStatus' i.id %}"><button
-                                    class="btn btn-primary"><i class="bi bi-pencil-square"></i></button></a></td>
-                        <td><a href="{% url 'deleteUser' i.id %}"><button class="btn btn-danger"><i
-                                        class="bi bi-trash3-fill"></i></button></a></td>
-
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                </table>
-            </div> -->
-
     </div>
-    </div>
+    
+
+
+    
 
 
 

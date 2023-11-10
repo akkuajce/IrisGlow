@@ -270,135 +270,7 @@ def editdoctorprofile(request):
 
 
 
-
 #Appointment
-
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from .models import Appointments
-from .forms import AppointmentForm, CurrentUserForm
-from .models import CustomUser
-from datetime import time
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
-
-# @login_required
-# def appointment(request, t_id):
-#     therapist = get_object_or_404(CustomUser, id=t_id)
-#     context = None
-
-#     if request.method == 'POST':
-#         date = request.POST.get('date')
-#         time_slot = request.POST.get('time_slot')
-
-#         # Check if the current user (client) has already booked an appointment for the same date and time slot
-#         existing_appointment = Appointments.objects.filter(client=request.user, date=date, time_slot=time_slot).first()
-
-#         if existing_appointment:
-#             context = {
-#                 'error': 'You have already scheduled an appointment for the selected Date and Time Slot',
-#                 'therapist': therapist,
-#             }
-#         else:
-#             # Check if the selected time slot is available
-#             is_time_slot_available = is_time_slot_available_for_doctor(therapist, date, time_slot)
-#             if is_time_slot_available:
-#                 form = AppointmentForm(request.POST)
-#                 form.instance.client = request.user
-#                 form.instance.therapist = therapist
-
-#                 if form.is_valid():
-#                     form.save()
-#                     return redirect('index')
-#             else:
-#                 context = {
-#                     'error': 'The selected time slot is not available. Please choose a different time slot.',
-#                     'therapist': therapist,
-#                 }
-
-#     else:
-#         user = request.user
-#         initial_data = {
-#             'client': user,
-#             'client_name': user.first_name,
-#             'client_phone': user.phone,
-#             'therapist': therapist.id,
-#             'therapist_name': therapist.first_name,
-#         }
-#         appointment_form = AppointmentForm(initial=initial_data)
-#         user_form = CurrentUserForm(instance=user)
-#         context = {'appointment_form': appointment_form, 'user_form': user_form, 'therapist': therapist}
-
-#     return render(request, 'appointment.html', context)
-
-
-# from django.utils import timezone  # Import timezone module
-
-# from django.shortcuts import render, redirect
-# from django.http import JsonResponse
-# from .models import Appointments
-# from .forms import AppointmentForm, CurrentUserForm
-# from .models import CustomUser
-# from datetime import time
-# from django.shortcuts import get_object_or_404
-# from django.contrib.auth.decorators import login_required
-
-# @login_required
-# def appointment(request, t_id):
-#     therapist = get_object_or_404(CustomUser, id=t_id)
-#     context = None
-
-#     if request.method == 'POST':
-#         date = request.POST.get('date')
-#         time_slot = request.POST.get('time_slot')
-
-#         # Check if the current user (client) has already booked an appointment for the same date and time slot
-#         existing_appointment = Appointments.objects.filter(client=request.user, date=date, time_slot=time_slot).first()
-
-#         if existing_appointment:
-#             context = {
-#                 'error': 'You have already scheduled an appointment for the selected Date and Time Slot',
-#                 'therapist': therapist,
-#             }
-#         else:
-#             # Check if the selected time slot is available
-#             is_time_slot_available = is_time_slot_available_for_doctor(therapist, date, time_slot)
-#             if is_time_slot_available:
-#                 form = AppointmentForm(request.POST)
-#                 form.instance.client = request.user
-#                 form.instance.therapist = therapist
-
-#                 if form.is_valid():
-#                     appointment = form.save()
-#                     return redirect('appointment_confirmation', appointment_id=appointment.id)
-#             else:
-#                 context = {
-#                     'error': 'The selected time slot is not available. Please choose a different time slot.',
-#                     'therapist': therapist,
-#                 }
-
-#     else:
-#         user = request.user
-#         initial_data = {
-#             'client': user,
-#             'client_name': user.first_name,
-#             'client_phone': user.phone,
-#             'therapist': therapist.id,
-#             'therapist_name': therapist.first_name,
-#         }
-#         appointment_form = AppointmentForm(initial=initial_data)
-#         user_form = CurrentUserForm(instance=user)
-#         context = {'appointment_form': appointment_form, 'user_form': user_form, 'therapist': therapist}
-
-#     return render(request, 'appointment.html', context)
-
-
-
-# def is_time_slot_available_for_doctor(therapist, date, time_slot):
-#     # Check if the time slot is available for the specific doctor and date
-#     existing_appointment = Appointments.objects.filter(therapist=therapist, date=date, time_slot=time_slot).first()
-#     return existing_appointment is None
-
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
@@ -408,6 +280,8 @@ from .models import CustomUser
 from datetime import time
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone  # Import timezone module
+from datetime import datetime, time, timedelta
+
 
 @login_required
 def appointment(request, t_id):
@@ -415,8 +289,16 @@ def appointment(request, t_id):
     context = None
 
     if request.method == 'POST':
-        date = request.POST.get('date')
-        time_slot = request.POST.get('time_slot')
+        date_str = request.POST.get('date')
+        time_str = request.POST.get('time_slot')
+
+        # Parse the date and time strings to datetime.date and datetime.time objects
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+        time_parts = time_str.split(':')
+        time_slot = time(int(time_parts[0]), int(time_parts[1]))
+
+        # Rest of your view code...
+
 
         # Check if the current user (client) has already booked an appointment for the same date and time slot
         existing_appointment = Appointments.objects.filter(client=request.user, date=date, time_slot=time_slot).first()

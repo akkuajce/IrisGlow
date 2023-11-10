@@ -81,18 +81,49 @@ def diabeticretinopathy(request):
 
 def doctorregister(request):
     return render(request,'doctorregister.html',)
+# def admindashboard(request):
+#     user=request.user
+#     if request.user.is_authenticated:
+#         if request.user.role == 4 and not request.path == reverse('admindashboard'):
+#             return redirect(reverse('admindashboard'))
+#         elif request.user.role == 2 and not request.path == reverse('doctor_dashboard'):
+#             return redirect(reverse('doctor_dashboard'))
+#         elif request.user.role == 1 and not request.path == reverse('index'):
+#             return redirect(reverse('index'))
+#     else:
+#          return redirect(reverse('index'))   
+#     return render(request,'admindashboard.html',)
+
+from django.shortcuts import render, redirect
+# from django.contrib.auth.models import User  # Assuming you are using the built-in User model
+from django.urls import reverse
+@login_required
 def admindashboard(request):
-    user=request.user
     if request.user.is_authenticated:
-        if request.user.role == 4 and not request.path == reverse('admindashboard'):
+        user = request.user
+        if user.role == 4 and not request.path == reverse('admindashboard'):
             return redirect(reverse('admindashboard'))
-        elif request.user.role == 2 and not request.path == reverse('doctor_dashboard'):
+        elif user.role == 2 and not request.path == reverse('doctor_dashboard'):
             return redirect(reverse('doctor_dashboard'))
-        elif request.user.role == 1 and not request.path == reverse('index'):
+        elif user.role == 1 and not request.path == reverse('index'):
             return redirect(reverse('index'))
+        else:
+            # Get the count of active users
+            active_user_count = User.objects.filter(is_active=True).count()
+            
+            # Get the count of deactivated users
+            deactivated_user_count = User.objects.filter(is_active=False).count()
+
+            # Pass counts to the template context
+            context = {
+                'active_user_count': active_user_count,
+                'deactivated_user_count': deactivated_user_count,
+            }
+
+            return render(request, 'admindashboard.html', context)
     else:
-         return redirect(reverse('index'))   
-    return render(request,'admindashboard.html',)
+        return redirect(reverse('index'))
+
 
 
 
