@@ -630,3 +630,28 @@ def addSpeciality(request):
         error_message = None
 
     return render(request, 'specialities.html', {'form': form, 'error_message': error_message})
+
+
+
+
+
+
+
+
+
+
+
+
+
+# views.py
+
+from django.shortcuts import render
+from DoctorApp.models import Appointments, Payment
+
+def appointment_list(request):
+    appointments = Appointments.objects.all()
+    return render(request, 'appointment_list.html', {'appointments': appointments})
+
+def payment_list(request):
+    payments = Payment.objects.all()
+    return render(request, 'payment_list.html', {'payments': payments})

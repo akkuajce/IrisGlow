@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-#from .models import UserProfile
-#from doctor.models import Therapist
+
 
 CustomUser = get_user_model()
 
@@ -85,154 +84,10 @@ class DoctorProfileForm(forms.ModelForm):
 
 
 
-# from django import forms
-# from .models import Appointment
-# from IrisGlowApp.models import CustomUser
-# from datetime import date, timedelta
-
-# class BootstrapTextInput(forms.TextInput):
-#     def init(self, *args, **kwargs):
-#         kwargs.setdefault("attrs", {})
-#         kwargs["attrs"]["class"] = "form-control form-control-lg bg-white"
-#         super().init(*args, **kwargs)
-
-# # Define a custom widget class with Bootstrap styling for select fields
-# class BootstrapSelect(forms.Select):
-#     def init(self, *args, **kwargs):
-#         kwargs.setdefault("attrs", {})
-#         kwargs["attrs"]["class"] = "form-control form-control-lg bg-white"
-#         super().init(*args, **kwargs)
-
-
-# class BootstrapDateInput(forms.DateInput):
-#     def init(self, *args, **kwargs):
-#         kwargs.setdefault("attrs", {})
-#         kwargs["attrs"]["class"] = "form-control form-control-lg datepicker"
-#         super().init(*args, **kwargs)
-# from django import forms
-# from datetime import date  # Import the date module from datetime
-# tomorrow = date.today() + timedelta(days=1)
-# class AppointmentForm(forms.ModelForm):
-#     date = forms.DateField(
-#         widget=forms.DateInput(
-#             attrs={
-#                 'placeholder': 'YYYY-MM-DD',
-#                 'id': 'date',
-#                 'name': 'date',
-#                 'class': 'form-control form-control-lg date-picker',
-#                 'type': 'date', 'min': tomorrow.strftime('%Y-%m-%d')
-#                 # 'min': date.today().strftime('%Y-%m-%d')  # Set the minimum date to today
-#             }
-#         )
-#     )
-#     def init(self, *args, **kwargs):
-#         therapist_leave_dates = kwargs.pop('therapist_leave_dates', [])
-#         super().init(*args, **kwargs)
-#         self.fields['date'].widget.attrs['data-therapist-leave-dates'] = ','.join(therapist_leave_dates)
-
-
-#     therapist_name = forms.CharField(
-#         max_length=100,  # Adjust the max length as needed
-#         required=False,  # Set to False to allow an empty field
-#         widget=forms.TextInput(attrs={'placeholder': 'Enter Therapist Name', 'id': '','class':'form-control form-control-lg bg-white','disabled':'disabled'}),
-#     )
-
-#     # def init(self, *args, **kwargs):
-#     #     super().init(*args, **kwargs)
-
-
-        
-
-#     class Meta:
-#         model = Appointment
-#         fields = [ 'therapist_name','date','time_slot']
-#         widgets = {
-#             'time_slot': BootstrapSelect(attrs={'placeholder': 'Select State', 'id': 'time_slot'}),
-#         }
-
-# class CurrentUserForm(forms.ModelForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ['first_name','email','phone']
-#         widgets = {
-#             'first_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your Name', 'id': 'first_name','disabled':'disabled'}),
-#             'email': BootstrapTextInput(attrs={'placeholder': 'Enter Your Email', 'id': 'email','disabled':'disabled'}),
-#             'phone': BootstrapTextInput(attrs={'placeholder': 'Enter Your Phone', 'id': 'phone'}),
-#         }
 
 
 
 
-
-# from django import forms
-# from .models import Appointments
-# from IrisGlowApp.models import CustomUser
-
-# class BootstrapTextInput(forms.TextInput):
-#     def init(self, *args, **kwargs):
-#         kwargs.setdefault("attrs", {})
-#         kwargs["attrs"]["class"] = "form-control form-control-lg bg-white"
-#         super().init(*args, **kwargs)
-
-# # Define a custom widget class with Bootstrap styling for select fields
-# class BootstrapSelect(forms.Select):
-#     def init(self, *args, **kwargs):
-#         kwargs.setdefault("attrs", {})
-#         kwargs["attrs"]["class"] = "form-control form-control-lg bg-white"
-#         super().init(*args, **kwargs)
-
-
-# class BootstrapDateInput(forms.DateInput):
-#     def init(self, *args, **kwargs):
-#         kwargs.setdefault("attrs", {})
-#         kwargs["attrs"]["class"] = "form-control form-control-lg datepicker"
-#         super().init(*args, **kwargs)
-# from django import forms
-# from datetime import date  # Import the date module from datetime
-
-# class AppointmentForm(forms.ModelForm):
-#     date = forms.DateField(
-#         widget=forms.DateInput(
-#             attrs={
-#                 'placeholder': 'YYYY-MM-DD',
-#                 'id': 'date',
-#                 'name': 'date',
-#                 'class': 'form-control form-control-lg',
-#                 'type': 'date',
-#                 'min': date.today().strftime('%Y-%m-%d')  # Set the minimum date to today
-#             }
-#         )
-#     )
-
-
-#     therapist_name = forms.CharField(
-#         max_length=100,  # Adjust the max length as needed
-#         required=False,  # Set to False to allow an empty field
-#         widget=forms.TextInput(attrs={'placeholder': 'Enter Therapist Name', 'id': '','class':'form-control form-control-lg bg-white','disabled':'disabled'}),
-#     )
-
-#     def init(self, *args, **kwargs):
-#         super().init(*args, **kwargs)
-
-
-        
-
-#     class Meta:
-#         model = Appointments
-#         fields = [ 'therapist_name','date','time_slot']
-#         widgets = {
-#             'time_slot': BootstrapSelect(attrs={'placeholder': 'Select State', 'id': 'time_slot'}),
-#         }
-
-# class CurrentUserForm(forms.ModelForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ['first_name','email','phone']
-#         widgets = {
-#             'first_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your Name', 'id': 'first_name','disabled':'disabled'}),
-#             'email': BootstrapTextInput(attrs={'placeholder': 'Enter Your Email', 'id': 'email','disabled':'disabled'}),
-#             'phone': BootstrapTextInput(attrs={'placeholder': 'Enter Your Phone', 'id': 'phone'}),
-#         }
 
 from django import forms
 from datetime import date
@@ -275,7 +130,7 @@ class AppointmentForm(forms.ModelForm):
     therapist_name = forms.CharField(
         max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Enter Therapist Name', 'id': '', 'class': 'form-control form-control-lg bg-white', 'disabled': 'disabled'}),
+        widget=forms.TextInput(attrs={'placeholder': 'Enter Doctor Name', 'id': '', 'class': 'form-control form-control-lg bg-white', 'disabled': 'disabled'}),
     )
 
     def __init__(self, *args, **kwargs):
@@ -296,4 +151,35 @@ class CurrentUserForm(forms.ModelForm):
             'first_name': BootstrapTextInput(attrs={'placeholder': 'Enter Your Name', 'id': 'first_name', 'disabled': 'disabled'}),
             'email': BootstrapTextInput(attrs={'placeholder': 'Enter Your Email', 'id': 'email', 'disabled': 'disabled'}),
             'phone': BootstrapTextInput(attrs={'placeholder': 'Enter Your Phone', 'id': 'phone'}),
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# forms.py
+from django import forms
+from .models import DoctorDayOff
+
+class DoctorDayOffForm(forms.ModelForm):
+    class Meta:
+        model = DoctorDayOff
+        fields = ['date']
+        widgets = {
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }

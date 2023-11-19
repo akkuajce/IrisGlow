@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from . import views
+from .views import appointment_list, payment_list
 # from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -47,6 +48,10 @@ urlpatterns = [
 
 
      path('addSpeciality/', views.addSpeciality, name='addSpeciality'),
+
+
+    path('appointment-list/', appointment_list, name='appointment-list'),
+    path('payment-list/', payment_list, name='payment-list'),
 
 
 

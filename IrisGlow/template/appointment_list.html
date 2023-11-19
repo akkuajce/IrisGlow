@@ -1,0 +1,9 @@
+<!-- appointment_list.html -->
+
+<h1>Appointment List</h1>
+
+<ul>
+    {% for appointment in appointments %}
+        <li>{{ appointment.client }} - {{ appointment.date }} - {{ appointment.time_slot }}</li>
+    {% endfor %}
+</ul>

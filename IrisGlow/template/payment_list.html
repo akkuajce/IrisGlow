@@ -1,0 +1,9 @@
+<!-- payment_list.html -->
+
+<h1>Payment List</h1>
+
+<ul>
+    {% for payment in payments %}
+        <li>{{ payment.user }} - {{ payment.amount }} - {{ payment.payment_status }}</li>
+    {% endfor %}
+</ul>

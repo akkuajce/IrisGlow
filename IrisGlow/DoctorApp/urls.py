@@ -3,6 +3,8 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
+
+
 urlpatterns = [
    
     path('add-doctor/',views.addDoctor,name='addDoctor'),
@@ -10,7 +12,7 @@ urlpatterns = [
     path('team/', views.doctor, name='team'),
     path('view-doctor/<int:user_id>/',views.viewdoctor,name='view-doctor'),
 
-    path('doctor_dashboard/', views.doctor_dashboard, name='doctor_dashboard'),
+    path('doctordashboard/', views.doctor_dashboard, name='doctordashboard'),
     
 
     # ... other URL patterns ...
@@ -38,6 +40,28 @@ urlpatterns = [
     path('doctor-list/', views.doctor_list, name='doctor-list'),
 
     path('search_doctor/', views.search_doctor, name='search_doctor'),
+
+
+
+    path('doctor-day-off/', views.doctor_day_off, name='doctor_day_off'),
+    path('doctor-day-off-confirmation/', views.doctor_day_off_confirmation, name='doctor_day_off_confirmation'),
+
+
+
+#payment
+path('payment/<int:appointment_id>/<str:t_fees>/', views.payment, name='payment'),
+path('paymenthandler/<int:appointment_id>/', views.paymenthandler, name='paymenthandler'),
+
+
+
+    
+
+
+
+
+
+
+    
 
 ]
 
