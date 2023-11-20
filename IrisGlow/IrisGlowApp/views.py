@@ -640,18 +640,29 @@ def addSpeciality(request):
 
 
 
+# appointment_list (admin panel)
 
-
-
-# views.py
-
+from datetime import date
 from django.shortcuts import render
-from DoctorApp.models import Appointments, Payment
+from DoctorApp.models import Appointments
 
 def appointment_list(request):
-    appointments = Appointments.objects.all()
-    return render(request, 'appointment_list.html', {'appointments': appointments})
+    # Filter appointments for the current date and future dates
+    appointments = Appointments.objects.filter(date__gte=date.today()).order_by('date', 'time_slot')
+
+    context = {'appointments': appointments}
+    return render(request, 'appointment_list.html', context)
+
+
+
+
+# payment_list (admin panel)
+
+from django.shortcuts import render
+from DoctorApp.models import Payment
 
 def payment_list(request):
     payments = Payment.objects.all()
-    return render(request, 'payment_list.html', {'payments': payments})
+    context = {'payments': payments}
+    return render(request, 'payment_list.html', context)
+
