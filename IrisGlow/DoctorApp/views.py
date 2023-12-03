@@ -478,7 +478,7 @@ def editdoctorprofile(request):
 
 
 
-# views.py
+# appointment views.py
 from .models import Appointments, DoctorDayOff
 from .forms import AppointmentForm, CurrentUserForm
 from .models import CustomUser
@@ -805,9 +805,6 @@ from django.http import HttpResponseBadRequest
 
 razorpay_client = razorpay.Client(
      auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
-
-
-
 
 
 

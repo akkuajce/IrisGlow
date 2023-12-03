@@ -129,10 +129,10 @@
 
   <!-- Navbar Start -->
   <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
-    <a href="index.html" class="navbar-brand p-0">
-        <h1 class="m-0 text-primary">
-            <img src="{% static 'img/img1.png' %}">
-          IrisGlow</h1>
+    <a href="index.html"  class="navbar-brand p-0">
+      <h1 class="m-0 text-primary">
+          <img src="{% static 'img/img1.png' %}">
+        IrisGlow</h1>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
@@ -144,15 +144,13 @@
             <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
                 <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                 {% comment %} <a href="{% url 'listtherapist' %}" class="nav-item nav-link">Find a Therapist</a> {% endcomment %}
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
-                    <div class="dropdown-menu m-0">
+                
                         {% comment %} <a href="{% url 'familytherapy' %}" class="dropdown-item">Family Therapy</a> {% endcomment %}
                         {% comment %} <a href="{% url 'search' %}" class="dropdown-item">Search</a>
                         <a href="appointment.html" class="dropdown-item">Appointment</a> {% endcomment %}
                     </div>
                 </div> 
-                <a href="{% url 'patient_appointment' %}" class="nav-item nav-link">Appointments</a>
+                <a href="{% url 'patient_appointment_history' %}"class="nav-item nav-link active">View Appointment History</a>
 
                 {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
                 <div class="nav-item dropdown">
@@ -264,7 +262,7 @@
                     </div>
                     <required><br>
                     <div class="d-flex justify-content-center w-100 align-items-center">
-                      <button class="btn btn-primary py-2 px-4 ms-3" type="submit">
+                      <button class="btn btn-primary py-2 px-4 ms-3" type="submit" id = "submit">
                         Update Password
                       </button>
                     </div>
@@ -347,7 +345,7 @@
 
               <div class="gap-3 d-md-flex justify-content-md-center text-center">
                 <!-- <button type="button" class="btn btn-danger btn-lg">Delete profile</button> -->
-                <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-primary btn-lg mb-5">
+                <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-primary btn-lg mb-5" id="edit">
                     Edit profile
                   </button></a>
               </div>

@@ -38,16 +38,7 @@
 </head>
 
 <body>
-    {% comment %} <!-- Topbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
-        <a href="index.html" class="navbar-brand p-0">
-            <h1 class="m-0 text-primary">
-                <img src="{% static 'img/img1.png' %}">
-              Admin</h1>
-              <br>
-              <h1 class="m-0 text-primary">DashBoard</h1>
-        </a>
-                <required><br> {% endcomment %}
+    
 
     
 
@@ -68,9 +59,7 @@
                         <a href="{% url 'admindashboard' %}" class="nav-item nav-link active">Home</a>
                         <a href="{% url 'admin:index' %}" class="nav-item nav-link ">DashBoard</a>
 
-                       {% comment %} <a href="{% url 'addDoctor' %}" class="nav-item nav-link ">Add Doctor</a>
-                       <a href="{% url 'userdata' %}" class="nav-item nav-link ">Users</a>  {% endcomment %}
-                        
+                      
                         <a href="" class="nav-item nav-link "><span>Welcome,{{user.first_name}}</span></a>
                         <a href="{% url 'logout' %}" class="nav-item nav-link ">Logout</a>
                     </div>
@@ -80,28 +69,14 @@
                     <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
 
 
-                        {% comment %} <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
-                        <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
-                        <a href="{% url 'listtherapist' %}" class="nav-item nav-link">Find a Therapist</a> {% endcomment %}
+                       
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
                             <div class="dropdown-menu m-0">
-                                {% comment %} <a href="{% url 'familytherapy' %}" class="dropdown-item">Family Therapy</a> {% endcomment %}
-                                {% comment %} <a href="{% url 'search' %}" class="dropdown-item">Search</a>
-                                <a href="appointment.html" class="dropdown-item">Appointment</a> {% endcomment %}
+                                
                             </div>
                         </div> 
-                        {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
-                        {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
-
-                    {% comment %} </div>
-
-                    <div class="d-flex">
-                        <a href="{% url 'login' %}" class="nav-item nav-link btn btn-success mx-2 text-dark">Login</a>
-
-                        <!-- Register button -->
-                        <a href="{% url 'register' %}" class="nav-item nav-link btn btn-success text-dark">Register</a>
-                    </div> {% endcomment %}
+                        
                     {% endif %}
                
                 </div>
@@ -156,10 +131,7 @@
     </style>
 </head>
 <body>
-    <!-- Your existing HTML code -->
-    {% comment %}
-    ... (your existing HTML code)
-    {% endcomment %}
+    
 
     <div class="container-fluid">
         <div class="row">
@@ -243,208 +215,3 @@
 
 
 
-
-
-{% comment %} {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% csrf_token %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Doctors</title>
-    <style>
-        /* Reset some default styles */
-        body, h1, h2, p, ul, li {
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Basic styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        main {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            margin-bottom: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        label, input, button {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        button {
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #555;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Admin Panel - Doctors</h1>
-     </header>
-    <main>
-        <section class="doctor-list">
-            <h2>Doctor List</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Specialization</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Doctor list items will be dynamically generated here -->
-                </tbody>
-            </table>
-        </section>
-        <section class="add-doctor">
-            <h2>Add Doctor</h2>
-            <form id="add-doctor-form">
-                <label for="first-name">First Name:</label>
-                <input type="text" id="first-name" name="first_name" required>
-                <label for="last-name">Last Name:</label>
-                <input type="text" id="last-name" name="last_name" required>
-                <label for="specialization">Specialization:</label>
-                <input type="text" id="specialization" name="specialization" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <label for="phone">Phone:</label>
-                <input type="text" id="phone" name="phone" required> 
-                <a href="admin/adddoctor.html" class="button">Add Doctor</a>
-
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 IrisGlow</p>
-    </footer>
-</body>
-</html> {% endcomment %}
-
-{% comment %} {% load static %}
-<!DOCTYPE html>
-<!DOCTYPE html>
-<html>
-<head>
-    
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #ffffff;
-            font-family: Arial, sans-serif;
-        }
-
-        .dashboard {
-            text-align: center;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            background-color: #ffffff;
-            width: 80%;
-            border-radius: 10px;
-        }
-
-        .dashboard h1 {
-            color: #0000ff;
-            margin-bottom: 20px;
-        }
-
-        .dashboard-button {
-            display: block;
-            width: 60%;
-            padding: 10px;
-            margin: 10px auto;
-            color: #ffffff;
-            background-color: #0000ff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .dashboard-button:hover {
-            background-color: #000099;
-        }
-
-        .logout-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px;
-            color: #ffffff;
-            background-color: #ff0000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .logout-button:hover {
-            background-color: #cc0000;
-        }
-    </style>
-</head>
-<body>
-    <button class="logout-button">Logout</button>
-    <div class="dashboard">
-        <h1>IrisGlow Admin Dashboard</h1>
-        <div class="button-container">
-            <button class="dashboard-button">Patient Management</button>
-            <button class="dashboard-button">Doctor Management</button>
-        </div>
-    </div>
-</body>
-</html> {% endcomment %}

@@ -1,4 +1,97 @@
+{% load static %}
 <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>IrisGlow</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Free HTML Templates" name="keywords" />
+    <meta content="Free HTML Templates" name="description" />
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/twentytwenty/twentytwenty.css' %}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+
+    <!-- Add these links to include Bootstrap CSS and JS files -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    <style>
+        .admin-class {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    
+
+    
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="m-0 text-primary">
+                <img src="{% static 'img/img1.png' %}">
+              IrisGlow Admin DashBoard</h1>
+        </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                {% if user.is_staff %}
+                <div class="collapse navbar-collapse ms-5 mr-5 justify-content-end" id="navbarCollapse">
+                    <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
+
+                        <a href="{% url 'admindashboard' %}" class="nav-item nav-link active">Home</a>
+                        <a href="{% url 'admin:index' %}" class="nav-item nav-link ">DashBoard</a>
+
+                       {% comment %} <a href="{% url 'addDoctor' %}" class="nav-item nav-link ">Add Doctor</a>
+                       <a href="{% url 'userdata' %}" class="nav-item nav-link ">Users</a>  {% endcomment %}
+                        
+                        <a href="" class="nav-item nav-link "><span>Welcome,{{user.first_name}}</span></a>
+                        <a href="{% url 'logout' %}" class="nav-item nav-link ">Logout</a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="collapse navbar-collapse ms-5 mr-5 justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
+
+
+                        
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
+                            <div class="dropdown-menu m-0">
+                               
+                            </div>
+                        </div> 
+                        
+                    {% endif %}
+               
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+ <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -14,24 +107,20 @@
     </head>
     <body>
         <div class="mt-5">
-            <h2 class="align-center text-dark">Add New Therapy</h2>
+            <h2 class="align-center text-dark"><center>Add New Speciality</center></h2> 
+            <br>
             <div class="container p-5 card ">
               {% if error_message %}
               <div><span style="color:red;">{{error_message}}</span><br/><br/></div>
               {% endif %}
               <form method="post" class=" mx-auto w-75" enctype="multipart/form-data">
                 <div id="therapyNameValidation" class="invalid-feedback text-center">
-                  Please enter a valid therapy name containing only letters
+                  Please enter a valid speciality name containing only letters
                 </div>
                 <div id="therapyDescriptionValidation" class="invalid-feedback text-center">
-                  Therapy description must contain at least 25 words.
+                  Speciality description must contain at least 25 words.
                 </div>
-                <div id="durationValidation" class="invalid-feedback text-center">
-                  Duration upto 20 weeks
-                </div>
-                <div id="feesValidation" class="invalid-feedback text-center">
-                  Please enter a valid positive numbers.
-                </div>
+               
                 
                 <div id="benefitsValidation" class="invalid-feedback">
                   Benefits must contain at least 25 words.
@@ -52,4 +141,7 @@
         
         <script src="" async defer></script>
     </body>
-</html>
+</html> 
+
+
+

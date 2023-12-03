@@ -70,6 +70,8 @@ def testimonial(request):
     return render(request,'testimonial.html',)
 def contact(request):
     return render(request,'contact.html',)
+def price(request):
+    return render(request,'price.html',)
 def service(request):
     return render(request,'service.html',)
 def cataract(request):
@@ -231,7 +233,6 @@ def login_view(request):
     if request.user.is_authenticated:
         user=request.user
        
-
         if user.role == CustomUser.ADMIN:
             messages.success(request, 'Login Success!!')
             return redirect(reverse('admindashboard'))
@@ -243,11 +244,9 @@ def login_view(request):
             return redirect(reverse('doctordashboard'))
         else:
             return redirect('/')
-      
-    
+          
     if request.method == 'POST':
-
-        
+       
         email = request.POST.get('email')
         password = request.POST.get('password')
         print(email,password)
@@ -665,4 +664,56 @@ def payment_list(request):
     payments = Payment.objects.all()
     context = {'payments': payments}
     return render(request, 'payment_list.html', context)
+
+
+
+
+
+
+
+# views.py
+from django.shortcuts import render
+from DoctorApp.models import Appointments
+
+def patient_appointment_history(request):
+    # Assuming the user is logged in and the user's appointments are related through a ForeignKey
+    appointments = Appointments.objects.filter(client=request.user)
+    return render(request, 'patients/patient_appointment_history.html', {'appointments': appointments})
+
+
+
+
+
+
+
+
+
+
+
+
+
+# doctor_list views.py
+from django.shortcuts import render
+from DoctorApp.models import Doctor
+
+def doctor_list(request):
+    doctors = Doctor.objects.all()
+    return render(request, 'doctor_list.html', {'doctors': doctors})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -35,7 +35,7 @@
 
 <body>
     <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    {% comment %} <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary m-1" role="status">
             <span class="sr-only">Loading...</span>
         </div>
@@ -45,7 +45,7 @@
         <div class="spinner-grow text-secondary m-1" role="status">
             <span class="sr-only">Loading...</span>
         </div>
-    </div>
+    </div> {% endcomment %}
     <!-- Spinner End -->
 
 
@@ -93,8 +93,8 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
-                        <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                        <a href="{% url 'team' %}" class="dropdown-item">Our Doctors</a>
+                        {% comment %} <a href="{% url 'eye_test' %}" class="dropdown-item">Pricing Plan</a> {% endcomment %}
+                        <a href="{% url 'team' %}" class="dropdown-item" id ="doctors">Our Doctors</a>
                         <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
                         {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
                     </div>
@@ -113,7 +113,7 @@
                 <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                 
             </div>
-            <a href="{% url 'profile' %}" class="nav-item nav-link active">My Profile</a>
+            <a href="{% url 'profile' %}" class="nav-item nav-link active" id="myprofile">My Profile</a>
                         
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="" class="nav-item nav-link">Welcome,{{user.first_name}}</a>
@@ -130,14 +130,14 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                 <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                 <a href="{% url 'team' %}" class="nav-item nav-link">Our Doctors</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
-                        <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                        <a href="{% url 'team' %}" class="dropdown-item">Our Doctors</a>
+                        {% comment %} <a href= "{% url 'eye_test' %}" class="dropdown-item">Pricing Plan</a> {% endcomment %}
+                        <a href="{% url 'team' %}" class="dropdown-item" id="doctors">Our Doctors</a>
                         <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
                         {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
                     </div>

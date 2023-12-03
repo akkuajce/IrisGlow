@@ -81,7 +81,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
                         <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                        <a href="{% url 'team' %}" class="dropdown-item">Our Doctors</a>
+                        <a href="{% url 'team' %}" class="dropdown-item" id="doctors">Our Doctors</a>
                         <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
                         {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
                     </div>
@@ -163,7 +163,7 @@
                 <div class="modal-body d-flex align-items-center justify-content-center">
                     <div class="input-group" style="max-width: 600px;">
                         <input type="text" class="form-control bg-transparent border-primary p-3" placeholder="Type search keyword">
-                        <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+                        <button class="btn btn-primary px-4"><i class="bi bi-search" id ="search"></i></button>
                     </div>
                 </div>
             </div>
@@ -187,7 +187,7 @@
             <form id="search-form">
                 <div class="input-group mb-3">
                     <input type="text" id="search-input" class="form-control" placeholder="Search by first name, last name, or speciality" />
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="submit" class="btn btn-primary" id="search">Search</button>
                 </div>
             </form>
             

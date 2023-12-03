@@ -1,7 +1,39 @@
-<!-- doctor_list.html -->
-<h1>List of Doctors</h1>
-<ul>
-    {% for doctor in doctors %}
-        <li>{{ therapist.first_name }} {{ therapist.last_name }}</li>
-    {% endfor %}
-</ul>
+<!-- admin_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Include your head content here (meta tags, stylesheets, etc.) -->
+</head>
+
+<body>
+
+    <div class="container">
+        
+        <!-- Display Doctor List -->
+        <h2>Doctor List</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Qualification</th>
+                    <th>Specialty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doctor in doctors %}
+                    <tr>
+                        <td>{{ doctor.first_name }}</td>
+                        <td>{{ doctor.qualification }}</td>
+                        <td>{{ doctor.specialty_name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include your scripts and other content here -->
+
+</body>
+
+</html>

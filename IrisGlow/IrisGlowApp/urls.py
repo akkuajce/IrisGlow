@@ -2,13 +2,18 @@ from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import appointment_list, payment_list
+from .views import appointment_list, doctor_list, payment_list
+
+
+
+
 # from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('',views.index,name='index'),
 
     path('about/', views.about, name='about'),
+    path('price/', views.price, name='price'),
     
     path('register/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
@@ -53,6 +58,22 @@ urlpatterns = [
     path('appointment-list/', appointment_list, name='appointment-list'),
     path('payment-list/', payment_list, name='payment-list'),
 
+
+
+    path('patient_appointment_history/', views.patient_appointment_history, name='patient_appointment_history'),
+
+
+    path('admin/', admin.site.urls),
+    path('doctor-list/', views.doctor_list, name='doctor_list'),
+
+
+
+    
+
+
+
+
+    
 
 
 
