@@ -39,7 +39,7 @@ from django.views.decorators.csrf import csrf_protect
 User = get_user_model()
 
 # Create your views here.
-
+@login_required
 @csrf_protect
 def index(request):
     user=request.user
@@ -62,6 +62,30 @@ def about(request):
 def doctor1(request):
     return render(request, 'teams/doctor1.html')
 
+
+
+
+
+
+def buyframes(request):
+    return render(request, 'buyframes.html')
+
+def eyeglasses(request):
+    return render(request, 'eyeglasses/eyeglasses.html')
+
+def sunglasses(request):
+    return render(request, 'sunglasses/sunglasses.html')
+
+def computerglasses(request):
+    return render(request, 'computerglasses/computerglasses.html')
+
+
+
+
+
+
+
+
 def doctordashboard(request):
     return render(request,'doctordashboard.html',)
 
@@ -70,8 +94,7 @@ def testimonial(request):
     return render(request,'testimonial.html',)
 def contact(request):
     return render(request,'contact.html',)
-def price(request):
-    return render(request,'price.html',)
+
 def service(request):
     return render(request,'service.html',)
 def cataract(request):
@@ -83,18 +106,7 @@ def diabeticretinopathy(request):
 
 def doctorregister(request):
     return render(request,'doctorregister.html',)
-# def admindashboard(request):
-#     user=request.user
-#     if request.user.is_authenticated:
-#         if request.user.role == 4 and not request.path == reverse('admindashboard'):
-#             return redirect(reverse('admindashboard'))
-#         elif request.user.role == 2 and not request.path == reverse('doctor_dashboard'):
-#             return redirect(reverse('doctor_dashboard'))
-#         elif request.user.role == 1 and not request.path == reverse('index'):
-#             return redirect(reverse('index'))
-#     else:
-#          return redirect(reverse('index'))   
-#     return render(request,'admindashboard.html',)
+
 
 from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User  # Assuming you are using the built-in User model
@@ -699,6 +711,9 @@ from DoctorApp.models import Doctor
 def doctor_list(request):
     doctors = Doctor.objects.all()
     return render(request, 'doctor_list.html', {'doctors': doctors})
+
+
+
 
 
 

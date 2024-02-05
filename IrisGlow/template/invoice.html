@@ -1,16 +1,16 @@
+<!-- invoice.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
+    <!-- Your CSS styles here -->
 </head>
 <body>
     <h1>Invoice</h1>
     <p>Payee: {{ payee }}</p>
-    <p>Amount: {{ pay_amt }}</p>
-    <p>Appointment Date: {{ ap_date }}</p>
-    <!-- Add more details as needed -->
+    <p>Amount: {{ appointment.amount }}</p>
+    <p>Payment Status: {{ payment.payment_status }}</p>
+    <p>Payment Date: {{ payment.timestamp }}</p>
 </body>
 </html>

@@ -1,0 +1,9 @@
+{% block content %}
+  <h2>Leave Approval</h2>
+  <p>Leave request for {{ leave_request.doctor.first_name }} on {{ leave_request.leave_date }}</p>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Approve</button>
+  </form>
+{% endblock %}

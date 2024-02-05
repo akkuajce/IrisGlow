@@ -200,6 +200,7 @@ SESSION_COOKIE_AGE = 3600  # Session duration in seconds (1 hour)
 #social app custom settings
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
+    
     # 'users.backends.EmailBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
      

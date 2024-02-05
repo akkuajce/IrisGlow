@@ -34,19 +34,7 @@
 </head>
 
 <body>
-    <!-- Spinner Start -->
-    {% comment %} <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary m-1" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-        <div class="spinner-grow text-dark m-1" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-        <div class="spinner-grow text-secondary m-1" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div> {% endcomment %}
-    <!-- Spinner End -->
+  
 
 
     <!-- Topbar Start -->
@@ -87,17 +75,19 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
+                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+                
+                <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+                <a href="{% url 'buyframes' %}" class="nav-item nav-link active">Buy Frames</a>
                 <a href="{% url 'team' %}" class="nav-item nav-link">Our Doctors</a>
-                <div class="nav-item dropdown">
+                {% comment %} <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu m-0">
+                    <div class="dropdown-menu m-0"> {% endcomment %}
                         {% comment %} <a href="{% url 'eye_test' %}" class="dropdown-item">Pricing Plan</a> {% endcomment %}
-                        <a href="{% url 'team' %}" class="dropdown-item" id ="doctors">Our Doctors</a>
-                        <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
+                        {% comment %} <a href="{% url 'team' %}" class="dropdown-item" id ="doctors">Our Doctors</a>
+                        <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a> {% endcomment %}
                         {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
-                    </div>
+                    {% comment %} </div> {% endcomment %}
                 </div>
 
                 <div class="nav-item dropdown">

@@ -74,17 +74,17 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                 <a href="about.html" class="nav-item nav-link">About</a>
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
-                <div class="nav-item dropdown">
+                {% comment %} <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
                         <a href="price.html" class="dropdown-item">Pricing Plan</a>
                         <a href="{% url 'team' %}" class="dropdown-item" id="doctors">Our Doctors</a>
                         <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
-                        {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
-                    </div>
+                        
+                    </div> {% endcomment %}
                 </div>
 
                 <div class="nav-item dropdown">
@@ -117,7 +117,7 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                 <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
                 <div class="nav-item dropdown">
