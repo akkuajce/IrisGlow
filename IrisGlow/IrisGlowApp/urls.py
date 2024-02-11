@@ -74,6 +74,22 @@ urlpatterns = [
 
 
 
+
+
+    path('add_spects/', views.add_spects, name='add_spects'),
+    path('success_page/', views.success_page, name='success_page'),
+
+    # Assuming you have a URL for Spects Dashboard named 'spects_dashboard'
+    path('spects_dashboard/', views.spects_dashboard, name='spects_dashboard'),
+
+
+
+
+    
+
+
+
+
     
 
 

@@ -49,6 +49,8 @@ def index(request):
             return redirect(reverse('admindashboard'))
         elif request.user.role == 2 and not request.path == reverse('doctordashboard'):
             return redirect(reverse('doctordashboard'))
+        elif request.user.role == 3 and not request.path == reverse('spects_dashboard'):
+            return redirect(reverse('spects_dashboard'))
         elif request.user.role == 1 and not request.path == reverse('index'):
             return redirect(reverse('index'))
         
@@ -119,6 +121,8 @@ def admindashboard(request):
             return redirect(reverse('admindashboard'))
         elif user.role == 2 and not request.path == reverse('doctor_dashboard'):
             return redirect(reverse('doctor_dashboard'))
+        elif user.role == 3 and not request.path == reverse('spects_dashboard'):
+            return redirect(reverse('spects_dashboard'))
         elif user.role == 1 and not request.path == reverse('index'):
             return redirect(reverse('index'))
         else:
@@ -143,101 +147,6 @@ def admindashboard(request):
 
 
 
-# def password_reset_complete(request):
-#     return render(request,'password_reset_complete.html',)
-# def password_reset_confirm(request):
-#     return render(request,'password_reset_confirm.html',)
-# def password_reset_done(request):
-#     return render(request,'password_reset_done.html',)
-# def password_reset_email(request):
-#     return render(request,'password_reset_email.html',)
-# def password_reset_form(request):
-#     return render(request,'password_reset_form.html',)
-
-
-
-
-# def login(request):
-#     return render(request,'login.html',)
-# def register(request):
-#     return render(request,'register.html',)
-
-
-
-#login & Registration
-# def userlogin(request):
-#     if request.method == 'POST':
-#         email = request.POST.get('email')
-#         password = request.POST.get('password')
-#         print(email)  # Print the email for debugging
-#         print(password)  # Print the password for debugging
-
-#         if email and password:
-#             user = authenticate(request, email=email, password=password)
-#             print("Authenticated user:", user)  # Print the user for debugging
-#             if user is not None:
-#                 auth_login(request, user)
-#                 print("User authenticated:", user.email, user.role)
-#                 if request.user.role == CustomUser.CLIENT:
-#                     print("user is client")
-#                     return redirect('http://127.0.0.1:8000/')
-#                 elif request.user.role == CustomUser.THERAPIST:
-#                     print("user is therapist")
-#                     return redirect(reverse('therapist'))
-#                 elif request.user.role == CustomUser.ADMIN:
-#                     print("user is admin")                   
-#                     return redirect(reverse('adminindex'))
-#                 else:
-#                     print("user is normal")
-#                     return redirect('http://127.0.0.1:8000/')
-
-#             else:
-#                 error_message = "Invalid login credentials."
-#                 return render(request, 'login.html', {'error_message': error_message})
-#         else:
-#             error_message = "Please fill out all fields."
-#             return render(request, 'login.html', {'error_message': error_message})
-
-#     return render(request, 'login.html')
-
-# @user_not_authenticated
-# def register(request):
-#     if request.method == 'POST':
-#         first_name = request.POST.get('first_name', None)
-#         last_name = request.POST.get('last_name', None)
-#         email = request.POST.get('email', None)
-#         phone = request.POST.get('phone', None)
-#         password = request.POST.get('pass', None)
-#         confirm_password = request.POST.get('cpass', None)
-#         role = User.CLIENT
-
-#         if first_name and last_name and email and phone and password and role:
-#             if User.objects.filter(email=email).exists():
-#                 error_message = "Email is already registered."
-#                 return render(request, 'register2.html', {'error_message': error_message})
-            
-#             elif password!=confirm_password:
-#                 error_message = "Password's Don't Match, Enter correct Password"
-#                 return render(request, 'register2.html', {'error_message': error_message})
-
-            
-#             else:
-#             #     else:
-#                 user = User(first_name =first_name,last_name=last_name, email=email, phone=phone,role=role)
-#                 user.set_password(password)  # Set the password securely
-#                 user.is_active=False
-#                 user.save()
-#                 user_profile = UserProfile(user=user)
-#                 user_profile.save()
-#                 # activateEmail(request, user, email)
-#                 return redirect('login')  
-            
-#     return render(request, 'register2.html')
-
-
-# login
-# @csrf_protect
-
 
 
 def login_view(request):
@@ -251,6 +160,9 @@ def login_view(request):
         elif user.role == CustomUser.PATIENT:
             messages.warning(request, 'Login Success!!')    
             return redirect(reverse('index'))
+        elif user.role == CustomUser.SPECTS:
+            messages.warning(request, 'Login Success!!')    
+            return redirect(reverse('spects_dashboard'))
         elif user.role == CustomUser.DOCTOR:
             messages.success(request, 'Login Success!!')
             return redirect(reverse('doctordashboard'))
@@ -275,6 +187,8 @@ def login_view(request):
                     return redirect(reverse('admindashboard'))
                 elif user.role == CustomUser.PATIENT: 
                     return redirect(reverse('index'))
+                elif user.role == CustomUser.SPECTS: 
+                    return redirect(reverse('spects_dashboard'))
                 elif user.role == CustomUser.DOCTOR:
                     return redirect(reverse('doctordashboard'))
                 else:
@@ -338,50 +252,7 @@ def register(request):
 
     return render(request, 'register.html')
 
-# Doctor Registration
-# def doctorregister(request):
-#     if request.method == 'POST':
-#         first_name = request.POST.get('first_name', None)
-#         last_name = request.POST.get('last_name', None)
-#         username = request.POST.get('username', None)
-#         email = request.POST.get('email', None)
-#         phone = request.POST.get('phone', None)
-#         password = request.POST.get('password', None)
-#         confirmPassword = request.POST.get('confirmPassword', None)
-#         user_type = CustomUser.DOCTOR
 
-#         if username and first_name and last_name and email and phone and password and user_type:
-
-#             if User.objects.filter(username=username).exists():
-#                 return HttpResponseRedirect(reverse('register') + '?alert=username_is_already_registered')
-
-#             elif User.objects.filter(email=email).exists():
-#                 return HttpResponseRedirect(reverse('register') + '?alert=email_is_already_registered')
-
-#             elif User.objects.filter(phone_no=phone).exists():
-#                 return HttpResponseRedirect(reverse('register') + '?alert=phone_no_is_already_registered')
-            
-#             elif password != confirmPassword: 
-#                 return HttpResponseRedirect(reverse('register') + '?alert=passwords_do_not_match')
-                
-
-#             else:
-#                 user = User(username=username, first_name=first_name, last_name=last_name, email=email, phone_no=phone,user_type=user_type)
-#                 user.set_password(password)  # Set the password securely
-#                 user.save()
-
-#                 user_profile = UserProfile(user=user)
-#                 user_profile.save()
-#                 return HttpResponseRedirect(reverse('login') + '?alert=registered')
-
-#     return render(request, 'doctorregister.html')
-
-
-
-
-    # users = UserProfile.objects.all()  # Fetch all user profiles from the database
-    # context = {'users': users}
-    # return render(request, 'userdata.html', context)
 
 
 
@@ -718,14 +589,108 @@ def doctor_list(request):
 
 
 
+# views.py 09/02 Add Spects
+
+# from django.shortcuts import render, redirect
+# from django.contrib.auth.decorators import login_required
+# from .forms import SpectsUserForm
+# from django.core.mail import send_mail
+# from django.template.loader import render_to_string
+# from django.utils.html import strip_tags
+
+# @login_required(login_url='login')  # Ensure that only logged-in admins can access this view
+# def add_spects(request):
+#     if request.method == 'POST':
+#         form = SpectsUserForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.role = CustomUser.SPECTS
+#             user.save()
+
+#             # Send email to the Spects
+#             subject = 'Welcome to YourApp!'
+#             message = render_to_string('spects_welcome_email.html', {'user': user})
+#             plain_message = strip_tags(message)
+#             from_email = 'irisgloweyecare@gmail.com'  # Update with your email
+#             to_email = [user.email]
+#             send_mail(subject, plain_message, from_email, to_email, html_message=message)
+
+#             # You can add additional logic or redirection here
+#             return redirect('success_page')  # Update with the appropriate URL
+#     else:
+#         form = SpectsUserForm()
+
+#     return render(request, 'admin/add_spects.html', {'form': form})
+
+
+
+@csrf_protect
+def add_spects(request):
+    
+     
+
+    if request.method == 'POST':
+        
+        first_name = request.POST.get('first_name', None)
+        last_name = request.POST.get('last_name', None)
+        
+        email = request.POST.get('email', None)
+        phone = request.POST.get('phone', None)
+        password = request.POST.get('password', None)
+        confirmPassword = request.POST.get('confirmPassword', None)
+        role = CustomUser.SPECTS
+
+        if  first_name and last_name and email and phone and password and role:
+
+
+            if User.objects.filter(email=email).exists():
+                return HttpResponseRedirect(reverse('register') + '?alert=email_is_already_registered')
+
+            elif User.objects.filter(phone=phone).exists():
+                return HttpResponseRedirect(reverse('register') + '?alert=phone_no_is_already_registered')
+            
+            elif password != confirmPassword: 
+                return HttpResponseRedirect(reverse('register') + '?alert=passwords_do_not_match')
+                
+
+            else:
+                user = User(first_name=first_name, last_name=last_name, email=email, phone=phone, role=role)
+                user.set_password(password)  # Set the password securely
+                user.save()
+
+                user_profile = UserProfile(user=user)
+                user_profile.save()
+                return HttpResponseRedirect(reverse('login') + '?alert=registered')
+
+    return render(request, 'admin/add_spects.html')
+
+
+
+
+from django.shortcuts import render
+
+def success_page(request):
+    return render(request, 'success_page.html')  # Replace with your actual template
 
 
 
 
 
+# Spects dashboard
+# Assuming you have a URL for Spects Dashboard named 'spects_dashboard'
+from django.contrib.auth.decorators import login_required
 
-
-
+@login_required
+def spects_dashboard(request):
+    if request.user.is_authenticated:
+        user = request.user
+        if user.role == 3 and not request.path == reverse('spects_dashboard'):
+            return redirect(reverse('spects_dashboard'))
+        else:
+            # Your Spects dashboard logic here
+            return render(request, 'spects_dashboard.html')
+    else:
+        return redirect(reverse('index'))
 
 
 

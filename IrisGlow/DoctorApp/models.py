@@ -75,33 +75,6 @@ class Appointments(models.Model):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # models.py
 from django.db import models
 from IrisGlowApp.models import CustomUser

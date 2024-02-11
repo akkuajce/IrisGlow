@@ -1,0 +1,17 @@
+<!-- templates/registration/spects_welcome_email.html -->
+
+{% autoescape off %}
+Hi {{ user.first_name }},
+
+Welcome to IrisGlow! You have been added as a Spects.
+
+Your login credentials are as follows:
+Email: {{ user.email }}
+Password: {{ user.password }}
+
+To log in and access IrisGlow, please visit our website:
+<a href="http://127.0.0.1:8000/">YourApp</a>
+
+Thank you,
+IrisGlow Admin
+{% endautoescape %}

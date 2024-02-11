@@ -141,3 +141,57 @@ class SpecialityForm(forms.ModelForm):
     class Meta:
         model = Specialities
         fields = ['speciality_name','symptoms', 'diagnosis','treatments']
+
+
+
+
+
+ # forms.py Add Spects 09/02
+
+from django import forms
+from .models import CustomUser
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
+class SpectsUserForm(forms.ModelForm):
+    confirm_password = forms.CharField(widget=forms.PasswordInput(), label='Confirm Password')
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'phone', 'password', 'confirm_password']
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if CustomUser.objects.filter(email=email).exists():
+            raise ValidationError(_('Email already exists.'))
+        return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if not phone.isdigit() or len(phone) != 10 or len(set(phone)) == 1:
+            raise ValidationError(_('Invalid phone number.'))
+        return phone
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        # Add your custom password validation logic here
+        if not any(char.isdigit() for char in password):
+            raise ValidationError(_('Password must contain at least one digit.'))
+        if not any(char.isupper() for char in password):
+            raise ValidationError(_('Password must contain at least one uppercase letter.'))
+        # Add more password validations as needed
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        # Check if password and confirm_password match
+        if password and confirm_password and password != confirm_password:
+            self.add_error('confirm_password', _('Passwords do not match.'))
+
+        return cleaned_data

@@ -1,0 +1,18 @@
+<!-- cancel_appointment_page.html -->
+
+
+{% block content %}
+  <h2>Cancel Appointment</h2>
+  <p>You are about to cancel the following appointment:</p>
+
+  <p>Date: {{ appointment.date }}</p>
+  <p>Therapist: {{ appointment.therapist.first_name }} {{ appointment.therapist.last_name }}</p>
+  <p>Time Slot: {{ appointment.get_time_slot_display }}</p>
+  <p>Status: {{ appointment.status }}</p>
+
+  <form method="post" action="{% url 'cancel_appointment_page' appointment.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Confirm Cancellation</button>
+  </form>
+{% endblock %}

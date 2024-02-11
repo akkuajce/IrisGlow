@@ -433,24 +433,7 @@ def appointment_confirmation(request, appointment_id):
 
 
 
-#view appointments
 
-# from django.shortcuts import render
-# from .models import Appointments
-
-# def view_appointments(request):
-#     # Assuming you have a way to identify the currently logged-in doctor
-#     doctor = request.user  # Replace this with your own logic to get the doctor
-
-#     # Fetch the doctor's appointments
-#     appointments = Appointments.objects.filter(therapist=doctor)
-
-#     context = {
-#         'doctor': doctor,
-#         'appointments': appointments,
-#     }
-
-#     return render(request, 'doctor/view_appointments.html', context)
 
 def view_appointments(request):
     doctor = request.user
@@ -475,21 +458,6 @@ def view_appointments(request):
     return render(request, 'doctor/view_appointments.html', context)
 
 
-#06/11/afternoon
-
-# from django.shortcuts import render
-# from django.shortcuts import render, redirect
-# from .models import CustomUser, Appointments  # Import your models
-# from .forms import AppointmentForm, CurrentUserForm  # Import your forms
-
-
-# def appointment_confirmation(request, appointment_id):
-#     # Retrieve the appointment details using the appointment_id
-#     appointment = get_object_or_404(Appointments, id=appointment_id)
-#     context = {
-#         'appointment': appointment,
-#     }
-#     return render(request, 'appointment_confirmation.html', context)
 
 
 
@@ -506,38 +474,6 @@ def doctor_list(request):
 
 
 
-
-#doctor search
-
-# from django.db.models import Q
-# from django.http import JsonResponse
-# from .models import Doctor
-
-# def search_doctor(request):
-#     query = request.GET.get('query')
-
-#     # Use Q objects to filter doctors based on first name, last name, or speciality name
-#     doctors = Doctor.objects.filter(
-#         Q(user__first_name__icontains=query) | 
-#         Q(user__last_name__icontains=query) |
-#         Q(speciality_name__speciality_name__icontains=query)
-#     )
-
-#     # Create a list of dictionaries containing doctor information
-#     doctors_data = [
-#         {
-#             'id': doctor.user.id,
-#             'first_name': doctor.user.first_name,
-#             'last_name': doctor.user.last_name,
-#             'speciality_name': doctor.speciality_name.speciality_name,
-#             'profile_picture': doctor.user.userprofile.profile_picture.url,
-#             'qualification': doctor.qualification,
-#             'experience': doctor.experience,
-#         }
-#         for doctor in doctors
-#     ]
-
-#     return JsonResponse({'doctors': doctors_data})
 
 
 from django.db.models import Q

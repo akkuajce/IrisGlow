@@ -171,7 +171,7 @@
 
     <div class="card">
         <h1>Appointment History</h1>
-        <table>
+        {% comment %} <table>
             <thead>
                 <tr>
                     <th>Date</th>
@@ -190,7 +190,40 @@
                     </tr>
                 {% endfor %}
             </tbody>
-        </table>
+        </table> {% endcomment %}
+
+
+        <!-- patient_appointment_history.html -->
+<table>
+    <thead>
+        <tr>
+            <!-- ... existing headers ... -->
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.therapist.first_name }} {{ appointment.therapist.last_name }}</td>
+                        <td>{{ appointment.get_time_slot_display }}</td>
+                        <td>{{ appointment.status }}</td>
+                <!-- ... existing cells ... -->
+                <td>
+                    {% if not appointment.cancelled %}
+                        <form method="post" action="{% url 'cancel_appointment' appointment.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Cancel</button>
+                        </form>
+                    {% else %}
+                        <p>Cancelled</p>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
     </div>
 </body>
 </html>

@@ -8,3 +8,6 @@ admin.site.register(Appointments)
 admin.site.register(DoctorDayOff)
 admin.site.register(Payment)
 
+
+
+

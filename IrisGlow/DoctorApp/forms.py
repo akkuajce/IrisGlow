@@ -183,3 +183,9 @@ class DoctorDayOffForm(forms.ModelForm):
         widgets = {
             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
+
+
+
+
+
+
