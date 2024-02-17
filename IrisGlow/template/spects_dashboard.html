@@ -28,6 +28,54 @@
         .spects-class {
             max-width: 100%;
         }
+        .navbar {
+            margin-bottom: 0; /* Remove default margin */
+        }
+        .navbar-collapse {
+            flex-basis: 100%; /* Make the navbar collapse to full width */
+        }
+        .content {
+            padding: 20px;
+        }
+        .add-product-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .add-product-link {
+            display: block;
+            margin-top: 10px;
+            font-size: 18px;
+            color: #007bff;
+        }
+        .content {
+            text-align: center; /* Align content in the center */
+        }
+        
+        .action-box {
+            border: 1px solid #ddd; /* Add a border to the boxes */
+            padding: 20px; /* Add some padding */
+            margin: 10px; /* Add margin to separate the boxes */
+            display: inline-block; /* Display boxes side by side */
+            text-align: left; /* Align text to the left within the box */
+            width: 200px; /* Set a fixed width for better alignment */
+        }
+        
+        .action-link {
+            display: block;
+            margin-top: 10px; /* Add some space between the heading and the link */
+            text-decoration: none;
+            background-color: #3498db;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        
+        .action-link:hover {
+            background-color: #2980b9;
+        }
+        
     </style>
 </head>
 
@@ -45,26 +93,30 @@
             <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
                 <!-- Add links specific to the Spects Dashboard -->
                 <a href="#" class="nav-item nav-link active">Dashboard</a>
-                {% comment %} <a href="#" class="nav-item nav-link">Appointments</a> {% endcomment %}
-                {% comment %} <a href="#" class="nav-item nav-link">Patients</a> {% endcomment %}
-                {% comment %} <a href="#" class="nav-item nav-link">Reports</a> {% endcomment %}
+              
                 <a href="#" class="nav-item nav-link"><span>Welcome, {{ user.first_name }}</span></a>
                 <a href="{% url 'logout' %}" class="nav-item nav-link ">Logout</a>
             </div>
         </div>
     </nav>
+    <!-- Navbar End -->
 
     <!-- Content specific to Spects Dashboard -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 spects-class">
-                <!-- Add your Spects dashboard content here -->
-                <h2>Welcome to the Spects Dashboard, {{ user.first_name }}!</h2>
-                {% comment %} <p>Explore the available functionalities for Spects.</p> {% endcomment %}
-            </div>
+    <div class="content">
+        <h2>Welcome to the Spects Dashboard, {{ user.first_name }}!</h2>
+        <!-- Add your Spects dashboard content here -->
+    
+        <div class="action-box add-product-box">
+            <h3>Add a New Product</h3>
+            <a href="{% url 'add_product' %}" class="action-link">Add Product</a>
+        </div>
+    
+        <div class="action-box view-frame-box">
+            <h3>View Product</h3>
+            <a href="{% url 'frame_list' %}" class="action-link">View Frames</a>
         </div>
     </div>
-
+    
     <!-- JavaScript Libraries -->
     <!-- Include your JavaScript libraries here -->
 

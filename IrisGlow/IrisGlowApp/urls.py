@@ -3,6 +3,7 @@ from django.urls import include, path
 from django.contrib.auth import views as auth_views
 from . import views
 from .views import appointment_list, doctor_list, payment_list
+from .views import frame_list, frame_detail, edit_frame, delete_frame
 
 
 
@@ -81,6 +82,15 @@ urlpatterns = [
 
     # Assuming you have a URL for Spects Dashboard named 'spects_dashboard'
     path('spects_dashboard/', views.spects_dashboard, name='spects_dashboard'),
+
+
+    path('add_product/', views.add_product, name='add_product'),
+
+
+    path('frame-list/', frame_list, name='frame_list'),
+    path('frame-detail/<int:frame_id>/', frame_detail, name='frame_detail'),
+    path('edit-frame/<int:frame_id>/', edit_frame, name='edit_frame'),
+    path('delete-frame/<int:frame_id>/', delete_frame, name='delete_frame'),
 
 
 

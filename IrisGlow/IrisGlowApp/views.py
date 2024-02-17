@@ -696,4 +696,99 @@ def spects_dashboard(request):
 
 
 
+# views.py
+from django.shortcuts import render, redirect
+from .forms import FrameForm
+from .models import Frame
+
+def add_product(request):
+    if request.method == 'POST':
+        form = FrameForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('spects_dashboard')  # Change 'dashboard' to your actual dashboard URL
+    else:
+        form = FrameForm()
+
+    return render(request, 'spects/add_product.html', {'form': form})
+
+
+
+
+
+
+
+
+
+# # views.py
+# from django.shortcuts import render, get_object_or_404, redirect
+# from .models import Frame
+# from .forms import FrameForm
+
+# def frame_list(request):
+#     frames = Frame.objects.all()
+#     return render(request, 'frame_list.html', {'frames': frames})
+
+# def frame_detail(request, frame_id):
+#     frame = get_object_or_404(Frame, frame_id=frame_id)
+#     return render(request, 'frame_detail.html', {'frame': frame})
+
+# def edit_frame(request, frame_id):
+#     frame = get_object_or_404(Frame, frame_id=frame_id)
+
+#     if request.method == 'POST':
+#         form = FrameForm(request.POST, instance=frame)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('frame_list')
+#     else:
+#         form = FrameForm(instance=frame)
+
+#     return render(request, 'edit_frame.html', {'form': form, 'frame': frame})
+
+# def delete_frame(request, frame_id):
+#     frame = get_object_or_404(Frame, frame_id=frame_id)
+
+#     if request.method == 'POST':
+#         frame.delete()
+#         return redirect('frame_list')
+
+#     return render(request, 'delete_frame.html', {'frame': frame})
+
+# views.py
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Frame
+from .forms import FrameForm
+
+def frame_list(request):
+    frames = Frame.objects.all()
+    print(frames)  # Add this line to print frames in the console
+    return render(request, 'frame_list.html', {'frames': frames})
+
+
+def frame_detail(request, frame_id):
+    frame = get_object_or_404(Frame, frame_id=frame_id)
+    return render(request, 'frame_detail.html', {'frame': frame})
+
+def edit_frame(request, frame_id):
+    frame = get_object_or_404(Frame, frame_id=frame_id)
+
+    if request.method == 'POST':
+        form = FrameForm(request.POST, request.FILES, instance=frame)
+        if form.is_valid():
+            form.save()
+            return redirect('frame_list')
+    else:
+        form = FrameForm(instance=frame)
+
+    return render(request, 'frame_edit.html', {'form': form, 'frame': frame})
+
+def delete_frame(request, frame_id):
+    frame = get_object_or_404(Frame, frame_id=frame_id)
+
+    if request.method == 'POST':
+        frame.delete()
+        return redirect('frame_list')
+
+    return render(request, 'frame_delete.html', {'frame': frame})
 

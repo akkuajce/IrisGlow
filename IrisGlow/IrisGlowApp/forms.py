@@ -195,3 +195,75 @@ class SpectsUserForm(forms.ModelForm):
             self.add_error('confirm_password', _('Passwords do not match.'))
 
         return cleaned_data
+
+
+
+
+
+# # forms.py
+# from django import forms
+# from .models import Frame
+
+# class FrameForm(forms.ModelForm):
+#     class Meta:
+#         model = Frame
+#         fields = ['frame_id', 'name', 'brand_name', 'category', 'sub_category', 'product_description', 'material_description', 'gender', 'price', 'stock_quantity', 'production_date', 'weight', 'color', 'size', 'frame_material', 'frame_style', 'temple_length', 'bridge_size', 'lens_width', 'thumbnail', 'image_2', 'image_3', 'image_4', 'image_5']
+
+# forms.py
+
+from django import forms
+from .models import Frame
+
+class FrameForm(forms.ModelForm):
+    class Meta:
+        model = Frame
+        fields = ['name', 'brand_name', 'category', 'product_description', 'material_description', 'gender', 'price', 'stock_quantity', 'production_date',  'color', 'size', 'frame_material', 'frame_style', 'temple_length', 'bridge_size', 'lens_width', 'thumbnail', 'image_2', 'image_3', 'image_4', 'image_5']
+
+
+    
+
+
+
+from django import forms
+from .models import Frame
+from datetime import date
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class FrameForm(forms.ModelForm):
+    class Meta:
+        model = Frame
+        exclude = ['frame_id']
+        widgets = {
+            'production_date': DateInput(attrs={'max': str(date.today())}),
+        }
+
+    # def clean_temple_length(self):
+    #     temple_length = self.cleaned_data['temple_length']
+    #     self.validate_numeric_field(temple_length, 'Temple Length', 5, 2, 140, 155)
+    #     return temple_length
+
+    # def clean_bridge_size(self):
+    #     bridge_size = self.cleaned_data['bridge_size']
+    #     self.validate_numeric_field(bridge_size, 'Bridge Size', 5, 2, 15, 25)
+    #     return bridge_size
+
+    # def clean_lens_width(self):
+    #     lens_width = self.cleaned_data['lens_width']
+    #     self.validate_numeric_field(lens_width, 'Lens Width', 5, 2, 45, 58)
+    #     return lens_width
+
+    # def validate_numeric_field(self, value, field_name, max_digits, max_decimal_places, min_value, max_value):
+    #     if value is not None:
+    #         value_str = str(value)
+    #         if '.' in value_str:
+    #             integer_part, decimal_part = value_str.split('.')
+    #             if len(integer_part) > max_digits or len(decimal_part) > max_decimal_places:
+    #                 raise forms.ValidationError(f"{field_name} should have up to {max_digits} digits before the decimal point and up to {max_decimal_places} digits after the decimal point.")
+    #         elif len(value_str) > max_digits:
+    #             raise forms.ValidationError(f"{field_name} should not have more than {max_digits} digits.")
+            
+    #         # Check the range constraint
+    #         if not (min_value <= value <= max_value):
+    #             raise forms.ValidationError(f"{field_name} should be between {min_value} and {max_value}.")
