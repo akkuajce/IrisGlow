@@ -89,8 +89,8 @@ urlpatterns = [
 
     path('frame-list/', frame_list, name='frame_list'),
     path('frame-detail/<int:frame_id>/', frame_detail, name='frame_detail'),
-    path('edit-frame/<int:frame_id>/', edit_frame, name='edit_frame'),
-    path('delete-frame/<int:frame_id>/', delete_frame, name='delete_frame'),
+    path('frames/<int:frame_id>/edit/', edit_frame, name='edit_frame'),
+    path('frames/<int:frame_id>/delete/', delete_frame, name='delete_frame'),
 
 
 

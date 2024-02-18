@@ -50,6 +50,32 @@
             font-size: 18px;
             color: #007bff;
         }
+
+        
+        .filter-section {
+          border: 1px solid #ccc;
+          padding: 15px;
+          margin-bottom: 20px;
+          background-color: #f8f9fa;
+      }
+
+      .filter-section label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+
+      .filter-section select {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 3px;
+      }
+
+      .filter-btn {
+          margin-top: 10px;
+          width: 100%;
+      }
     </style>
 </head>
 
@@ -77,27 +103,61 @@
 
     {% block content %}
     <div class="container mt-5">
-      <h2 class="mb-4">Frame List</h2>
-      <div class="row">
-        {% for frame in frames %}
-          <div class="col-md-4 mb-4">
-            <div class="frame-box p-3 border rounded">
-              <h4 class="mb-3">{{ frame.name }}</h4>
-              <p>Brand: {{ frame.brand_name }}</p>
-              <p>Category: {{ frame.category }}</p>
-              
-              <div class="btn-group" role="group" aria-label="Frame Actions">
-                <a href="{% url 'frame_detail' frame_id=frame.frame_id %}" class="btn btn-primary">View</a>
-                <a href="{% url 'edit_frame' frame_id=frame.frame_id %}" class="btn btn-warning">Edit</a>
-                <a href="{% url 'delete_frame' frame_id=frame.frame_id %}" class="btn btn-danger">Delete</a>
-              </div>
+        <div class="row">
+            <!-- Filter Section -->
+            <div class="col-md-3">
+                <div class="filter-section">
+                    <h4>Filter Frames</h4>
+                    <form method="get">
+                        <!-- Add filters for each field -->
+                        <label for="brandFilter">Brand:</label>
+                        <select name="brand" id="brandFilter">
+                            <option value="">All Brands</option>
+                            {% for brand, brand_name in Frame.BRAND_CHOICES %}
+                                <option value="{{ brand }}">{{ brand_name }}</option>
+                            {% endfor %}
+                        </select>
+
+                        
+
+                        <label for="genderFilter">Gender:</label>
+                        <select name="gender" id="genderFilter">
+                            <option value="">All Genders</option>
+                            {% for gender, gender_name in Frame.GENDER_CHOICES %}
+                                <option value="{{ gender }}">{{ gender_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-primary filter-btn">Apply Filters</button>
+                    </form>
+                </div>
             </div>
-          </div>
-        {% endfor %}
-      </div>
+
+            <!-- Frame List Section -->
+            <div class="col-md-9">
+                <h2 class="mb-4">Frame List</h2>
+                <div class="row">
+                    {% for frame in frames %}
+                        <div class="col-md-4 mb-4">
+                            <div class="frame-box p-3 border rounded">
+                                <h4 class="mb-3">{{ frame.name }}</h4>
+                                <p>Brand: {{ frame.brand_name }}</p>
+                                <p>Category: {{ frame.category }}</p>
+
+                                <div class="btn-group" role="group" aria-label="Frame Actions">
+                                    <a href="{% url 'frame_detail' frame_id=frame.frame_id %}" class="btn btn-primary">View</a>
+                                    <a href="{% url 'edit_frame' frame_id=frame.frame_id %}" class="btn btn-warning">Edit</a>
+                                    <a href="{% url 'delete_frame' frame_id=frame.frame_id %}" class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
+    {% endblock %}
   
-    <!-- Additional CSS for styling -->
+    {% comment %} <!-- Additional CSS for styling -->
     <style>
       .frame-box {
         background-color: #007bff;
@@ -108,5 +168,5 @@
         color: #fff;
       }
     </style>
-  {% endblock %}
+  {% endblock %} {% endcomment %}
   
