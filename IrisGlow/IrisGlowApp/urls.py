@@ -14,6 +14,14 @@ urlpatterns = [
     path('',views.index,name='index'),
 
     path('about/', views.about, name='about'),
+
+
+
+    path('spects_change_password/', views.spects_change_password, name='spects_change_password'),
+    path('spects_edit_profile/', views.spects_edit_profile, name='spects_edit_profile'),
+    path('spects/view-profile/', views.spects_view_profile, name='spects_view_profile'),
+
+
     
     path('buyframes/', views.buyframes, name='buyframes'),
     path('eyeglasses/', views.eyeglasses, name='eyeglasses'),

@@ -679,6 +679,8 @@ def success_page(request):
 # Spects dashboard
 # Assuming you have a URL for Spects Dashboard named 'spects_dashboard'
 from django.contrib.auth.decorators import login_required
+from .forms import UserProfileForm
+
 
 @login_required
 def spects_dashboard(request):
@@ -687,6 +689,13 @@ def spects_dashboard(request):
         if user.role == 3 and not request.path == reverse('spects_dashboard'):
             return redirect(reverse('spects_dashboard'))
         else:
+
+            form = UserProfileForm(instance=user.userprofile)
+
+            if request.method == 'POST':
+                form = UserProfileForm(request.POST, request.FILES, instance=user.userprofile)
+                if form.is_valid():
+                    form.save()
             # Your Spects dashboard logic here
             return render(request, 'spects_dashboard.html')
     else:
@@ -833,3 +842,70 @@ def frame_details_common_view(request, frame_id):
     }
 
     return render(request, 'frame_details_common.html', context)
+
+
+
+
+
+
+
+
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
+@login_required
+def spects_edit_profile(request):
+    if request.method == 'POST':
+        user_form = CustomUserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('spects_edit_profile')
+        else:
+            messages.error(request, 'Error updating your profile. Please correct the errors below.')
+    else:
+        user_form = CustomUserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.userprofile)
+
+    return render(request, 'spects_edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+
+
+from django.contrib.auth.forms import PasswordChangeForm
+
+@login_required
+def spects_change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important to update the session
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('spects_change_password')
+        else:
+            messages.error(request, 'Error updating your password. Please correct the errors below.')
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'spects_change_password.html', {'form': form})
+
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def spects_view_profile(request):
+    if request.user.is_authenticated:
+        user = request.user
+        return render(request, 'spects_view_profile.html', {'user': user})
+    else:
+        # Redirect or handle the case when the user is not authenticated
+        return redirect(reverse('spects_dashboard'))  # Assuming you have an 'index' URL pattern
+

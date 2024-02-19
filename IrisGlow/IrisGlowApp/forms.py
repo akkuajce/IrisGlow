@@ -87,6 +87,19 @@ class UserProfileForm(forms.ModelForm):
         }
 
 
+    def clean_dob(self):
+        dob = self.cleaned_data.get('dob')
+
+        if dob:
+            today = date.today()
+            age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+
+            if age < 20:
+                raise ValidationError(_('You must be at least 20 years old to register.'))
+
+        return dob
+
+
 
 
 
@@ -267,3 +280,7 @@ class FrameForm(forms.ModelForm):
     #         # Check the range constraint
     #         if not (min_value <= value <= max_value):
     #             raise forms.ValidationError(f"{field_name} should be between {min_value} and {max_value}.")
+
+
+
+

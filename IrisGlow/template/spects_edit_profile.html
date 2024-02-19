@@ -92,50 +92,71 @@
         <div class="collapse navbar-collapse ms-5 mr-5 justify-content-end" id="navbarCollapse">
             <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
                 <!-- Add links specific to the Spects Dashboard -->
-                <a href="#" class="nav-item nav-link active">Dashboard</a>
+                <a href="{% url "spects_dashboard" %}" class="nav-item nav-link active">Home</a>
               
                 <a href="#" class="nav-item nav-link"><span>Welcome, {{ user.first_name }}</span></a>
-                <a href="{% url "spects_view_profile" %}" class="nav-item nav-link"><span>View Profile</span></a>
                 <a href="{% url 'logout' %}" class="nav-item nav-link ">Logout</a>
             </div>
         </div>
     </nav>
     <!-- Navbar End -->
 
-    <!-- Content specific to Spects Dashboard -->
-    <div class="content">
-        <h2>Welcome to the Spects Dashboard, {{ user.first_name }}!</h2>
-        <!-- Add your Spects dashboard content here -->
+
+ 
+
+
+    {% block content %}
+        <div class="content">
+            <div class="card p-4">
+                <h2 class="text-primary">Edit Your Profile, {{ user.first_name }}!</h2>
+        
+                <form method="post" enctype="multipart/form-data" action="{% url 'spects_edit_profile' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        {{ user_form.first_name.label_tag }}
+                        {{ user_form.first_name }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ user_form.last_name.label_tag }}
+                        {{ user_form.last_name }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ user_form.email.label_tag }}
+                        {{ user_form.email }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ user_form.phone.label_tag }}
+                        {{ user_form.phone }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ profile_form.profile_picture.label_tag }}
+                        {{ profile_form.profile_picture }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ profile_form.gender.label_tag }}
+                        {{ profile_form.gender }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ profile_form.dob.label_tag }}
+                        {{ profile_form.dob }}
+                        {% if profile_form.errors.dob %}
+                            <div class="text-danger">{{ profile_form.errors.dob.0 }}</div>
+                        {% endif %}
+                    </div>
+                
+                    
+                    
+        
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    {% endblock %}
     
-        <div class="action-box add-product-box">
-            <h3>Add a New Product</h3>
-            <a href="{% url 'add_product' %}" class="action-link">Add Product</a>
-        </div>
-    
-        <div class="action-box view-frame-box">
-            <h3>View Product</h3>
-            <a href="{% url 'frame_list' %}" class="action-link">View Frames</a>
-        </div>
-
-        <!-- Edit Profile Link -->
-        <div class="action-box edit-profile-box">
-        <h3>Edit Your Profile</h3>
-        <a href="{% url 'spects_edit_profile' %}" class="action-link">Edit Profile</a>
-        </div>
-
-    <!-- Change Password Link -->
-        <div class="action-box change-password-box">
-        <h3>Change Password</h3>
-        <a href="{% url 'spects_change_password' %}" class="action-link">Change Password</a>
-        </div>
-
-    </div>
-    
-    <!-- JavaScript Libraries -->
-    <!-- Include your JavaScript libraries here -->
-
-    <!-- Template Javascript -->
-    <script src="{% static 'js/main.js' %}"></script>
-</body>
-
-</html>
