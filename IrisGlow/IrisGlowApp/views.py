@@ -792,3 +792,44 @@ def delete_frame(request, frame_id):
 
     return render(request, 'frame_delete.html', {'frame': frame})
 
+
+
+
+
+
+
+# views.py
+from django.shortcuts import render
+from .models import Frame
+
+def eyeglasses(request):
+    eyeglasses_frames = Frame.objects.filter(category='Eyeglasses')
+    return render(request, 'eyeglasses/eyeglasses.html', {'eyeglasses_frames': eyeglasses_frames})
+
+def sunglasses(request):
+    sunglasses_frames = Frame.objects.filter(category='Sunglasses')
+    return render(request, 'sunglasses/sunglasses.html', {'sunglasses_frames': sunglasses_frames})
+
+def computerglasses(request):
+    computerglasses_frames = Frame.objects.filter(category='Computer Glasses')
+    return render(request, 'computerglasses/computerglasses.html', {'computerglasses_frames': computerglasses_frames})
+
+
+
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Frame
+
+def frame_details_common_view(request, frame_id):
+    frame = get_object_or_404(Frame, pk=frame_id)
+    # You may need to retrieve random_frames for cross-promotion
+    # Adjust the context as needed
+    random_frames = Frame.objects.exclude(pk=frame_id).order_by('?')[:4]
+
+    context = {
+        'frame': frame,
+        'random_frames': random_frames,
+    }
+
+    return render(request, 'frame_details_common.html', context)

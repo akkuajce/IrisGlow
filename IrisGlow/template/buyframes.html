@@ -120,7 +120,8 @@
 
     </nav>
 
-    <!-- Carousel Start -->
+   
+<!-- Carousel Start -->
 <div id="home-carousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <!-- First Slide (Replace with your image) -->
@@ -147,45 +148,3 @@
     </button>
 </div>
 <!-- Carousel End -->
-
-
-
-<!-- Shop by Category Section Start -->
-<section class="shop-by-category">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{% static 'img/frames/mensort2.jpg' %}" class="card-img-top" alt="Men's Category">
-                    <div class="card-body">
-                        <h5 class="card-title">Men</h5>
-                        <p class="card-text">Explore our stylish eyeglasses for men.</p>
-                        {% comment %} <a href="{% url 'men_category' %}" class="btn btn-primary">Shop Now</a> {% endcomment %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{% static 'img/frames/womensort1.jpg' %}" class="card-img-top" alt="Women's Category">
-                    <div class="card-body">
-                        <h5 class="card-title">Women</h5>
-                        <p class="card-text">Discover our trendy eyeglasses for women.</p>
-                        {% comment %} <a href="{% url 'women_category' %}" class="btn btn-primary">Shop Now</a> {% endcomment %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{% static 'img/frames/kidssort1.jpg' %}" class="card-img-top" alt="Kids' Category">
-                    <div class="card-body">
-                        <h5 class="card-title">Kids</h5>
-                        <p class="card-text">Find adorable eyeglasses for your little ones.</p>
-                        {% comment %} <a href="{% url 'kids_category' %}" class="btn btn-primary">Shop Now</a> {% endcomment %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Shop by Category Section End -->
-

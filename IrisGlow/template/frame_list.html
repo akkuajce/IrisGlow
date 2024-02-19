@@ -100,22 +100,26 @@
         <h2 class="mb-4">Frame List</h2>
         <div class="row">
             {% for frame in frames %}
-            <div class="col-md-4 mb-4 frame-item" data-category="{{ frame.category }}">
-                <div class="frame-box p-3 border rounded">
-                    <h4 class="mb-3">{{ frame.name }}</h4>
-                    <p>Brand: {{ frame.brand_name }}</p>
-                    <p>Category: {{ frame.category }}</p>
+                <div class="col-md-4 mb-4 frame-item" data-category="{{ frame.category }}">
+                    <div class="frame-box p-3 border rounded">
+                        <!-- Add thumbnail image here -->
+                        <img src="{{ frame.thumbnail.url }}" alt="{{ frame.name }}" class="img-fluid mb-2">
     
-                    <div class="btn-group" role="group" aria-label="Frame Actions">
-                        <a href="{% url 'frame_detail' frame_id=frame.frame_id %}" class="btn btn-primary">View</a>
-                        <a href="{% url 'edit_frame' frame_id=frame.frame_id %}" class="btn btn-warning">Edit</a>
-                        <a href="{% url 'delete_frame' frame_id=frame.frame_id %}" class="btn btn-danger">Delete</a>
+                        <h4 class="mb-3">{{ frame.name }}</h4>
+                        <p>Brand: {{ frame.brand_name }}</p>
+                        <p>Category: {{ frame.category }}</p>
+    
+                        <div class="btn-group" role="group" aria-label="Frame Actions">
+                            <a href="{% url 'frame_detail' frame_id=frame.frame_id %}" class="btn btn-primary">View</a>
+                            <a href="{% url 'edit_frame' frame_id=frame.frame_id %}" class="btn btn-warning">Edit</a>
+                            <a href="{% url 'delete_frame' frame_id=frame.frame_id %}" class="btn btn-danger">Delete</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>
+    
     
     <!-- Additional CSS for styling -->
     <style>

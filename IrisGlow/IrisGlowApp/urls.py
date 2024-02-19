@@ -93,6 +93,10 @@ urlpatterns = [
     path('frames/<int:frame_id>/delete/', delete_frame, name='delete_frame'),
 
 
+    path('frame-details-common/<int:frame_id>/', views.frame_details_common_view, name='frame_details_common'),
+
+
+
 
 
     
