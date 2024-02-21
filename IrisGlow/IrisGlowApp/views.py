@@ -69,8 +69,20 @@ def doctor1(request):
 
 
 
+from django.shortcuts import render
+from .models import Frame
+from random import sample
+
 def buyframes(request):
-    return render(request, 'buyframes.html')
+    # Fetch a random selection of frames (adjust the number as needed)
+    random_frames = sample(list(Frame.objects.all()), 4)
+    
+    context = {
+        'random_frames': random_frames,
+    }
+    
+    return render(request, 'buyframes.html', context)
+
 
 def eyeglasses(request):
     return render(request, 'eyeglasses/eyeglasses.html')
@@ -908,4 +920,12 @@ def spects_view_profile(request):
     else:
         # Redirect or handle the case when the user is not authenticated
         return redirect(reverse('spects_dashboard'))  # Assuming you have an 'index' URL pattern
+
+
+
+
+
+
+
+
 
