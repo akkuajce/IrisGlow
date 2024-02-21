@@ -96,10 +96,10 @@ https://www.tooplate.com/view/2114-pixie
         {% comment %} <a href="{% url 'profile' %}" class="nav-item nav-link active" id="myprofile">My Profile</a> {% endcomment %}
                     
         <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
-        <a href="" class="nav-item nav-link">Welcome,{{user.first_name}}</a>
-        {% comment %} <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a> {% endcomment %}
+        {% comment %} <a href="" class="nav-item nav-link">Welcome,{{user.first_name}}</a> {% endcomment %}
+        <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a>
 
-        <a href="{% url 'logout' %}?next=/index.html">Logout</a>
+        {% comment %} <a href="{% url 'logout' %}?next=/index.html">Logout</a> {% endcomment %}
 
         
     </div>
@@ -144,6 +144,7 @@ https://www.tooplate.com/view/2114-pixie
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-4">
+          <br>
             <!-- Image slider -->
             <div id="imageSlider" class="carousel slide mb-4" data-ride="carousel">
                 <div class="carousel-inner">
@@ -218,6 +219,7 @@ https://www.tooplate.com/view/2114-pixie
         </div>
         
         <div class="col-md-8">
+          <br>
             <!-- Frame details -->
             <h2 style="color: orange;">{{ frame.brand_name }} - {{ frame.name }}</h2>
             <h6><b>Category: {{ frame.category }}</b></h6>

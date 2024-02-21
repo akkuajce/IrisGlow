@@ -1,3 +1,4 @@
+from random import sample
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import login as auth_login ,authenticate, logout
 from django.shortcuts import render, redirect
@@ -69,19 +70,27 @@ def doctor1(request):
 
 
 
-from django.shortcuts import render
-from .models import Frame
-from random import sample
+from django.db.models import Q
 
 def buyframes(request):
-    # Fetch a random selection of frames (adjust the number as needed)
-    random_frames = sample(list(Frame.objects.all()), 4)
-    
+    query = request.GET.get('q')
+
+    if query:
+        # Perform search based on frame name or brand name
+        frames = Frame.objects.filter(Q(name__icontains=query) | Q(brand_name__icontains=query))
+    else:
+        # Fetch a random selection of frames (adjust the number as needed)
+        frames = sample(list(Frame.objects.all()), 4)
+
     context = {
-        'random_frames': random_frames,
+        'random_frames': frames,
+        'query': query,
     }
-    
+
     return render(request, 'buyframes.html', context)
+
+
+
 
 
 def eyeglasses(request):

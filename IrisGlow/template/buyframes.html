@@ -119,6 +119,9 @@
 
     </nav>
 
+    
+    
+    
    
 <!-- Carousel Start -->
 <div id="home-carousel" class="carousel slide" data-bs-ride="carousel">
@@ -151,8 +154,42 @@
 
 
 {% block content %}
+
+
+
 <div class="random-frames mt-4">
     <h3>Explore More Frames</h3>
+
+    <!-- Search Form -->
+    <form method="get" action="{% url 'buyframes' %}" class="mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search frames..." name="q" value="{{ query }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
+    <!-- Display Search Results or Random Frames -->
+    <div class="row">
+        {% if query %}
+            {% for frame in random_frames %}
+                <!-- Display search results as needed -->
+            {% endfor %}
+        {% else %}
+            {% for random_frame in random_frames %}
+                <!-- Display random frames as before -->
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="random-frames mt-4">
+    {% comment %} <h3>Explore More Frames</h3> {% endcomment %}
     <div class="row">
         {% for random_frame in random_frames %}
             <div class="col-md-3 mb-4">
