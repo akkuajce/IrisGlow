@@ -204,13 +204,33 @@ https://www.tooplate.com/view/2114-pixie
 
             <!-- frame_details_common.html -->
 
-          <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' frame_id=frame.frame_id %}">
-            {% csrf_token %}
-            <!-- You can include additional fields here if needed -->
-            <input type="hidden" name="quantity" value="1"> <!-- Example: Quantity as 1 for simplicity -->
+            <div class="d-flex align-items-center mb-3">
+              <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' frame_id=frame.frame_id %}">
+                  {% csrf_token %}
+                  <!-- You can include additional fields here if needed -->
+                  <input type="hidden" name="quantity" value="1"> <!-- Example: Quantity as 1 for simplicity -->
+                  <button type="submit" class="btn btn-primary">Add to Cart</button>
+              </form>
+          &nbsp
+              {% if user.is_authenticated %}
+                  <form method="POST" action="{% if frame_in_wishlist %}{% url 'remove_from_wishlist' frame_id=frame.frame_id %}{% else %}{% url 'add_to_wishlist' frame_id=frame.frame_id %}{% endif %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary">
+                          {% if frame_in_wishlist %}
+                              Remove from Wishlist
+                          {% else %}
+                              <i class="bi bi-heart"></i> Add to Wishlist
+                          {% endif %}
+                      </button>
+                  </form>
+              {% endif %}
+          </div>
+          
+          
 
-            <button type="submit" class="btn btn-primary">Add to cart </button>
-          </form>
+          
+
+          
 
         <br>
             <!-- Additional details in a box -->

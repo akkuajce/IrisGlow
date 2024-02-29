@@ -1048,7 +1048,7 @@ def spects_view_profile(request):
 
 
 
-# views.py
+# views.py Cart 28/02
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Frame, UserCart
 
@@ -1091,3 +1091,41 @@ def remove_from_cart(request, frame_id):
         user_cart_item.save()
 
     return redirect('cart')
+
+
+
+
+
+
+# views.py wishlist 29/02
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Wishlist, Frame
+
+def view_wishlist(request):
+    user = request.user
+    wishlist_items = Wishlist.objects.filter(user=user)
+    
+    return render(request, 'wishlist.html', {'wishlist_items': wishlist_items})
+
+def add_to_wishlist(request, frame_id):
+    frame = get_object_or_404(Frame, pk=frame_id)
+    user = request.user
+
+    # Check if the frame is already in the wishlist
+    if not Wishlist.objects.filter(user=user, frame=frame).exists():
+        Wishlist.objects.create(user=user, frame=frame)
+
+    return redirect('wishlist')
+
+def remove_from_wishlist(request, frame_id):
+    frame = get_object_or_404(Frame, pk=frame_id)
+    user = request.user
+
+    # Check if the frame is in the wishlist and remove it
+    wishlist_item = Wishlist.objects.filter(user=user, frame=frame)
+    if wishlist_item.exists():
+        wishlist_item.delete()
+
+    return redirect('wishlist')
+

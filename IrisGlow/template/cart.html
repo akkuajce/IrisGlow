@@ -123,9 +123,12 @@
 
 
     </nav>
-    <div class="container mt-4">
-        <h1 class="mb-4">Your Shopping Cart</h1>
 
+
+
+    {% comment %} <div class="container mt-4">
+        <h1 class="mb-4">Your Shopping Cart</h1>
+    
         {% if cart_items %}
             {% for item in cart_items %}
                 <div class="card mb-3">
@@ -136,22 +139,118 @@
                         <div class="col-md-9">
                             <div class="card-body">
                                 <h5 class="card-title">{{ item.frame.name }}</h5>
-                                <p class="card-text">Quantity: {{ item.quantity }} - Price: Rs {{ item.total_price }}</p>
+    
+                                <!-- Quantity input field with increment and decrement buttons -->
+                                <div class="quantity-control">
+                                    <button class="btn btn-sm btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, -1)">-</button>
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" onchange="updateQuantity({{ item.id }}, this.value)">
+                                    <button class="btn btn-sm btn-outline-secondary" type="button" onclick="updateQuantity({{ item.id }}, 1)">+</button>
+                                </div>
+    
+                                <p class="card-text">Total Price: Rs <span id="total-price-{{ item.id }}">{{ item.total_price }}</span></p>
+    
                                 <a href="{% url 'remove_from_cart' frame_id=item.frame_id %}" class="btn btn-danger">Remove</a>
                             </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
+    
             <div class="card mt-4">
                 <div class="card-body">
                     <h5 class="card-title">Total Price</h5>
-                    <p class="card-text"> Rs {{ total_price }}</p>
+                    <p class="card-text"> Rs <span id="cart-total-price">{{ total_price }}</span></p>
                 </div>
             </div>
         {% else %}
             <p>Your cart is empty.</p>
         {% endif %}
     </div>
-</body>
-</html>
+    
+    <script>
+        function updateQuantity(cartItemId, quantityChange) {
+            const updateUrl = `/update_cart_quantity/${cartItemId}/${quantityChange}/`;
+    
+            fetch(updateUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const quantityInput = document.querySelector(`input[name="quantity"][value="${cartItemId}"]`);
+                    quantityInput.value = data.newQuantity;
+    
+                    const totalPriceElement = document.getElementById(`total-price-${cartItemId}`);
+                    totalPriceElement.textContent = data.newTotalPrice;
+    
+                    const cartTotalPriceElement = document.getElementById('cart-total-price');
+                    cartTotalPriceElement.textContent = data.newCartTotalPrice;
+                } else {
+                    console.error('Failed to update quantity');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+     {% endcomment %}
+
+
+
+     <!-- cart.html -->
+<div class="container mt-4">
+    <h1 class="mb-4">Your Shopping Cart</h1>
+
+    {% if cart_items %}
+        {% for item in cart_items %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-3">
+                        <img src="{{ item.frame.thumbnail.url }}" alt="{{ item.frame.name }}" class="img-fluid">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.frame.name }}</h5>
+                            <form method="POST" action="{% url 'update_cart' frame_id=item.frame_id %}">
+                                {% csrf_token %}
+                                <label for="quantity">Quantity:</label>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="decrementQuantity(this)">-</button>
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="incrementQuantity(this)">+</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                            <p class="card-text">Price: Rs {{ item.total_price }}</p>
+                            <a href="{% url 'remove_from_cart' frame_id=item.frame_id %}" class="btn btn-danger">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">Total Price</h5>
+                <p class="card-text"> Rs {{ total_price }}</p>
+            </div>
+        </div>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+
+<script>
+    function incrementQuantity(button) {
+        var inputElement = button.parentElement.querySelector('input[name="quantity"]');
+        inputElement.value = parseInt(inputElement.value) + 1;
+    }
+
+    function decrementQuantity(button) {
+        var inputElement = button.parentElement.querySelector('input[name="quantity"]');
+        var newValue = parseInt(inputElement.value) - 1;
+        inputElement.value = (newValue >= 1) ? newValue : 1;
+    }
+</script>

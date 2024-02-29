@@ -344,10 +344,6 @@ class UserCart(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
 
-
-
-    
-
     def total_price(self):
         return self.frame.price * self.quantity
 
@@ -357,3 +353,17 @@ class UserCart(models.Model):
 
 
 
+# models.py
+
+from django.db import models
+from django.contrib.auth import get_user_model
+from .models import Frame
+
+User = get_user_model()
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.username}'s Wishlist"
