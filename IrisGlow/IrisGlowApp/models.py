@@ -175,56 +175,7 @@ class UserProfile(models.Model):
 
 
 
-# models.py
-# from django.db import models
 
-# class Frame(models.Model):
-#     GENDER_CHOICES = (
-#         ('M', 'Male'),
-#         ('F', 'Female'),
-#         ('K', 'Kids'),
-#     )
-
-#     CATEGORY_CHOICES = (
-#         ('Eyeglasses', 'Eyeglasses'),
-#         ('Sunglasses', 'Sunglasses'),
-#         ('Computer Glasses', 'Computer Glasses'),
-#     )
-
-#     name = models.CharField(max_length=255)
-#     brand_name = models.CharField(max_length=255)
-#     category = models.CharField(max_length=255, choices=CATEGORY_CHOICES)
-#     sub_category = models.CharField(max_length=255)
-#     product_description = models.TextField()
-#     material_description = models.TextField()
-#     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-#     price = models.DecimalField(max_digits=10, decimal_places=2)
-#     stock_quantity = models.PositiveIntegerField(default=0)
-#     production_date = models.DateField(null=True, blank=True)
-#     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-#     color = models.CharField(max_length=50, null=True, blank=True)
-#     size = models.CharField(max_length=10, null=True, blank=True)
-
-#     # Eye Frames Specific Fields
-#     frame_material = models.CharField(max_length=20, null=True, blank=True)
-#     frame_style = models.CharField(max_length=20, null=True, blank=True)
-#     temple_length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-#     bridge_size = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-#     lens_width = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-
-#     # Thumbnail and Additional Images
-#     thumbnail = models.ImageField(upload_to='frame_thumbnails/')
-#     image_2 = models.ImageField(upload_to='frame_images/', blank=True, null=True)
-#     image_3 = models.ImageField(upload_to='frame_images/', blank=True, null=True)
-#     image_4 = models.ImageField(upload_to='frame_images/', blank=True, null=True)
-#     image_5 = models.ImageField(upload_to='frame_images/', blank=True, null=True)
-
-#     # Adding frame_id as a primary key
-#     frame_id = models.IntegerField(primary_key=True, unique=True)
-
-
-#     def __str__(self):
-#         return self.name
 from django.db import models
 from django.core.validators import MaxValueValidator
 
@@ -356,9 +307,9 @@ class Frame(models.Model):
     # Eye Frames Specific Fields
     frame_material = models.CharField(max_length=20, choices=FRAME_MATERIAL_CHOICES, null=True, blank=True)
     frame_style = models.CharField(max_length=20, choices=FRAME_STYLE_CHOICES, null=True, blank=True)
-    temple_length = models.CharField(max_length=3, choices=TEMPLE_LENGTH_CHOICES)
-    bridge_size = models.CharField(max_length=5, choices=BRIDGE_SIZE_CHOICES)
-    lens_width = models.CharField(max_length=5, choices=LENS_WIDTH_CHOICES)
+    temple_length = models.CharField(max_length=3, choices=TEMPLE_LENGTH_CHOICES, default='15')
+    bridge_size = models.CharField(max_length=5, choices=BRIDGE_SIZE_CHOICES, default='15')
+    lens_width = models.CharField(max_length=5, choices=LENS_WIDTH_CHOICES, default='15')
 
     # Thumbnail and Additional Images
     thumbnail = models.ImageField(upload_to='frame_thumbnails/')
@@ -377,6 +328,31 @@ class Frame(models.Model):
 
 
 
+
+
+from django.db import models
+from .models import Frame
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class UserCart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+
+
+
+    
+
+    def total_price(self):
+        return self.frame.price * self.quantity
+
+    def __str__(self):
+        return f"{self.frame.name} - {self.quantity}"
 
 
 

@@ -181,7 +181,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'irisgloweyecare@gmail.com'
-EMAIL_HOST_PASSWORD = 'qejkpsttnoutecde' 
+EMAIL_HOST_PASSWORD = 'wjtdhstojnmeozvw' 
 DEFAULT_FROM_EMAIL = 'irisgloweyecare@gmail.com'
 PASSWORD_RESET_TIMEOUT = 14400
 

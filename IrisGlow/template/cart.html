@@ -1,5 +1,8 @@
-
+<!-- cart.html -->
 {% load static %}
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,7 +101,7 @@
             <a href="" class="nav-item nav-link">Welcome,{{user.first_name}}</a>
             {% comment %} <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a> {% endcomment %}
 
-            <a href="{% url 'logout' %}?next=/index.html">Logout</a>
+            <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a>
 
             
         </div>
@@ -120,27 +123,35 @@
 
 
     </nav>
+    <div class="container mt-4">
+        <h1 class="mb-4">Your Shopping Cart</h1>
 
-
-{% block content %}
-
-    <div class="container mt-5">
-        <h2>{{ glass_type }}</h2>
-        <div class="row">
-            {% for frame in computerglasses_frames %}
-                <div class="col-md-4 mb-4">
-                    <div class="frame-box p-3 border rounded">
-                        <img src="{{ frame.thumbnail.url }}" alt="{{ frame.name }}" class="img-fluid mb-2">
-                        <h4 class="mb-3">{{ frame.name }}</h4>
-                        <p>Brand: {{ frame.brand_name }}</p>
-                        <p>Category: {{ frame.category }}</p>
-                        <!-- Add other details as needed -->
-    
-                        <a href="{% url 'frame_details_common' frame_id=frame.frame_id %}" class="btn btn-primary">View Details</a>
+        {% if cart_items %}
+            {% for item in cart_items %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img src="{{ item.frame.thumbnail.url }}" alt="{{ item.frame.name }}" class="img-fluid">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.frame.name }}</h5>
+                                <p class="card-text">Quantity: {{ item.quantity }} - Price: Rs {{ item.total_price }}</p>
+                                <a href="{% url 'remove_from_cart' frame_id=item.frame_id %}" class="btn btn-danger">Remove</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
-        </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Total Price</h5>
+                    <p class="card-text"> Rs {{ total_price }}</p>
+                </div>
+            </div>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
     </div>
-
-{% endblock %}
+</body>
+</html>

@@ -4,6 +4,8 @@ from django.contrib.auth import views as auth_views
 from . import views
 from .views import appointment_list, doctor_list, payment_list
 from .views import frame_list, frame_detail, edit_frame, delete_frame
+from .views import remove_from_cart, add_to_cart, view_cart
+
 
 
 
@@ -11,6 +13,13 @@ from .views import frame_list, frame_detail, edit_frame, delete_frame
 # from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+
+    path('remove_from_cart/<int:frame_id>/', remove_from_cart, name='remove_from_cart'),
+    path('add_to_cart/<int:frame_id>/', add_to_cart, name='add_to_cart'),
+    path('cart/', view_cart, name='cart'),
+    
+
+
     path('',views.index,name='index'),
 
     path('about/', views.about, name='about'),
@@ -102,6 +111,10 @@ urlpatterns = [
 
 
     path('frame-details-common/<int:frame_id>/', views.frame_details_common_view, name='frame_details_common'),
+    # path('add_to_cart/<int:frame_id>/', add_to_cart, name='add_to_cart'),
+    # path('cart/', cart_view, name='cart'),
+    # path('get_cart_data/', views.get_cart_data, name='get_cart_data'),
+    # path('remove_from_cart/<int:frame_id>/', views.remove_from_cart, name='remove_from_cart'),
 
 
 

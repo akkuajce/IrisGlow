@@ -73,7 +73,7 @@ def addDoctor(request):
 
 
 
-
+@login_required
 def send_welcome_email(email, password, first_name, last_name):
 
     login_url = 'http://127.0.0.1:8000/accounts/login/'  # Update with your actual login URL
@@ -106,6 +106,7 @@ def send_welcome_email(email, password, first_name, last_name):
 
 from django.core.paginator import Paginator
 
+@login_required
 def doctor(request):
     therapists = Doctor.objects.all()
     cuser = CustomUser.objects.filter(role=CustomUser.DOCTOR, id__in=therapists.values_list('user_id', flat=True))
@@ -140,7 +141,7 @@ def viewdoctor(request, user_id):
 
 
 
-
+@login_required
 def doctor_dashboard(request):
      return render(request,'doctor_dashboard.html',)
 
@@ -434,7 +435,7 @@ def appointment_confirmation(request, appointment_id):
 
 
 
-
+@login_required
 def view_appointments(request):
     doctor = request.user
     appointments = Appointments.objects.filter(therapist=doctor)
@@ -467,7 +468,7 @@ def view_appointments(request):
 #view doctors by admin
 from django.shortcuts import render
 from .models import CustomUser
-
+@login_required
 def doctor_list(request):
     doctors = CustomUser.objects.filter(doctor=True)
     return render(request, 'doctor_list.html', {'doctors': doctors})
@@ -481,7 +482,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .models import Doctor
-
+@login_required
 def search_doctor(request):
     query = request.GET.get('query')
     speciality = request.GET.get('speciality')
@@ -515,6 +516,8 @@ def search_doctor(request):
 
     return JsonResponse({'doctors': doctors_data})
 
+
+@login_required
 def doctor_search(request):
     return render(request, 'doctor_search.html')
 
@@ -825,6 +828,7 @@ from .forms import DoctorDayOffForm
 from .models import DoctorDayOff
 from django.contrib import messages
 
+@login_required
 def doctor_day_off(request):
     if request.method == 'POST':
         form = DoctorDayOffForm(request.POST)
@@ -844,11 +848,11 @@ def doctor_day_off(request):
 
 
 
-
+@login_required
 def doctor_day_off_confirmation(request):
     return render(request, 'doctor/doctor_day_off_confirmation.html')
 
 
-
+@login_required
 def doctordashboard(request):
     return render(request,'doctordashboard.html',)

@@ -1,3 +1,5 @@
+from decimal import Decimal
+import json
 from random import sample
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import login as auth_login ,authenticate, logout
@@ -40,7 +42,7 @@ from django.views.decorators.csrf import csrf_protect
 User = get_user_model()
 
 # Create your views here.
-@login_required
+
 @csrf_protect
 def index(request):
     user=request.user
@@ -57,11 +59,14 @@ def index(request):
         
 
     return render(request,'index.html',)
+
+@login_required
 def about(request):
     return render(request,'about.html',)
 # def team(request):
 #     return render(request,'team.html',)
 
+@login_required
 def doctor1(request):
     return render(request, 'teams/doctor1.html')
 
@@ -71,7 +76,7 @@ def doctor1(request):
 
 
 from django.db.models import Q
-
+@login_required
 def buyframes(request):
     query = request.GET.get('q')
 
@@ -108,25 +113,36 @@ def computerglasses(request):
 
 
 
-
+@login_required
 def doctordashboard(request):
     return render(request,'doctordashboard.html',)
 
-
+@login_required
 def testimonial(request):
     return render(request,'testimonial.html',)
+
+@login_required
 def contact(request):
     return render(request,'contact.html',)
 
+@login_required
 def service(request):
     return render(request,'service.html',)
+
+
+@login_required
 def cataract(request):
     return render(request,'cataract.html',)
+
+@login_required
 def gloucoma(request):
     return render(request,'gloucoma.html',)
+
+@login_required
 def diabeticretinopathy(request):
     return render(request,'diabeticretinopathy.html',)
 
+@login_required
 def doctorregister(request):
     return render(request,'doctorregister.html',)
 
@@ -232,6 +248,7 @@ def userLogout(request):
 
 # Registration
 @csrf_protect
+@login_required
 def register(request):
     if request.user.is_authenticated:
         messages.warning(request, 'You are already logged in!')
@@ -379,6 +396,7 @@ def change_password_patient(request):
 
 
 #user data view
+@login_required
 def display_user_data(request):
     users = CustomUser.objects.filter(~Q(is_superuser=True), is_active=True)
     inactive_users = CustomUser.objects.filter(~Q(is_superuser=True), is_active=False)
@@ -408,6 +426,7 @@ from django.template.loader import render_to_string
 from django.shortcuts import redirect
 
 #  update status views.py
+
 def updateStatus(request, user_id):
     updateUser = CustomUser.objects.get(id=user_id)
     if updateUser.is_active:
@@ -420,11 +439,13 @@ def updateStatus(request, user_id):
     return redirect('deactivated_users')  # Or redirect to the appropriate page
 
 # View for displaying deactivated users
+
 def deactivated_users(request):
     deactivated_users = CustomUser.objects.filter(is_active=False)
     return render(request, 'deactivated_users.html', {'deactivated_users': deactivated_users})
 
 # View for deactivating a user
+
 def deactivate_user(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     user.is_active = False
@@ -449,6 +470,7 @@ def activate_user(request, user_id):
 from .models import CustomUser
 
 # Send Activation Email Function
+
 def send_activation_email(user, reason):
     subject = 'Account Activation'
     message = render_to_string('activation_email.html', {'reason': reason})
@@ -476,7 +498,7 @@ def send_deactivation_email(user, reason):
 
 
 
-
+@login_required
 def patient_appointment(request):
     doctor = request.user
     appointments = Appointments.objects.filter(therapist=doctor)
@@ -549,6 +571,7 @@ from datetime import date
 from django.shortcuts import render
 from DoctorApp.models import Appointments
 
+@login_required
 def appointment_list(request):
     # Filter appointments for the current date and future dates
     appointments = Appointments.objects.filter(date__gte=date.today()).order_by('date', 'time_slot')
@@ -564,6 +587,7 @@ def appointment_list(request):
 from django.shortcuts import render
 from DoctorApp.models import Payment
 
+@login_required
 def payment_list(request):
     payments = Payment.objects.all()
     context = {'payments': payments}
@@ -579,6 +603,7 @@ def payment_list(request):
 from django.shortcuts import render
 from DoctorApp.models import Appointments
 
+@login_required
 def patient_appointment_history(request):
     # Assuming the user is logged in and the user's appointments are related through a ForeignKey
     appointments = Appointments.objects.filter(client=request.user)
@@ -600,6 +625,7 @@ def patient_appointment_history(request):
 from django.shortcuts import render
 from DoctorApp.models import Doctor
 
+@login_required
 def doctor_list(request):
     doctors = Doctor.objects.all()
     return render(request, 'doctor_list.html', {'doctors': doctors})
@@ -646,9 +672,9 @@ def doctor_list(request):
 
 
 @csrf_protect
+@login_required
 def add_spects(request):
-    
-     
+         
 
     if request.method == 'POST':
         
@@ -730,7 +756,7 @@ def spects_dashboard(request):
 from django.shortcuts import render, redirect
 from .forms import FrameForm
 from .models import Frame
-
+@login_required
 def add_product(request):
     if request.method == 'POST':
         form = FrameForm(request.POST, request.FILES)
@@ -789,17 +815,18 @@ def add_product(request):
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Frame
 from .forms import FrameForm
-
+@login_required
 def frame_list(request):
     frames = Frame.objects.all()
     print(frames)  # Add this line to print frames in the console
     return render(request, 'frame_list.html', {'frames': frames})
 
-
+@login_required
 def frame_detail(request, frame_id):
     frame = get_object_or_404(Frame, frame_id=frame_id)
     return render(request, 'frame_detail.html', {'frame': frame})
 
+@login_required
 def edit_frame(request, frame_id):
     frame = get_object_or_404(Frame, frame_id=frame_id)
 
@@ -813,6 +840,7 @@ def edit_frame(request, frame_id):
 
     return render(request, 'frame_edit.html', {'form': form, 'frame': frame})
 
+@login_required
 def delete_frame(request, frame_id):
     frame = get_object_or_404(Frame, frame_id=frame_id)
 
@@ -832,14 +860,17 @@ def delete_frame(request, frame_id):
 from django.shortcuts import render
 from .models import Frame
 
+@login_required
 def eyeglasses(request):
     eyeglasses_frames = Frame.objects.filter(category='Eyeglasses')
     return render(request, 'eyeglasses/eyeglasses.html', {'eyeglasses_frames': eyeglasses_frames})
 
+@login_required
 def sunglasses(request):
     sunglasses_frames = Frame.objects.filter(category='Sunglasses')
     return render(request, 'sunglasses/sunglasses.html', {'sunglasses_frames': sunglasses_frames})
 
+@login_required
 def computerglasses(request):
     computerglasses_frames = Frame.objects.filter(category='Computer Glasses')
     return render(request, 'computerglasses/computerglasses.html', {'computerglasses_frames': computerglasses_frames})
@@ -849,6 +880,7 @@ def computerglasses(request):
 
 
 from django.shortcuts import render, get_object_or_404
+
 from .models import Frame
 
 def frame_details_common_view(request, frame_id):
@@ -863,6 +895,87 @@ def frame_details_common_view(request, frame_id):
     }
 
     return render(request, 'frame_details_common.html', context)
+
+
+#22/02
+
+
+# from django.shortcuts import render, redirect, get_object_or_404
+# from .models import Frame
+
+# def cart_view(request):
+#     return render(request, 'cart.html')
+
+# def add_to_cart(request, frame_id):
+#     frame = get_object_or_404(Frame, pk=frame_id)
+
+#     # Get or create the cart in session
+#     cart = request.session.get('cart', {})
+
+#     # Convert frame_id to string
+#     frame_id_str = str(frame_id)
+
+#     # Add frame to cart
+#     if frame_id_str not in cart:
+#         cart[frame_id_str] = {
+#             'name': frame.name,
+#             'brand_name': frame.brand_name,
+#             'price': str(frame.price),
+#             'quantity': 1,
+#             'thumbnail': frame.thumbnail.url,
+#         }
+#     else:
+#         # Update quantity if frame is already in cart
+#         cart[frame_id_str]['quantity'] += 1
+
+#     # Save cart in session
+#     request.session['cart'] = cart
+
+#     return redirect('cart')
+
+
+
+# from django.http import JsonResponse
+
+# def get_cart_data(request):
+#     cart_json = request.session.get('cart', '{}')
+#     cart = json.loads(cart_json) if cart_json else {}
+    
+#     cart_items = []
+#     total_price = 0
+
+#     for item in cart.values():
+#         total_price += item['price'] * item['quantity']
+#         cart_items.append({
+#             'name': item['name'],
+#             'quantity': item['quantity'],
+#             'price': item['price'],
+#             'thumbnail': item['thumbnail'],
+#         })
+
+#     cart_data = {
+#         'items': cart_items,
+#         'total_price': total_price,
+#     }
+
+#     return JsonResponse(cart_data)
+
+
+
+
+# views.py 22/02
+
+# def remove_from_cart(request, frame_id):
+#     frame_id = str(frame_id)
+#     if 'cart' in request.session and frame_id in request.session['cart']:
+#         del request.session['cart'][frame_id]
+#         request.session.modified = True
+
+#     return redirect('cart')
+
+
+
+
 
 
 
@@ -929,12 +1042,52 @@ def spects_view_profile(request):
     else:
         # Redirect or handle the case when the user is not authenticated
         return redirect(reverse('spects_dashboard'))  # Assuming you have an 'index' URL pattern
+    
 
 
 
 
 
+# views.py
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Frame, UserCart
+
+def add_to_cart(request, frame_id):
+    frame = get_object_or_404(Frame, pk=frame_id)
+    user = request.user
+
+    # Get or create the user cart
+    user_cart, created = UserCart.objects.get_or_create(user=user, frame=frame)
+
+    # If the cart already exists (not created), increment the quantity
+    if not created:
+        user_cart.quantity += 1
+        user_cart.save()
+
+    return redirect('cart')
 
 
 
+def view_cart(request):
+    user = request.user
+    user_cart_items = UserCart.objects.filter(user=user)
+    total_price = sum(item.total_price() for item in user_cart_items)
 
+    return render(request, 'cart.html', {'cart_items': user_cart_items, 'total_price': total_price})
+
+
+def remove_from_cart(request, frame_id):
+    user = request.user
+    frame = get_object_or_404(Frame, pk=frame_id)
+
+    # Get the user cart item
+    user_cart_item = get_object_or_404(UserCart, user=user, frame=frame)
+
+    # Decrement the quantity and remove if it becomes zero
+    user_cart_item.quantity -= 1
+    if user_cart_item.quantity <= 0:
+        user_cart_item.delete()
+    else:
+        user_cart_item.save()
+
+    return redirect('cart')

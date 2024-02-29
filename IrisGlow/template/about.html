@@ -79,28 +79,7 @@
             <div class="navbar-nav ms-auto py-0">
                 <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                 <a href="about.html" class="nav-item nav-link">About</a>
-                <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                        <a href="team.html" class="dropdown-item">Our Doctors</a>
-                        <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
-                        {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
-                    </div>
-                </div>
-
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Specialities</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="{% url 'cataract' %}" class="dropdown-item">Cataract</a>
-                        
-                        <a href="{% url 'gloucoma' %}" class="dropdown-item">Gloucoma</a>
-                        <a href="{% url 'diabeticretinopathy' %}" class="dropdown-item">Diabetic Retinopathy</a>
-                    </div>
-                </div>
-
-                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                
                 
             </div>
             <a href="{% url 'profile' %}" class="nav-item nav-link active">My Profile</a>
@@ -122,29 +101,11 @@
             <div class="navbar-nav ms-auto py-0">
                 <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
                 <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
-                <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                        <a href="team.html" class="dropdown-item">Our Doctors</a>
-                        <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
+                
                         {% comment %} <a href="{% url 'appointment' %}" class="dropdown-item">Appointment</a> {% endcomment %}
                     </div>
                 </div>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Specialities</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="{% url 'cataract' %}" class="dropdown-item">Cataract</a>
-                        
-                        <a href="{% url 'gloucoma' %}" class="dropdown-item">Gloucoma</a>
-                        <a href="{% url 'diabeticretinopathy' %}" class="dropdown-item">Diabetic Retinopathy</a>
-                    </div>
-                </div>
-                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                 
-            </div>
-            <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="{% url 'register' %}" class="btn btn-primary py-2 px-4 ms-3">Signup</a>
             <a href="{% url 'login' %}" class="btn btn-primary py-2 px-4 ms-3">Login</a>
         </div>
@@ -153,3 +114,34 @@
 
     </nav>
     <!-- Navbar End -->
+<br>
+
+    <!-- About Section Start -->
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="section-title">About IrisGlow - Eye Care Hospital</h2>
+                <p class="section-subtitle">Providing Comprehensive Eye Care Services</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{% static 'img/about.jpg' %}" alt="About IrisGlow" class="img-fluid">
+            </div>
+            <div class="col-lg-6">
+                <p class="about-text">
+                    Welcome to IrisGlow - your dedicated partner in comprehensive eye care. We are committed to revolutionizing eye care hospital management, ensuring seamless experiences for both patients and medical professionals.
+                </p>
+                <p class="about-text">
+                    At IrisGlow, we leverage cutting-edge technologies to provide advanced solutions, including eye disease self-detection, appointment scheduling, and an extensive catalogue of spectacles. Our team of skilled professionals is dedicated to enhancing the overall well-being of our patients.
+                </p>
+                <p class="about-text">
+                    Explore our services, discover the expertise of our medical team, and embark on a journey towards optimal eye health. IrisGlow is more than a platform; it's a commitment to providing holistic eye care that is accessible, efficient, and patient-centric.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Section End -->
