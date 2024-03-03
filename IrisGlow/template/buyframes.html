@@ -35,6 +35,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+
+    <!-- Add this line to your HTML file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9IqN7zCuW7rvq4S1bxSO9gjfjW92/Fc26iF0YsA8+5N56vZ5l4Jz+RB0Mi8DAvGVoP5QF7FpPJ5r+2hQcmJE9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Add this in the head section of your HTML file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-GLhlTQ8iN17D5LXYu+v6NwePUEtrL8lN/B3AjNlPB9e1zTzI1/6I5TJ73MIpiJ6" crossorigin="anonymous">
+
+
+
 </head>
 
 
@@ -85,7 +93,19 @@
                 <a href="{% url 'eyeglasses' %}" class="nav-item nav-link active">Eyeglasses</a>
                 <a href="{% url 'sunglasses' %}" class="nav-item nav-link active">Sunglasses</a>
                 <a href="{% url 'computerglasses' %}" class="nav-item nav-link active">Computer Glasses</a>
-                <a href="{% url 'cart' %}" class="nav-item nav-link active">Cart</a>
+                {% comment %} <a href="{% url 'cart' %}" class="nav-item nav-link active">
+                    <i class="fas fa-shopping-cart"></i>
+                </a> {% endcomment %}
+
+                <a href="{% url 'cart' %}" class="nav-link active">
+                    <i class="fas fa-shopping-cart" style="color: black;"></i> <!-- Font Awesome cart icon in black -->
+                </a>
+
+                <a href="{% url 'wishlist' %}" class="nav-link">
+                    <i class="far fa-heart"></i> <!-- Font Awesome heart icon -->
+                </a>
+
+                
                 {% comment %} <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button> {% endcomment %}
                 <a href="" class="nav-item nav-link active">Welcome,{{user.first_name}}</a>
                 </div>

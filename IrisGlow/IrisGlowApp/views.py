@@ -1049,8 +1049,55 @@ def spects_view_profile(request):
 
 
 # views.py Cart 28/02
+# from django.shortcuts import render, redirect, get_object_or_404
+# from .models import Frame, UserCart
+
+# def add_to_cart(request, frame_id):
+#     frame = get_object_or_404(Frame, pk=frame_id)
+#     user = request.user
+
+#     # Get or create the user cart
+#     user_cart, created = UserCart.objects.get_or_create(user=user, frame=frame)
+
+#     # If the cart already exists (not created), increment the quantity
+#     if not created:
+#         user_cart.quantity += 1
+#         user_cart.save()
+
+#     return redirect('cart')
+
+
+
+# def view_cart(request):
+#     user = request.user
+#     user_cart_items = UserCart.objects.filter(user=user)
+#     total_price = sum(item.total_price() for item in user_cart_items)
+
+#     return render(request, 'cart.html', {'cart_items': user_cart_items, 'total_price': total_price})
+
+
+# def remove_from_cart(request, frame_id):
+#     user = request.user
+#     frame = get_object_or_404(Frame, pk=frame_id)
+
+#     # Get the user cart item
+#     user_cart_item = get_object_or_404(UserCart, user=user, frame=frame)
+
+#     # Decrement the quantity and remove if it becomes zero
+#     user_cart_item.quantity -= 1
+#     if user_cart_item.quantity <= 0:
+#         user_cart_item.delete()
+#     else:
+#         user_cart_item.save()
+
+#     return redirect('cart')
+    
+
+# views.py Add to cart Updated 29/02
+# views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Frame, UserCart
+from django.contrib import messages
 
 def add_to_cart(request, frame_id):
     frame = get_object_or_404(Frame, pk=frame_id)
@@ -1066,8 +1113,6 @@ def add_to_cart(request, frame_id):
 
     return redirect('cart')
 
-
-
 def view_cart(request):
     user = request.user
     user_cart_items = UserCart.objects.filter(user=user)
@@ -1075,22 +1120,36 @@ def view_cart(request):
 
     return render(request, 'cart.html', {'cart_items': user_cart_items, 'total_price': total_price})
 
+def update_cart(request, frame_id):
+    if request.method == 'POST':
+        frame = get_object_or_404(Frame, pk=frame_id)
+        user = request.user
+        quantity = int(request.POST.get('quantity', 1))
+
+        user_cart_item = get_object_or_404(UserCart, user=user, frame=frame)
+        user_cart_item.quantity = quantity
+        user_cart_item.save()
+
+    return redirect('cart')
 
 def remove_from_cart(request, frame_id):
     user = request.user
     frame = get_object_or_404(Frame, pk=frame_id)
 
-    # Get the user cart item
     user_cart_item = get_object_or_404(UserCart, user=user, frame=frame)
+    quantity_to_remove = user_cart_item.quantity
 
-    # Decrement the quantity and remove if it becomes zero
-    user_cart_item.quantity -= 1
+    user_cart_item.quantity -= quantity_to_remove
     if user_cart_item.quantity <= 0:
         user_cart_item.delete()
+        messages.success(request, f"{frame.name} removed from the cart.")
     else:
         user_cart_item.save()
 
     return redirect('cart')
+
+
+
 
 
 
@@ -1129,3 +1188,71 @@ def remove_from_wishlist(request, frame_id):
 
     return redirect('wishlist')
 
+
+
+
+
+
+# 02/03 Checkout Views
+
+# views.py
+
+# from django.shortcuts import render
+# from .models import UserCart
+
+# def checkout(request):
+#     user = request.user
+#     user_cart_items = UserCart.objects.filter(user=user)
+#     total_price = sum(item.total_price() for item in user_cart_items)
+
+#     return render(request, 'checkout.html', {'cart_items': user_cart_items, 'total_price': total_price})
+
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Frame, UserCart, Order, OrderItem, ShippingAddress
+
+def checkout(request):
+    user = request.user
+    user_cart_items = UserCart.objects.filter(user=user)
+    total_price = sum(item.total_price() for item in user_cart_items)
+
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name')
+        address_line_1 = request.POST.get('address_line_1')
+        address_line_2 = request.POST.get('address_line_2', '')  # Optional field
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        pincode = request.POST.get('pincode')
+        phone_number = request.POST.get('phone_number')
+
+        # Optionally, you can perform validation checks here
+
+        # Create a ShippingAddress instance
+        shipping_address = ShippingAddress.objects.create(
+            user=user,
+            full_name=full_name,
+            address_line_1=address_line_1,
+            address_line_2=address_line_2,
+            city=city,
+            state=state,
+            pincode=pincode,
+            phone_number=phone_number
+        )
+
+        # Create an order
+        order = Order.objects.create(user=user, total_price=total_price)
+
+        # Create order items for each cart item
+        for cart_item in user_cart_items:
+            OrderItem.objects.create(order=order, frame=cart_item.frame, quantity=cart_item.quantity,
+                                     item_price=cart_item.frame.price)
+
+        # Clear the user's cart after creating the order
+        user_cart_items.delete()
+
+        messages.success(request, 'Order placed successfully!')
+        return redirect('order_summary')  # Redirect to order summary page after successful checkout
+
+    return render(request, 'checkout.html', {'cart_items': user_cart_items, 'total_price': total_price})

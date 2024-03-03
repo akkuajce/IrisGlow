@@ -202,7 +202,7 @@
 
 
 
-     <!-- cart.html -->
+ <!-- cart.html -->
 <div class="container mt-4">
     <h1 class="mb-4">Your Shopping Cart</h1>
 
@@ -216,15 +216,15 @@
                     <div class="col-md-9">
                         <div class="card-body">
                             <h5 class="card-title">{{ item.frame.name }}</h5>
-                            <form method="POST" action="{% url 'update_cart' frame_id=item.frame_id %}">
+                            <form method="POST" action="{% url 'update_cart' frame_id=item.frame_id %}" class="update-form">
                                 {% csrf_token %}
                                 <label for="quantity">Quantity:</label>
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="decrementQuantity(this)">-</button>
-                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="incrementQuantity(this)">+</button>
-                                <button type="submit" class="btn btn-primary">Update</button>
+                                <input type="hidden" name="initial_quantity" value="{{ item.quantity }}">
+                                <button type="submit" class="btn btn-secondary btn-sm" name="quantity" value="{{ item.quantity|add:"-1" }}" onclick="return updateQuantity(this, -1)">-</button>
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" readonly>
+                                <button type="submit" class="btn btn-secondary btn-sm" name="quantity" value="{{ item.quantity|add:"1" }}" onclick="return updateQuantity(this, 1)">+</button>
                             </form>
-                            <p class="card-text">Price: Rs {{ item.total_price }}</p>
+                            <p class="card-text">Price: Rs <span class="total-price">{{ item.total_price }}</span></p>
                             <a href="{% url 'remove_from_cart' frame_id=item.frame_id %}" class="btn btn-danger">Remove</a>
                         </div>
                     </div>
@@ -234,7 +234,10 @@
         <div class="card mt-4">
             <div class="card-body">
                 <h5 class="card-title">Total Price</h5>
-                <p class="card-text"> Rs {{ total_price }}</p>
+                <p class="card-text"> Rs <span id="cart-total">{{ total_price }}</span></p>
+                
+                <!-- Add the "Proceed to Checkout" button -->
+                <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
             </div>
         </div>
     {% else %}
@@ -243,14 +246,32 @@
 </div>
 
 <script>
-    function incrementQuantity(button) {
-        var inputElement = button.parentElement.querySelector('input[name="quantity"]');
-        inputElement.value = parseInt(inputElement.value) + 1;
-    }
+    function updateQuantity(button, change) {
+        var form = button.parentElement;
+        var inputElement = form.querySelector('input[name="quantity"]');
+        var totalElement = form.parentElement.querySelector('.total-price');
+        var cartTotalElement = document.getElementById('cart-total');
 
-    function decrementQuantity(button) {
-        var inputElement = button.parentElement.querySelector('input[name="quantity"]');
-        var newValue = parseInt(inputElement.value) - 1;
-        inputElement.value = (newValue >= 1) ? newValue : 1;
+        var initialValue = parseInt(form.querySelector('input[name="initial_quantity"]').value);
+        var oldValue = parseInt(inputElement.value);
+        var newValue = oldValue + change;
+
+        // Restrict maximum quantity to 4
+        var maxQuantity = 4;
+        if (newValue > maxQuantity || newValue < 1) {
+            alert('Quantity must be between 1 and ' + maxQuantity);
+            return false;  // Prevent form submission
+        }
+
+        // Update total price for the specific item
+        var itemPrice = parseFloat(form.parentElement.querySelector('.total-price').textContent.replace('Rs ', ''));
+        var newTotalPrice = (itemPrice / initialValue) * newValue;
+        totalElement.textContent = 'Rs ' + newTotalPrice.toFixed(2);
+
+        // Update total cart price
+        var cartTotalPrice = parseFloat(cartTotalElement.textContent.replace('Rs ', ''));
+        cartTotalElement.textContent = 'Rs ' + (cartTotalPrice + (newTotalPrice - itemPrice)).toFixed(2);
+
+        return true;  // Allow form submission
     }
 </script>
