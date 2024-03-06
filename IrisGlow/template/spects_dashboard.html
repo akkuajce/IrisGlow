@@ -75,6 +75,18 @@
         .action-link:hover {
             background-color: #2980b9;
         }
+
+        #startButton{
+            z-index: 1;
+                position: fixed;
+                bottom: 60px;
+                right: 20px;
+                height: 45px;
+                width: 45px;
+                border-radius: 100%;
+                border: none;
+                background-color:#76b42f;
+        }
         
     </style>
 </head>
@@ -129,7 +141,64 @@
         <a href="{% url 'spects_change_password' %}" class="action-link">Change Password</a>
         </div>
 
+        <button id="startButton"><i class="bi bi-mic-fill text-white"></i></button>
+
     </div>
+
+<script>
+const startButton = document.getElementById('startButton');
+
+const recognition = new webkitSpeechRecognition(); // Create a new instance of SpeechRecognition
+
+recognition.lang = 'en-US'; // Set recognition language
+
+recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    console.log('Recognition result:', transcript);
+    
+    // Check if the transcript contains the word "home"
+    if (transcript.toLowerCase().includes('home')) {
+        window.location.href = '/'; // Redirect to the agent list URL
+    } else if (transcript.toLowerCase().includes('spects_dashboard')) {
+        window.location.href = '/spects_dashboard/';
+         // Redirect to the property list URL
+    } else if (transcript.toLowerCase().includes('add product')) {
+        window.location.href = "http://127.0.0.1:8000/add_product/";
+         // Redirect to the property list URL
+    } else if (transcript.toLowerCase().includes('view product')) {
+        window.location.href = "http://127.0.0.1:8000/frame-list/";
+         // Redirect to the property list URL
+    } else if (transcript.toLowerCase().includes('view profile')) {
+        window.location.href = "http://127.0.0.1:8000/spects/view-profile/";
+         // Redirect to the property list URL
+    }
+};
+
+recognition.onerror = (event) => {
+    console.error('Recognition error:', event.error);
+};
+
+let isRecognizing = false;
+
+recognition.onstart = () => {
+    startButton.innerHTML = '<i class="bi bi-mic-mute-fill text-white"></i>';
+    isRecognizing = true;
+};
+
+recognition.onend = () => {
+    isRecognizing = false;
+};
+
+startButton.addEventListener('click', () => {
+    if (isRecognizing) {
+        recognition.stop();
+    } else {
+        recognition.start();
+    }
+});
+
+</script>
+
     
     <!-- JavaScript Libraries -->
     <!-- Include your JavaScript libraries here -->

@@ -125,24 +125,55 @@
     {% block content %}
 
     <div class="container mt-5">
-        <h2>Eyeglasses</h2>
+        <h2 class="mb-4">Eyeglasses</h2>
         <div class="row">
             {% for frame in eyeglasses_frames %}
                 <div class="col-md-4 mb-4">
-                    <div class="frame-box p-3 border rounded">
+                    <div class="frame-box p-3 border rounded position-relative shadow">
                         <img src="{{ frame.thumbnail.url }}" alt="{{ frame.name }}" class="img-fluid mb-2">
                         <h4 class="mb-3">{{ frame.name }}</h4>
-                        <p>Brand: {{ frame.brand_name }}</p>
-                        <p>Category: {{ frame.category }}</p>
+                        <p class="mb-2">Brand: {{ frame.brand_name }}</p>
+                        <p class="mb-2">Category: {{ frame.category }}</p>
+                        <p class="mb-2">Price: Rs {{ frame.price }}</p>
                         <!-- Add other details as needed -->
-    
-                        <a href="{% url 'frame_details_common' frame_id=frame.frame_id %}" class="btn btn-primary">View Details</a>
+
+                        <br>
+
+                        <div class="overlay"></div>
+
+                        <a href="{% url 'frame_details_common' frame_id=frame.frame_id %}" class="btn btn-primary position-absolute bottom-0 start-50 translate-middle-x">View Details</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-    
-    {% endblock %}
-    
 
+    <style>
+        .frame-box {
+            transition: transform 0.3s;
+            overflow: hidden;
+            background: linear-gradient(45deg, #3CA8AB, #FFD666); /* Use your preferred color combination */
+            height: 100%; /* Adjust the height to your preference */
+        }
+
+        .frame-box:hover {
+            transform: translateY(-10px);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .frame-box:hover .overlay {
+            opacity: 1;
+        }
+    </style>
+
+{% endblock %}

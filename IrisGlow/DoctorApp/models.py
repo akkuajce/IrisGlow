@@ -65,7 +65,8 @@ class Appointments(models.Model):
     time_slot = models.TimeField(choices=TIME_CHOICES)
     created_date = models.DateTimeField(auto_now_add=True,null=True)
     modified_date = models.DateTimeField(auto_now=True, null=True)
-    cancelled_date = models.DateTimeField(null=True, blank=True)
+    cancelled_date = models.DateTimeField(null=True, blank=True, default=None)
+
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='scheduled')
  
     def __str__(self):

@@ -1,8 +1,6 @@
 <!-- checkout.html -->
 {% load static %}
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -236,8 +234,9 @@
                         <label for="id_phone_number">Phone Number:</label>
                         <input type="text" name="phone_number" id="id_phone_number" onkeyup="validatePhoneNumber()" class="form-control" required>
                     </div>
-    <br>
-                    <button type="button" onclick="validateAndSubmit()" class="btn btn-primary">Proceed to payment</button>
+
+                    <button type="button" onclick="validateAndSubmit()">Place Order</button>
+    
                 </form>
             </div>
         </div>

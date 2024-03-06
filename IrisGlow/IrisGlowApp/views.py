@@ -1208,7 +1208,56 @@ def remove_from_wishlist(request, frame_id):
 #     return render(request, 'checkout.html', {'cart_items': user_cart_items, 'total_price': total_price})
 
 
-# views.py
+# # views.py
+# from django.shortcuts import render, redirect
+# from django.contrib import messages
+# from .models import Frame, UserCart, Order, OrderItem, ShippingAddress
+
+# def checkout(request):
+#     user = request.user
+#     user_cart_items = UserCart.objects.filter(user=user)
+#     total_price = sum(item.total_price() for item in user_cart_items)
+
+#     if request.method == 'POST':
+#         full_name = request.POST.get('full_name')
+#         address_line_1 = request.POST.get('address_line_1')
+#         address_line_2 = request.POST.get('address_line_2', '')  # Optional field
+#         city = request.POST.get('city')
+#         state = request.POST.get('state')
+#         pincode = request.POST.get('pincode')
+#         phone_number = request.POST.get('phone_number')
+
+#         # Optionally, you can perform validation checks here
+
+#         # Create a ShippingAddress instance
+#         shipping_address = ShippingAddress.objects.create(
+#             user=user,
+#             full_name=full_name,
+#             address_line_1=address_line_1,
+#             address_line_2=address_line_2,
+#             city=city,
+#             state=state,
+#             pincode=pincode,
+#             phone_number=phone_number
+#         )
+
+#         # Create an order
+#         order = Order.objects.create(user=user, total_price=total_price)
+
+#         # Create order items for each cart item
+#         for cart_item in user_cart_items:
+#             OrderItem.objects.create(order=order, frame=cart_item.frame, quantity=cart_item.quantity,
+#                                      item_price=cart_item.frame.price)
+
+#         # Clear the user's cart after creating the order
+#         user_cart_items.delete()
+
+#         messages.success(request, 'Order placed successfully!')
+#         return redirect('order_summary')  # Redirect to order summary page after successful checkout
+
+#     return render(request, 'checkout.html', {'cart_items': user_cart_items, 'total_price': total_price})
+
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Frame, UserCart, Order, OrderItem, ShippingAddress
@@ -1241,18 +1290,15 @@ def checkout(request):
             phone_number=phone_number
         )
 
-        # Create an order
-        order = Order.objects.create(user=user, total_price=total_price)
-
-        # Create order items for each cart item
-        for cart_item in user_cart_items:
-            OrderItem.objects.create(order=order, frame=cart_item.frame, quantity=cart_item.quantity,
-                                     item_price=cart_item.frame.price)
-
-        # Clear the user's cart after creating the order
-        user_cart_items.delete()
-
-        messages.success(request, 'Order placed successfully!')
-        return redirect('order_summary')  # Redirect to order summary page after successful checkout
+        # Redirect to proceed to payment page
+        return redirect('proceed_to_payment')
 
     return render(request, 'checkout.html', {'cart_items': user_cart_items, 'total_price': total_price})
+
+
+
+
+
+
+
+

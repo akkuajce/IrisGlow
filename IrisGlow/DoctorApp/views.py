@@ -294,7 +294,7 @@ from django.contrib import messages
 from datetime import datetime
 
 
-@login_required
+
 def appointment(request, t_id):
     therapist = get_object_or_404(CustomUser, id=t_id)
     context = None
@@ -435,7 +435,7 @@ def appointment_confirmation(request, appointment_id):
 
 
 
-@login_required
+
 def view_appointments(request):
     doctor = request.user
     appointments = Appointments.objects.filter(therapist=doctor)

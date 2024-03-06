@@ -251,27 +251,31 @@
         var inputElement = form.querySelector('input[name="quantity"]');
         var totalElement = form.parentElement.querySelector('.total-price');
         var cartTotalElement = document.getElementById('cart-total');
-
+    
         var initialValue = parseInt(form.querySelector('input[name="initial_quantity"]').value);
         var oldValue = parseInt(inputElement.value);
         var newValue = oldValue + change;
-
+    
         // Restrict maximum quantity to 4
         var maxQuantity = 4;
         if (newValue > maxQuantity || newValue < 1) {
             alert('Quantity must be between 1 and ' + maxQuantity);
             return false;  // Prevent form submission
         }
-
+    
         // Update total price for the specific item
         var itemPrice = parseFloat(form.parentElement.querySelector('.total-price').textContent.replace('Rs ', ''));
+        
+        // For subtraction, set the value directly to the newValue
+        inputElement.value = newValue;
+    
         var newTotalPrice = (itemPrice / initialValue) * newValue;
         totalElement.textContent = 'Rs ' + newTotalPrice.toFixed(2);
-
+    
         // Update total cart price
         var cartTotalPrice = parseFloat(cartTotalElement.textContent.replace('Rs ', ''));
         cartTotalElement.textContent = 'Rs ' + (cartTotalPrice + (newTotalPrice - itemPrice)).toFixed(2);
-
+    
         return true;  // Allow form submission
     }
 </script>

@@ -138,40 +138,62 @@
             padding: 10px;
             display: flex;
             align-items: center;
+            justify-content: space-between; /* Align items horizontally with space in between */
         }
 
         img {
             margin-right: 10px;
+            max-width: 50px;
+            max-height: 50px;
         }
 
-        a {
+        .item-details {
+            flex-grow: 1; /* Allow item details to take remaining space */
+        }
+
+        .product-name {
             text-decoration: none;
             color: #333;
             font-weight: bold;
+            font-size: 16px;
         }
 
-        /* Style for the remove button */
+        .add-to-cart-button,
+        .remove-button {
+            text-decoration: none; /* Remove underline from buttons */
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: none;
+        }
+
+        .add-to-cart-button {
+            background-color: #28a745; /* Bootstrap's green color */
+            color: #fff;
+            margin-left: 10px;
+        }
+
         .remove-button {
             background-color: #dc3545; /* Bootstrap's red color */
             color: #fff;
-            padding: 5px 10px;
-            border: none;
-            cursor: pointer;
-            margin-left: auto; /* Move the button to the right */
         }
     </style>
-<br>
+
+    <br>
     <h3><center>Your Wishlists</center></h3>
 
     {% if wishlist_items %}
         <ul>
             {% for item in wishlist_items %}
                 <li>
-                    <a href="{% url 'frame_details_common' frame_id=item.frame_id %}">
-                        <img src="{{ item.frame.thumbnail.url }}" alt="{{ item.frame.name }}" style="max-width: 50px; max-height: 50px;">
-                        {{ item.frame.name }}
-                    </a>
-                    <a href="{% url 'remove_from_wishlist' frame_id=item.frame_id %}" class="remove-button">Remove</a>
+                    <div class="item-details">
+                        <a href="{% url 'frame_details_common' frame_id=item.frame_id %}" class="product-name">
+                            <img src="{{ item.frame.thumbnail.url }}" alt="{{ item.frame.name }}">
+                            {{ item.frame.name }}
+                        </a>
+                    </div>
+                    <a href="{% url 'add_to_cart' frame_id=item.frame_id %}" class="add-to-cart-button">Add to Cart</a>
+                    <a href="{% url 'remove_from_wishlist' frame_id=item.frame_id %}" class="remove-button">Remove from Wishlist</a>
                 </li>
             {% endfor %}
         </ul>

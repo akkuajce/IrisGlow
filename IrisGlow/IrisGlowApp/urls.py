@@ -25,7 +25,16 @@ urlpatterns = [
     path('update_cart/<int:frame_id>/', views.update_cart, name='update_cart'),
     # path('update_cart_quantity/', views.update_cart_quantity, name='update_cart_quantity'),
 
+
     path('checkout/', views.checkout, name='checkout'),
+
+
+    
+
+
+
+
+    
 
 
     path('',views.index,name='index'),
