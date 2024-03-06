@@ -863,7 +863,20 @@ from .models import Frame
 @login_required
 def eyeglasses(request):
     eyeglasses_frames = Frame.objects.filter(category='Eyeglasses')
-    return render(request, 'eyeglasses/eyeglasses.html', {'eyeglasses_frames': eyeglasses_frames})
+
+    # Handle brand filtering
+    selected_brands = request.GET.getlist('brand', [])
+    if selected_brands:
+        eyeglasses_frames = eyeglasses_frames.filter(brand_name__in=selected_brands)
+
+    # Pass the selected brands to the context
+    context = {
+        'eyeglasses_frames': eyeglasses_frames,
+        'selected_brands': selected_brands,
+        'BRAND_CHOICES': Frame.BRAND_CHOICES,
+    }
+
+    return render(request, 'eyeglasses/eyeglasses.html', context)
 
 @login_required
 def sunglasses(request):

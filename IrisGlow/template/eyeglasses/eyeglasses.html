@@ -86,17 +86,25 @@
                 <a href="{% url 'eyeglasses' %}" class="nav-item nav-link active">Eyeglasses</a>
                 <a href="{% url 'sunglasses' %}" class="nav-item nav-link active">Sunglasses</a>
                 <a href="{% url 'computerglasses' %}" class="nav-item nav-link active">Computer Glasses</a>
+
+                <a href="{% url 'cart' %}" class="nav-link active">
+                    <i class="fas fa-shopping-cart" style="color: black;"></i> <!-- Font Awesome cart icon in black -->
+                </a>
+
+                <a href="{% url 'wishlist' %}" class="nav-link">
+                    <i class="far fa-heart"></i> <!-- Font Awesome heart icon -->
+                </a>
                 
                 </div>
 
                 
                 
             </div>
-            {% comment %} <a href="{% url 'profile' %}" class="nav-item nav-link active" id="myprofile">My Profile</a> {% endcomment %}
+            
                         
             <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
             <a href="" class="nav-item nav-link">Welcome,{{user.first_name}}</a>
-            {% comment %} <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a> {% endcomment %}
+            
 
             <a href="{% url 'logout' %}" class="btn btn-primary py-2 px-4 ms-3">Logout</a>
 
@@ -122,29 +130,48 @@
     </nav>
 
 
+    
+
+
     {% block content %}
-
     <div class="container mt-5">
-        <h2 class="mb-4">Eyeglasses</h2>
         <div class="row">
-            {% for frame in eyeglasses_frames %}
-                <div class="col-md-4 mb-4">
-                    <div class="frame-box p-3 border rounded position-relative shadow">
-                        <img src="{{ frame.thumbnail.url }}" alt="{{ frame.name }}" class="img-fluid mb-2">
-                        <h4 class="mb-3">{{ frame.name }}</h4>
-                        <p class="mb-2">Brand: {{ frame.brand_name }}</p>
-                        <p class="mb-2">Category: {{ frame.category }}</p>
-                        <p class="mb-2">Price: Rs {{ frame.price }}</p>
-                        <!-- Add other details as needed -->
+            <div class="col-md-3 mb-4">
+                <form method="get">
+                    <h5>Brand Filter</h5>
+                    {% for brand in BRAND_CHOICES %}
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="{{ brand.0 }}" name="brand" value="{{ brand.0 }}" {% if brand.0 in selected_brands %}checked{% endif %}>
+                            <label class="form-check-label" for="{{ brand.0 }}">{{ brand.1 }}</label>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary mt-2">Apply Filter</button>
+                </form>
+            </div>
 
-                        <br>
+            <div class="col-md-9">
+                <h2 class="mb-4">Eyeglasses</h2>
+                <div class="row">
+                    {% for frame in eyeglasses_frames %}
+                        <div class="col-md-4 mb-4">
+                            <div class="frame-box p-3 border rounded position-relative shadow">
+                                <img src="{{ frame.thumbnail.url }}" alt="{{ frame.name }}" class="img-fluid mb-2">
+                                <h4 class="mb-3">{{ frame.name }}</h4>
+                                <p class="mb-2">Brand: {{ frame.brand_name }}</p>
+                                <p class="mb-2">Category: {{ frame.category }}</p>
+                                <p class="mb-2">Price: Rs {{ frame.price }}</p>
+                                <!-- Add other details as needed -->
 
-                        <div class="overlay"></div>
+                                <br>
 
-                        <a href="{% url 'frame_details_common' frame_id=frame.frame_id %}" class="btn btn-primary position-absolute bottom-0 start-50 translate-middle-x">View Details</a>
-                    </div>
+                                <div class="overlay"></div>
+
+                                <a href="{% url 'frame_details_common' frame_id=frame.frame_id %}" class="btn btn-primary position-absolute bottom-0 start-50 translate-middle-x">View Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
 
@@ -175,5 +202,12 @@
             opacity: 1;
         }
     </style>
-
 {% endblock %}
+
+
+
+    
+
+    
+
+

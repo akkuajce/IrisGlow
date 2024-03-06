@@ -42,6 +42,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-GLhlTQ8iN17D5LXYu+v6NwePUEtrL8lN/B3AjNlPB9e1zTzI1/6I5TJ73MIpiJ6" crossorigin="anonymous">
 
 
+<style>
+
+        /* Add this in your CSS file or in a style block in the head section */
+.frame-box {
+    background-color: #f8f9fa; /* Set a background color for the frame boxes */
+    border: 1px solid #dee2e6; /* Add a border for a cleaner look */
+    transition: transform 0.3s ease; /* Add a smooth transition effect */
+    height: 100%;
+}
+
+.frame-box:hover {
+    transform: scale(1.05); /* Enlarge the box on hover for a subtle effect */
+}
+
+.frame-details {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.frame-box img {
+    max-height: 150px; /* Set a maximum height for the frame images */
+    width: auto; /* Maintain aspect ratio */
+    margin-bottom: 10px; /* Add some spacing between the image and text */
+}
+
+.frame-details h5 {
+    margin-bottom: 5px; /* Adjust spacing between heading and other details */
+}
+
+.frame-details p {
+    margin: 0; /* Remove default margin for paragraphs */
+}
+
+</style>
+
+
+    
+
+
 
 </head>
 
@@ -97,6 +138,11 @@
                     <i class="fas fa-shopping-cart"></i>
                 </a> {% endcomment %}
 
+                <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal">
+                    <i class="fa fa-search"></i>
+                </button>
+                
+
                 <a href="{% url 'cart' %}" class="nav-link active">
                     <i class="fas fa-shopping-cart" style="color: black;"></i> <!-- Font Awesome cart icon in black -->
                 </a>
@@ -140,6 +186,29 @@
 
     </nav>
 
+    <!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="get" action="{% url 'buyframes' %}" class="mb-3" id="searchForm">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search frames..." name="q" value="{{ query }}" id="searchInput">
+
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     
     
     
@@ -179,15 +248,20 @@
 
 
 <div class="random-frames mt-4">
-    <h3>Explore More Frames</h3>
+    <h3>Explore More Frames <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal">
+        <i class="fa fa-search"></i>
+    </button></h3>
 
-    <!-- Search Form -->
+    {% comment %} <!-- Search Form -->
     <form method="get" action="{% url 'buyframes' %}" class="mb-3">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search frames..." name="q" value="{{ query }}">
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
-    </form>
+    </form> {% endcomment %}
+
+    
+    
 
     <!-- Display Search Results or Random Frames -->
     <div class="row">
@@ -210,19 +284,33 @@
 
 
 <div class="random-frames mt-4">
-    {% comment %} <h3>Explore More Frames</h3> {% endcomment %}
     <div class="row">
         {% for random_frame in random_frames %}
             <div class="col-md-3 mb-4">
                 <div class="frame-box p-3 border rounded">
                     <img src="{{ random_frame.thumbnail.url }}" alt="{{ random_frame.name }}" class="img-fluid mb-2">
-                    <h5 class="mb-3">{{ random_frame.name }}</h5>
-                    <p>Brand: {{ random_frame.brand_name }}</p>
-                    <p>Price: Rs {{ random_frame.price }}</p>
-                    <a href="{% url 'frame_details_common' frame_id=random_frame.pk %}" class="btn btn-primary">View Details</a>
+                    <div class="frame-details">
+                        <h5>{{ random_frame.name }}</h5>
+                        <p>Brand: {{ random_frame.brand_name }}</p>
+                        <p>Price: Rs {{ random_frame.price }}</p>
+                        <a href="{% url 'frame_details_common' frame_id=random_frame.pk %}" class="btn btn-primary">View Details</a>
+                    </div>
                 </div>
             </div>
         {% endfor %}
     </div>
 </div>
 {% endblock %}
+
+
+
+
+<script>
+    // Function to reset the search input field value
+    function resetSearchInput() {
+        document.getElementById("searchInput").value = "";
+    }
+
+    // Attach the function to the form submission event
+    document.getElementById("searchForm").addEventListener("submit", resetSearchInput);
+</script>
