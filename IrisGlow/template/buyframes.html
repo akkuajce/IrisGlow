@@ -195,14 +195,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="get" action="{% url 'buyframes' %}" class="mb-3" id="searchForm">
+                <!-- Search Form -->
+<form method="get" action="{% url 'buyframes' %}" class="mb-3" id="searchForm">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search frames..." name="q" value="{{ query }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
 
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search frames..." name="q" value="{{ query }}" id="searchInput">
-
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

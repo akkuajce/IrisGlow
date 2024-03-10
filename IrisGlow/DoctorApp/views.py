@@ -275,12 +275,6 @@ def editdoctorprofile(request):
 
 
 
-
-
-
-
-
-
 # appointment views.py
 from .models import Appointments, DoctorDayOff
 from .forms import AppointmentForm, CurrentUserForm
@@ -410,16 +404,6 @@ def get_available_time_slots(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
 #appointment confirmationpage
 from django.shortcuts import render
 
@@ -520,15 +504,6 @@ def search_doctor(request):
 @login_required
 def doctor_search(request):
     return render(request, 'doctor_search.html')
-
-
-
-
-
-
-
-
-
 
 
 
@@ -790,31 +765,6 @@ def payment(request, appointment_id,t_fees):
     }
 
     return render(request, 'razorpay_payment.html', context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
