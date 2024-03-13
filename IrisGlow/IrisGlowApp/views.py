@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from DoctorApp.models import Appointments, Specialities
 
 from .forms import BootstrapDateInput, BootstrapSelect, BootstrapTextInput, CustomUserForm, SpecialityForm, UserProfileForm
-from .models import CustomUser
+from .models import CustomUser, PaymentP
 from .decorators import user_not_authenticated
 from .models import CustomUser,UserProfile
 from django.contrib.auth import get_user_model
@@ -860,6 +860,8 @@ def delete_frame(request, frame_id):
 from django.shortcuts import render
 from .models import Frame
 
+from django.db.models import F
+
 @login_required
 def eyeglasses(request):
     eyeglasses_frames = Frame.objects.filter(category='Eyeglasses')
@@ -869,7 +871,18 @@ def eyeglasses(request):
     if selected_brands:
         eyeglasses_frames = eyeglasses_frames.filter(brand_name__in=selected_brands)
 
-    # Pass the selected brands to the context
+    # Handle price sorting
+    sort_by = request.GET.get('sort', None)
+    if sort_by == 'price_low_to_high':
+        eyeglasses_frames = eyeglasses_frames.order_by('price')
+    elif sort_by == 'price_high_to_low':
+        eyeglasses_frames = eyeglasses_frames.order_by('-price')
+
+    # Handle gender filtering
+    gender = request.GET.get('gender', None)
+    if gender in ['M', 'F', 'K']:
+        eyeglasses_frames = eyeglasses_frames.filter(gender=gender)
+
     context = {
         'eyeglasses_frames': eyeglasses_frames,
         'selected_brands': selected_brands,
@@ -878,15 +891,69 @@ def eyeglasses(request):
 
     return render(request, 'eyeglasses/eyeglasses.html', context)
 
+
+from django.db.models import F
+
 @login_required
 def sunglasses(request):
     sunglasses_frames = Frame.objects.filter(category='Sunglasses')
-    return render(request, 'sunglasses/sunglasses.html', {'sunglasses_frames': sunglasses_frames})
+
+    # Handle brand filtering
+    selected_brands = request.GET.getlist('brand', [])
+    if selected_brands:
+        sunglasses_frames = sunglasses_frames.filter(brand_name__in=selected_brands)
+
+    # Handle price sorting
+    sort_by = request.GET.get('sort', None)
+    if sort_by == 'price_low_to_high':
+        sunglasses_frames = sunglasses_frames.order_by('price')
+    elif sort_by == 'price_high_to_low':
+        sunglasses_frames = sunglasses_frames.order_by('-price')
+
+    # Handle gender filtering
+    gender = request.GET.get('gender', None)
+    if gender in ['M', 'F', 'K']:
+        sunglasses_frames = sunglasses_frames.filter(gender=gender)
+
+    context = {
+        'sunglasses_frames': sunglasses_frames,
+        'selected_brands': selected_brands,
+        'BRAND_CHOICES': Frame.BRAND_CHOICES,
+    }
+
+    return render(request, 'sunglasses/sunglasses.html', context)
+
+
+from django.db.models import F
 
 @login_required
 def computerglasses(request):
     computerglasses_frames = Frame.objects.filter(category='Computer Glasses')
-    return render(request, 'computerglasses/computerglasses.html', {'computerglasses_frames': computerglasses_frames})
+
+    # Handle brand filtering
+    selected_brands = request.GET.getlist('brand', [])
+    if selected_brands:
+        computerglasses_frames = computerglasses_frames.filter(brand_name__in=selected_brands)
+
+    # Handle price sorting
+    sort_by = request.GET.get('sort', None)
+    if sort_by == 'price_low_to_high':
+        computerglasses_frames = computerglasses_frames.order_by('price')
+    elif sort_by == 'price_high_to_low':
+        computerglasses_frames = computerglasses_frames.order_by('-price')
+
+    # Handle gender filtering
+    gender = request.GET.get('gender', None)
+    if gender in ['M', 'F', 'K']:
+        computerglasses_frames = computerglasses_frames.filter(gender=gender)
+
+    context = {
+        'computerglasses_frames': computerglasses_frames,
+        'selected_brands': selected_brands,
+        'BRAND_CHOICES': Frame.BRAND_CHOICES,
+    }
+
+    return render(request, 'computerglasses/computerglasses.html', context)
 
 
 
@@ -1300,14 +1367,118 @@ def checkout(request):
             city=city,
             state=state,
             pincode=pincode,
-            phone_number=phone_number
+            phone_number=phone_number,
+            total_amount=total_price
         )
 
-        # Redirect to proceed to payment page
-        return redirect('proceed_to_payment')
+        # Redirect to the payment2 view with the shipping_address_id as a parameter
+        return redirect(reverse('payment2', args=[shipping_address.id]))
 
     return render(request, 'checkout.html', {'cart_items': user_cart_items, 'total_price': total_price})
 
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseBadRequest
+
+
+razorpay_client = razorpay.Client(
+     auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+
+def payment2(request, shipping_address_id):
+    # Retrieve the shipping address using get_object_or_404 to ensure it exists
+    shipping_address = get_object_or_404(ShippingAddress, id=shipping_address_id)
+    t_fees = shipping_address.total_amount
+    
+    # For Razorpay integration
+    currency = 'INR'
+    amount = t_fees  # Get the total amount
+    amount_in_paise = int(amount * 100)  # Convert to paise
+
+    # Create a Razorpay Order
+    razorpay_order = razorpay_client.order.create(dict(
+        amount=amount_in_paise,
+        currency=currency,
+        payment_capture='0'
+    ))
+
+    # Extract the Order ID of the newly created order
+    razorpay_order_id = razorpay_order['id']
+    
+    # Define your callback URL here
+    callback_url = reverse('paymenthandler2', args=[shipping_address_id])
+
+    # Create a Payment object
+    payment = PaymentP.objects.create(
+        user=request.user,
+        razorpay_order_id=razorpay_order_id,
+        payment_id="",
+        amount=amount,
+        currency=currency,
+        payment_status=Payment.PaymentStatusChoices.PENDING,
+        shippingAddress=shipping_address
+    )
+
+    # Prepare the context data
+    context = {
+        'user': request.user,
+        'shipping_address': shipping_address,
+        'razorpay_order_id': razorpay_order_id,
+        'razorpay_merchant_key': settings.RAZOR_KEY_ID,
+        'razorpay_amount': amount_in_paise,
+        'currency': currency,
+        'amount': amount_in_paise / 100,
+        'callback_url': callback_url,
+    }
+
+    return render(request, 'shipping_details.html', context)
+
+
+# @csrf_exempt
+# def payment_confirmation(request, order_id):
+#     try:
+#         # Retrieve the appointment based on the order_id
+@csrf_exempt
+def paymenthandler2(request, shipping_address_id):
+    # Only accept POST requests.
+    if request.method == "POST":
+        # Get the required parameters from the POST request.
+        payment_id = request.POST.get('razorpay_payment_id', '')
+        razorpay_order_id = request.POST.get('razorpay_order_id', '')
+        signature = request.POST.get('razorpay_signature', '')
+        
+        params_dict = {
+            'razorpay_order_id': razorpay_order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+        }
+
+        # Verify the payment signature.
+        result = razorpay_client.utility.verify_payment_signature(params_dict)
+
+        # Get the PaymentP object
+        try:
+            payment = PaymentP.objects.get(razorpay_order_id=razorpay_order_id)
+        except PaymentP.DoesNotExist:
+            # If the PaymentP object does not exist, return a bad request response.
+            return HttpResponseBadRequest("Payment matching query does not exist.")
+
+        amount = int(payment.amount * 100)  # Convert Decimal to paise
+
+        # Capture the payment.
+        razorpay_client.payment.capture(payment_id, amount)
+
+        # Update the payment details.
+        payment.payment_id = payment_id
+        payment.payment_status = PaymentP.PaymentStatusChoices.SUCCESSFUL
+        payment.save()
+
+        # Render the success page on successful capture of payment.
+        return render(request, 'payment_confirmation.html')
+
+    else:
+        # If other than POST request is made, return a bad request response.
+        return HttpResponseBadRequest("Invalid request method.")
 
 
 

@@ -672,10 +672,7 @@ def appointment_email(email, payee, ap_date, ap_time, therapist, payment, pay_am
 
 
 
-from django.template.loader import get_template
-from django.http import HttpResponse
-import io
-from xhtml2pdf import pisa
+
    
 
 # views.py
@@ -693,7 +690,8 @@ def generate_pdf_invoice(payee, pay_amt, payment):
     context = {
         'payee': payee,
         'amount': pay_amt,
-        'payment': payment,  # Pass the payment object to the template
+        'payment': payment,  
+          # Pass the appointment date to the template
     }
     html = template.render(context)
 
@@ -704,6 +702,7 @@ def generate_pdf_invoice(payee, pay_amt, payment):
     pdf_buffer.close()
 
     return pdf_content
+
 
 
 

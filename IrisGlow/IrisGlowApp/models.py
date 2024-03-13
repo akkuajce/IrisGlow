@@ -1,6 +1,7 @@
 
 from django.db import models
 from datetime import date
+from datetime import datetime, timezone
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 # Create your models here.
@@ -401,6 +402,41 @@ class ShippingAddress(models.Model):
     state = models.CharField(max_length=100)
     pincode = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=15)
+    total_amount = models.DecimalField(max_digits=8, decimal_places=2,default= 0)
 
     def __str__(self):
         return f"{self.full_name} - {self.address_line_1}, {self.city}, {self.state} - {self.pincode}"
+
+class PaymentP(models.Model):
+    class PaymentStatusChoices(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        SUCCESSFUL = 'successful', 'Successful'
+        FAILED = 'failed', 'Failed'
+    
+
+        
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Link the payment to a user
+    razorpay_order_id = models.CharField(max_length=255)  # Razorpay order ID
+    payment_id = models.CharField(max_length=255)  # Razorpay payment ID
+    amount = models.DecimalField(max_digits=8, decimal_places=2)  # Amount paid
+    currency = models.CharField(max_length=5)  # Currency code (e.g., "INR")
+    timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp of the payment
+    payment_status = models.CharField(max_length=20, choices=PaymentStatusChoices.choices, default=PaymentStatusChoices.PENDING)
+    shippingAddress = models.ForeignKey(ShippingAddress, on_delete=models.CASCADE)
+
+
+    def str(self):
+        return f"Payment for {self.shippingAddress}"
+    
+    class Meta:
+        ordering = ['-timestamp']
+
+#Update Status not implemented
+    def update_status(self):
+        # Calculate the time difference in minutes
+        time_difference = (timezone.now() - self.timestamp).total_seconds() / 60
+
+        if self.payment_status == self.PaymentStatusChoices.PENDING and time_difference > 1:
+            # Update the status to "Failed"
+            self.payment_status = self.PaymentStatusChoices.FAILED
+            self.save()

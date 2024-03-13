@@ -128,6 +128,9 @@ urlpatterns = [
 
 
     path('frame-details-common/<int:frame_id>/', views.frame_details_common_view, name='frame_details_common'),
+
+    path('payment2/<int:shipping_address_id>/', views.payment2, name='payment2'),
+    path('paymenthandler2/<int:shipping_address_id>/', views.paymenthandler2, name='paymenthandler2'),
     # path('add_to_cart/<int:frame_id>/', add_to_cart, name='add_to_cart'),
     # path('cart/', cart_view, name='cart'),
     # path('get_cart_data/', views.get_cart_data, name='get_cart_data'),

@@ -1,16 +1,48 @@
-<!-- invoice.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
-    <!-- Your CSS styles here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .details {
+            margin-bottom: 20px;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        .message {
+            font-style: italic;
+            text-align: center;
+            color: green;
+        }
+    </style>
 </head>
 <body>
-    <h1>Invoice</h1>
-    <p>Payee: {{ payee }}</p>
-    <p>Amount: {{ appointment.amount }}</p>
-    <p>Payment Status: {{ payment.payment_status }}</p>
-    <p>Payment Date: {{ payment.timestamp }}</p>
+    <div class="container">
+        <h1>IrisGlow Eye Care Hospital</h1>
+        <h2>Appointment Confirmation</h2>
+        <div class="details">
+            
+            <p><strong>Appointment Fees:</strong> Rs. 300</p>
+            <p><strong>Payment Amount:</strong> Rs. 300</p>
+            <p><strong>Payment Method:</strong> UPI </p>
+            
+        </div>
+        <p class="message">Payment Received. Thank you for your payment!</p>
+    </div>
 </body>
 </html>

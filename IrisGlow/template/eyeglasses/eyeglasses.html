@@ -143,9 +143,24 @@
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="{{ brand.0 }}" name="brand" value="{{ brand.0 }}" {% if brand.0 in selected_brands %}checked{% endif %}>
                             <label class="form-check-label" for="{{ brand.0 }}">{{ brand.1 }}</label>
-                        </div>
+                        </div> 
                     {% endfor %}
-                    <button type="submit" class="btn btn-primary mt-2">Apply Filter</button>
+                    {% comment %} <button type="submit" class="btn btn-primary mt-2">Apply Filter</button> {% endcomment %}
+
+                    <select name="sort" class="form-select mb-2">
+                        <option value="">Sort by</option>
+                        <option value="price_low_to_high">Price Low to High</option>
+                        <option value="price_high_to_low">Price High to Low</option>
+                    </select>
+                    <!-- Add Gender filtering options -->
+                    <select name="gender" class="form-select mb-2">
+                        <option value="">Filter by Gender</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="K">Kids</option>
+                    </select>
+                    <!-- Add Apply Filter button -->
+                    <button type="submit" class="btn btn-primary mb-2">Apply Filter</button>
                 </form>
             </div>
 
@@ -179,7 +194,7 @@
         .frame-box {
             transition: transform 0.3s;
             overflow: hidden;
-            background: linear-gradient(45deg, #3CA8AB, #FFD666); /* Use your preferred color combination */
+            background: linear-gradient(45deg, #0a899e, ##eeff1b); /* Use your preferred color combination */
             height: 100%; /* Adjust the height to your preference */
         }
 
