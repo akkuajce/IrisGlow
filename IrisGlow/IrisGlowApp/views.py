@@ -1438,11 +1438,27 @@ def payment2(request, shipping_address_id):
 # def payment_confirmation(request, order_id):
 #     try:
 #         # Retrieve the appointment based on the order_id
+from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from .models import PaymentP, CustomUser, ShippingAddress
+from django.conf import settings
+import razorpay
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from .models import UserCart
+
+
+razorpay_client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+
+
+
+
+
 @csrf_exempt
 def paymenthandler2(request, shipping_address_id):
-    # Only accept POST requests.
     if request.method == "POST":
-        # Get the required parameters from the POST request.
         payment_id = request.POST.get('razorpay_payment_id', '')
         razorpay_order_id = request.POST.get('razorpay_order_id', '')
         signature = request.POST.get('razorpay_signature', '')
@@ -1453,34 +1469,54 @@ def paymenthandler2(request, shipping_address_id):
             'razorpay_signature': signature
         }
 
-        # Verify the payment signature.
         result = razorpay_client.utility.verify_payment_signature(params_dict)
 
-        # Get the PaymentP object
         try:
             payment = PaymentP.objects.get(razorpay_order_id=razorpay_order_id)
         except PaymentP.DoesNotExist:
-            # If the PaymentP object does not exist, return a bad request response.
             return HttpResponseBadRequest("Payment matching query does not exist.")
 
-        amount = int(payment.amount * 100)  # Convert Decimal to paise
+        amount = int(payment.amount * 100)
 
-        # Capture the payment.
         razorpay_client.payment.capture(payment_id, amount)
 
-        # Update the payment details.
         payment.payment_id = payment_id
         payment.payment_status = PaymentP.PaymentStatusChoices.SUCCESSFUL
         payment.save()
 
-        # Render the success page on successful capture of payment.
-        return render(request, 'payment_confirmation.html')
+        # Assuming you have a way to determine the shipping address associated with the payment
+        # For example, if you pass the shipping_address_id in the request POST data
+        shipping_address = ShippingAddress.objects.get(pk=shipping_address_id)
+
+        payment.shipping_address = shipping_address  # Associate the payment with the shipping address
+        payment.save()
+
+
+        # Delete items from the cart after successful payment
+        user = request.user
+        UserCart.objects.filter(user=user).delete()
+
+        # Render email template with shipping address details
+        
+
+        email_subject = "Your Payment is Successful!"
+        email_message_html = render_to_string('payment_success_email.html', {'shipping_address': shipping_address})
+        email_message_text = strip_tags(email_message_html)  # Strip HTML tags for plain text version
+
+        # Send email to the user
+        send_mail(
+            email_subject,
+            email_message_text,  # Plain text version of the email
+            'irisgloweyecare@gmail.com',  # Sender's email address
+            [request.user.email],  # List of recipient email addresses
+            html_message=email_message_html,  # HTML version of the email
+            fail_silently=False,
+        )
+
+        return render(request, 'payment_confirmation_frame.html', {'shipping_address': shipping_address})
 
     else:
-        # If other than POST request is made, return a bad request response.
         return HttpResponseBadRequest("Invalid request method.")
-
-
 
 
 

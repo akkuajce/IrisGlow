@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Payment is Successful!</title>
+</head>
+<body>
+    <h1>Hi {{ shipping_address.full_name }}, Your Payment is Successful!</h1>
+    <p>Thank you for shopping with us.</p>
+     <p><strong>Sub Total</strong> Rs.{{ shipping_address.total_amount }}</p>
+    <p>Method of payment is UPI </p> 
+    
+
+    <br>
+    <p><b>Here are the details of your shipping address:</b></p>
+    <p><strong>Full Name:</strong> {{ shipping_address.full_name }}</p>
+    <p><strong>Address Line 1:</strong> {{ shipping_address.address_line_1 }}</p>
+    {% if shipping_address.address_line_2 %}
+        <p><strong>Address Line 2:</strong> {{ shipping_address.address_line_2 }}</p>
+    {% endif %}
+    <p><strong>City:</strong> {{ shipping_address.city }}</p>
+    <p><strong>State:</strong> {{ shipping_address.state }}</p>
+    <p><strong>Pincode:</strong> {{ shipping_address.pincode }}</p>
+    <p><strong>Phone Number:</strong> {{ shipping_address.phone_number }}</p>
+</body>
+</html>
+

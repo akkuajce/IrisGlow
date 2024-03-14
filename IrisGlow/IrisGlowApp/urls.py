@@ -131,6 +131,13 @@ urlpatterns = [
 
     path('payment2/<int:shipping_address_id>/', views.payment2, name='payment2'),
     path('paymenthandler2/<int:shipping_address_id>/', views.paymenthandler2, name='paymenthandler2'),
+
+
+    # path('generate_order_summary_pdf/<int:order_id>/', views.generate_order_summary_pdf, name='generate_order_summary_pdf'),
+
+
+
+
     # path('add_to_cart/<int:frame_id>/', add_to_cart, name='add_to_cart'),
     # path('cart/', cart_view, name='cart'),
     # path('get_cart_data/', views.get_cart_data, name='get_cart_data'),
