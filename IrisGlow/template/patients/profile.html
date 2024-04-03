@@ -12,10 +12,8 @@
   <link href="{% static 'img/favicon.ico' %}" rel="icon" />
 
   <!-- Google Web Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap"
-    rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
 
   <!-- Icon Font Stylesheet -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
@@ -32,7 +30,6 @@
   <link href="{% static 'css/style.css' %}" rel="stylesheet" />
   <style>
     body {
-
       color: #9b9ca1;
     }
 
@@ -122,6 +119,42 @@
       transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
         -webkit-box-shadow 0.15s ease-in-out;
     }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 250px;
+      background-color: #343a40; /* Sidebar background color */
+      padding-top: 60px;
+    }
+
+    .sidebar a {
+      padding: 10px;
+      font-size: 18px;
+      color: white;
+      display: block;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #555;
+    }
+
+    .sidebar h2 {
+      color: white;
+      padding: 10px;
+      margin-top: 0;
+    }
+
+    /* Page content */
+    .content {
+      margin-left: 250px; /* Adjust with sidebar width */
+      padding: 20px;
+    }
   </style>
 </head>
 
@@ -138,81 +171,60 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-        
-        {% if user.is_authenticated %}
-        <div class="collapse navbar-collapse ms-5 mr-5 justify-content-end" id="navbarCollapse">
-            <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
-                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
-                {% comment %} <a href="{% url 'listtherapist' %}" class="nav-item nav-link">Find a Therapist</a> {% endcomment %}
-                
-                        {% comment %} <a href="{% url 'familytherapy' %}" class="dropdown-item">Family Therapy</a> {% endcomment %}
-                        {% comment %} <a href="{% url 'search' %}" class="dropdown-item">Search</a>
-                        <a href="appointment.html" class="dropdown-item">Appointment</a> {% endcomment %}
-                    </div>
-                </div> 
-                <a href="{% url 'patient_appointment_history' %}"class="nav-item nav-link active">View Appointment History</a>
-
-                {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle"
-                        data-bs-toggle="dropdown">Welcome,{{user.first_name}}</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="{% url 'profile' %}" class="dropdown-item nav-linkd">My Profile</a>
-                        {% comment %} <a href="{% url 'view-appointment-client' %}" class="dropdown-item nav-linkd">View
-                            Appointments</a> {% endcomment %}
-                        <a href="{% url 'logout' %}" class="dropdown-item nav-linkd ">Logout</a>
-                    </div>
-                </div>
-
-            </div>
+    {% if user.is_authenticated %}
+    <div class="collapse navbar-collapse ms-5 mr-5 justify-content-end" id="navbarCollapse">
+      <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
+        <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+        <a href="{% url 'patient_appointment_history' %}" class="nav-item nav-link active">View Appointment History</a>
+        <div class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Welcome,{{user.first_name}}</a>
+          <div class="dropdown-menu m-0">
+            <a href="{% url 'profile' %}" class="dropdown-item nav-linkd">My Profile</a>
+            <a href="{% url 'logout' %}" class="dropdown-item nav-linkd ">Logout</a>
+          </div>
         </div>
-
-        {% else %}
-        <div class="collapse navbar-collapse ms-5 mr-5 justify-content-between" id="navbarCollapse">
-            <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
-
-
-                <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
-                <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
-                {% comment %} <a href="{% url 'listtherapist' %}" class="nav-item nav-link">Find a Doctor</a> {% endcomment %}
-                {% comment %} <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
-                    <div class="dropdown-menu m-0">
-                        <a href="{% url 'familytherapy' %}" class="dropdown-item">Family Therapy</a> {% endcomment %}
-                        {% comment %} <a href="{% url 'search' %}" class="dropdown-item">Search</a>
-                        <a href="appointment.html" class="dropdown-item">Appointment</a> {% endcomment %}
-                    </div>
-                </div> 
-                {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
-                {% comment %} <a href="contact.html" class="nav-item nav-link">Contact</a> {% endcomment %}
-
-            </div>
-
-            <div class="d-flex">
-                <a href="{% url 'login' %}" class="nav-item nav-link btn btn-success mx-2 text-dark">Login</a>
-
-                <!-- Register button -->
-                <a href="{% url 'register' %}" class="nav-item nav-link btn btn-success text-dark">Register</a>
-            </div>
-            {% endif %}
-        </div>
-      </nav>
+      </div>
     </div>
-  </div>
-  <!-- Navbar End -->
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <!-- Page title -->
-        <div class="my-5">
-          <h3 class="">My Profile</h3>
-          <hr />
-        </div>
+    {% else %}
+    <div class="collapse navbar-collapse ms-5 mr-5 justify-content-between" id="navbarCollapse">
+      <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
+        <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+        <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+      </div>
 
-        <!-- Form START -->
-        {% comment %}
-        <form class="file-upload">
-          {% endcomment %}
+      <div class="d-flex">
+        <a href="{% url 'login' %}" class="nav-item nav-link btn btn-success mx-2 text-dark">Login</a>
+        <a href="{% url 'register' %}" class="nav-item nav-link btn btn-success text-dark">Register</a>
+      </div>
+    </div>
+    {% endif %}
+  </nav>
+  <!-- Navbar End -->
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="index.html"  class="navbar-brand p-0">
+      <h1 class="m-0 text-primary">
+          <img src="{% static 'img/img1.png' %}">
+        IrisGlow</h1>
+    </a>
+    <br>
+    <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
+    <a href="{% url 'patient_appointment_history' %}" class="nav-item nav-link active">View Appointment History</a>
+  </div>
+
+  <!-- Page content -->
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <!-- Page title -->
+          <div class="my-5">
+            <h3 class="">My Profile</h3>
+            <hr />
+          </div>
+
+          <!-- Form START -->
           <div class="row mb-5 gx-5 file-upload">
             <!-- Upload profile -->
             <div class="col-xxl-5">
@@ -228,10 +240,10 @@
                       <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture"
                         class="position-absolute top-0 start-0 pp" />
                       {% else %} 
-                      {% comment %} <div class="rounded-circle no-file-message">
+                      <div class="rounded-circle no-file-message">
                         <img class="rounded-circle" src="{% static 'img/profile_pic.png' %}" alt="Profile Picture"
                           style="width: 200px; height: 200px" />
-                      </div> {% endcomment %}
+                      </div>
                       {% endif %}
                     </div>
 
@@ -262,7 +274,7 @@
                     </div>
                     <required><br>
                     <div class="d-flex justify-content-center w-100 align-items-center">
-                      <button class="btn btn-primary py-2 px-4 ms-3" type="submit" id = "submit">
+                      <button class="btn btn-primary py-2 px-4 ms-3" type="submit" id="submit">
                         Update Password
                       </button>
                     </div>
@@ -338,13 +350,10 @@
                     <label class="txtsize"><strong> Date of Birth :</strong></label>
                     <p class="txtsize mx-3">{{ user.userprofile.dob }}</p>
                   </div>
-
-
                 </div>
               </div>
 
               <div class="gap-3 d-md-flex justify-content-md-center text-center">
-                <!-- <button type="button" class="btn btn-danger btn-lg">Delete profile</button> -->
                 <a href="{% url 'edit-profile' %}"><button type="button" class="btn btn-primary btn-lg mb-5" id="edit">
                     Edit profile
                   </button></a>
@@ -352,10 +361,8 @@
             </div>
           </div>
           <!-- Row END -->
-          {% comment %}
-        </form>
-        {% endcomment %}
-        <!-- Form END -->
+          <!-- Form END -->
+        </div>
       </div>
     </div>
   </div>

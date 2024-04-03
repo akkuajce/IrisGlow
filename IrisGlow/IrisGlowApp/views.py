@@ -1,3 +1,4 @@
+import dataclasses
 from decimal import Decimal
 import json
 from random import sample
@@ -748,6 +749,57 @@ def spects_dashboard(request):
     else:
         return redirect(reverse('index'))
 
+# from django.contrib.auth.decorators import login_required
+# from django.shortcuts import render, redirect, reverse
+# from .models import UserCart
+# from django.db.models import Sum
+# from datetime import datetime
+# from .forms import UserProfileForm
+
+# from django.db.models import F
+
+# @login_required
+# def spects_dashboard(request):
+#     if request.user.is_authenticated:
+#         user = request.user
+#         if user.role == 3 and not request.path == reverse('spects_dashboard'):
+#             return redirect(reverse('spects_dashboard'))
+#         else:
+#             # Calculate total frames sold today
+#             today = datetime.now().date()
+#             frames_sold_today = UserCart.objects.filter(created_at__date=today).aggregate(total_sold=Sum('quantity'))['total_sold'] or 0
+
+#             # Calculate total amount generated today
+#             total_amount_today = UserCart.objects.filter(created_at__date=today).aggregate(total_amount=Sum(F('frame__price') * F('quantity')))['total_amount'] or 0
+
+#             # Calculate total frames sold this month
+#             this_month = datetime.now().date().replace(day=1)
+#             frames_sold_this_month = UserCart.objects.filter(created_at__date__gte=this_month).aggregate(total_sold=Sum('quantity'))['total_sold'] or 0
+
+#             # Calculate total amount generated this month
+#             total_amount_this_month = UserCart.objects.filter(created_at__date__gte=this_month).aggregate(total_amount=Sum(F('frame__price') * F('quantity')))['total_amount'] or 0
+
+#             form = UserProfileForm(instance=user.userprofile)
+
+#             if request.method == 'POST':
+#                 form = UserProfileForm(request.POST, request.FILES, instance=user.userprofile)
+#                 if form.is_valid():
+#                     form.save()
+#             context = {
+#                 'user': user,
+#                 'frames_sold_today': frames_sold_today,
+#                 'total_amount_today': total_amount_today,
+#                 'frames_sold_this_month': frames_sold_this_month,
+#                 'total_amount_this_month': total_amount_this_month,
+#                 'form': form
+#             }
+#             return render(request, 'spects_dashboard.html', context)
+#     else:
+#         return redirect(reverse('index'))
+
+
+
+
 
 
 
@@ -1273,69 +1325,7 @@ def remove_from_wishlist(request, frame_id):
 
 
 
-# 02/03 Checkout Views
 
-# views.py
-
-# from django.shortcuts import render
-# from .models import UserCart
-
-# def checkout(request):
-#     user = request.user
-#     user_cart_items = UserCart.objects.filter(user=user)
-#     total_price = sum(item.total_price() for item in user_cart_items)
-
-#     return render(request, 'checkout.html', {'cart_items': user_cart_items, 'total_price': total_price})
-
-
-# # views.py
-# from django.shortcuts import render, redirect
-# from django.contrib import messages
-# from .models import Frame, UserCart, Order, OrderItem, ShippingAddress
-
-# def checkout(request):
-#     user = request.user
-#     user_cart_items = UserCart.objects.filter(user=user)
-#     total_price = sum(item.total_price() for item in user_cart_items)
-
-#     if request.method == 'POST':
-#         full_name = request.POST.get('full_name')
-#         address_line_1 = request.POST.get('address_line_1')
-#         address_line_2 = request.POST.get('address_line_2', '')  # Optional field
-#         city = request.POST.get('city')
-#         state = request.POST.get('state')
-#         pincode = request.POST.get('pincode')
-#         phone_number = request.POST.get('phone_number')
-
-#         # Optionally, you can perform validation checks here
-
-#         # Create a ShippingAddress instance
-#         shipping_address = ShippingAddress.objects.create(
-#             user=user,
-#             full_name=full_name,
-#             address_line_1=address_line_1,
-#             address_line_2=address_line_2,
-#             city=city,
-#             state=state,
-#             pincode=pincode,
-#             phone_number=phone_number
-#         )
-
-#         # Create an order
-#         order = Order.objects.create(user=user, total_price=total_price)
-
-#         # Create order items for each cart item
-#         for cart_item in user_cart_items:
-#             OrderItem.objects.create(order=order, frame=cart_item.frame, quantity=cart_item.quantity,
-#                                      item_price=cart_item.frame.price)
-
-#         # Clear the user's cart after creating the order
-#         user_cart_items.delete()
-
-#         messages.success(request, 'Order placed successfully!')
-#         return redirect('order_summary')  # Redirect to order summary page after successful checkout
-
-#     return render(request, 'checkout.html', {'cart_items': user_cart_items, 'total_price': total_price})
 
 
 from django.shortcuts import render, redirect
@@ -1456,6 +1446,8 @@ razorpay_client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KE
 
 
 
+from django.db import transaction
+
 @csrf_exempt
 def paymenthandler2(request, shipping_address_id):
     if request.method == "POST":
@@ -1484,21 +1476,27 @@ def paymenthandler2(request, shipping_address_id):
         payment.payment_status = PaymentP.PaymentStatusChoices.SUCCESSFUL
         payment.save()
 
-        # Assuming you have a way to determine the shipping address associated with the payment
-        # For example, if you pass the shipping_address_id in the request POST data
+        # Retrieve the shipping address associated with the payment
         shipping_address = ShippingAddress.objects.get(pk=shipping_address_id)
 
-        payment.shipping_address = shipping_address  # Associate the payment with the shipping address
-        payment.save()
-
+        # Decrease stock quantity for each frame in the cart
+        user = request.user
+        cart_items = UserCart.objects.filter(user=user)
+        with transaction.atomic():
+            for cart_item in cart_items:
+                frame = cart_item.frame
+                if frame.stock_quantity >= cart_item.quantity:
+                    frame.stock_quantity -= cart_item.quantity
+                    frame.save()
+                else:
+                    # Handle the case where stock quantity is insufficient
+                    return HttpResponseBadRequest("Insufficient stock quantity.")
 
         # Delete items from the cart after successful payment
-        user = request.user
-        UserCart.objects.filter(user=user).delete()
+        cart_items.delete()
 
         # Render email template with shipping address details
         
-
         email_subject = "Your Payment is Successful!"
         email_message_html = render_to_string('payment_success_email.html', {'shipping_address': shipping_address})
         email_message_text = strip_tags(email_message_html)  # Strip HTML tags for plain text version
@@ -1517,8 +1515,3 @@ def paymenthandler2(request, shipping_address_id):
 
     else:
         return HttpResponseBadRequest("Invalid request method.")
-
-
-
-
-

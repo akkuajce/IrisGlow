@@ -141,6 +141,32 @@
         <a href="{% url 'spects_change_password' %}" class="action-link">Change Password</a>
         </div>
 
+
+
+        {% comment %} <div class="content">
+            
+            <!-- Add your Spects dashboard content here -->
+        
+            <div class="action-box total-frames-sold-today-box">
+                <h3>Total Frames Sold Today</h3>
+                <p>{{ frames_sold_today }}</p>
+            </div>
+        
+            <div class="action-box total-amount-today-box">
+                <h3>Total Amount Generated Today</h3>
+                <p>{{ total_amount_today }}</p>
+            </div>
+        
+            <div class="action-box total-frames-sold-this-month-box">
+                <h3>Total Frames Sold This Month</h3>
+                <p>{{ frames_sold_this_month }}</p>
+            </div>
+        
+            <div class="action-box total-amount-this-month-box">
+                <h3>Total Amount Generated This Month</h3>
+                <p>{{ total_amount_this_month }}</p>
+            </div> {% endcomment %}
+
         <button id="startButton"><i class="bi bi-mic-fill text-white"></i></button>
 
     </div>

@@ -205,17 +205,20 @@ https://www.tooplate.com/view/2114-pixie
             <!-- frame_details_common.html -->
 
             <div class="d-flex align-items-center mb-3">
+              <!-- Add to Cart form -->
               <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' frame_id=frame.frame_id %}">
                   {% csrf_token %}
-                  <!-- You can include additional fields here if needed -->
                   <input type="hidden" name="quantity" value="1"> <!-- Example: Quantity as 1 for simplicity -->
-                  <button type="submit" class="btn btn-primary">Add to Cart</button>
+                  <button type="submit" class="btn btn-primary" {% if frame.stock_quantity == 0 %}disabled{% endif %}>
+                      Add to Cart
+                  </button>
               </form>
-          &nbsp
+              &nbsp
+              <!-- Add to Wishlist form -->
               {% if user.is_authenticated %}
                   <form method="POST" action="{% if frame_in_wishlist %}{% url 'remove_from_wishlist' frame_id=frame.frame_id %}{% else %}{% url 'add_to_wishlist' frame_id=frame.frame_id %}{% endif %}">
                       {% csrf_token %}
-                      <button type="submit" class="btn btn-primary">
+                      <button type="submit" class="btn btn-primary" {% if frame.stock_quantity == 0 %}disabled{% endif %}>
                           {% if frame_in_wishlist %}
                               Remove from Wishlist
                           {% else %}
@@ -223,8 +226,26 @@ https://www.tooplate.com/view/2114-pixie
                           {% endif %}
                       </button>
                   </form>
+                  <br>
               {% endif %}
           </div>
+          
+          <span class="stock-quantity">
+              {% if frame.stock_quantity > 0 %}
+                  Stock Quantity: {{ frame.stock_quantity }}
+              {% else %}
+                  Out of Stock!!
+              {% endif %}
+          </span>
+          
+          <br>
+          
+             
+
+              
+              
+          
+          
           
           
 

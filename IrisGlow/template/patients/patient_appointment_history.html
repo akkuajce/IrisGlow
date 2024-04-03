@@ -211,7 +211,7 @@
                 <!-- ... existing cells ... -->
                 <td>
                     {% if not appointment.cancelled %}
-                        <form method="post" action="{% url 'cancel_appointment' appointment.id %}">
+                        {% comment %} <form method="post" action="{% url 'cancel_appointment' appointment.id %}"> {% endcomment %}
                             {% csrf_token %}
                             <button type="submit">Cancel</button>
                         </form>

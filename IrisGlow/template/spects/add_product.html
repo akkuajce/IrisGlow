@@ -297,6 +297,66 @@
             </div>
         </body>
 
+        <script>
+            $(document).ready(function() {
+                // Attach input event handler to the price field
+                $('#id_price').on('input', function() {
+                    validatePrice($(this));
+                });
+        
+                // Function to validate the price field
+                function validatePrice(field) {
+                    var value = field.val(); // Get the value entered by the user
+        
+                    // Remove any non-digit characters from the value
+                    value = value.replace(/\D/g, '');
+        
+                    // Limit the value to 5 digits
+                    if (value.length > 5) {
+                        value = value.slice(0, 5);
+                    }
+        
+                    // Update the field value with the validated value
+                    field.val(value);
+                }
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                // Attach input event handler to the stock quantity field
+                $('#id_stock_quantity').on('input', function() {
+                    validateStockQuantity($(this));
+                });
+        
+                // Function to validate the stock quantity field
+                function validateStockQuantity(field) {
+                    var value = field.val(); // Get the value entered by the user
+        
+                    // Remove any non-digit characters from the value
+                    value = value.replace(/\D/g, '');
+        
+                    // Limit the value to a maximum of 2 digits
+                    if (value.length > 2) {
+                        value = value.slice(0, 2);
+                    }
+        
+                    // Convert the value to a number
+                    var quantity = parseInt(value);
+        
+                    // Ensure that the quantity is less than 50
+                    if (quantity > 50) {
+                        quantity = 50;
+                    }
+        
+                    // Update the field value with the validated value
+                    field.val(quantity);
+                }
+            });
+        </script>
+        
+        
+
     </body>
 
 </html>
