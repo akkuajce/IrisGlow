@@ -328,9 +328,6 @@ class Frame(models.Model):
 
 
 
-
-
-
 from django.db import models
 from .models import Frame
 from django.contrib.auth import get_user_model
@@ -423,6 +420,8 @@ class PaymentP(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp of the payment
     payment_status = models.CharField(max_length=20, choices=PaymentStatusChoices.choices, default=PaymentStatusChoices.PENDING)
     shippingAddress = models.ForeignKey(ShippingAddress, on_delete=models.CASCADE)
+    purchased_items = models.JSONField(blank=True, null=True)
+
 
 
     def str(self):

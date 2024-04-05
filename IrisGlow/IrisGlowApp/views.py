@@ -327,7 +327,7 @@ def profile(request):
 
 
 @csrf_protect
-@login_required
+
 def editprofile(request):
     user_id = request.user.id
     user = CustomUser.objects.get(id=user_id)
@@ -726,9 +726,41 @@ def success_page(request):
 
 # Spects dashboard
 # Assuming you have a URL for Spects Dashboard named 'spects_dashboard'
+# from django.contrib.auth.decorators import login_required
+# from .forms import UserProfileForm
+
+
+# @login_required
+# def spects_dashboard(request):
+#     if request.user.is_authenticated:
+#         user = request.user
+#         if user.role == 3 and not request.path == reverse('spects_dashboard'):
+#             return redirect(reverse('spects_dashboard'))
+#         else:
+
+#             form = UserProfileForm(instance=user.userprofile)
+
+#             if request.method == 'POST':
+#                 form = UserProfileForm(request.POST, request.FILES, instance=user.userprofile)
+#                 if form.is_valid():
+#                     form.save()
+#             # Your Spects dashboard logic here
+#             return render(request, 'spects_dashboard.html')
+#     else:
+#         return redirect(reverse('index'))
+
+
+
+
+
+
+
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm
-
+from .models import UserCart, PaymentP
+from django.db.models import Sum
+from django.utils import timezone
 
 @login_required
 def spects_dashboard(request):
@@ -737,17 +769,45 @@ def spects_dashboard(request):
         if user.role == 3 and not request.path == reverse('spects_dashboard'):
             return redirect(reverse('spects_dashboard'))
         else:
-
             form = UserProfileForm(instance=user.userprofile)
 
             if request.method == 'POST':
                 form = UserProfileForm(request.POST, request.FILES, instance=user.userprofile)
                 if form.is_valid():
                     form.save()
-            # Your Spects dashboard logic here
-            return render(request, 'spects_dashboard.html')
+
+            # Fetch total products sold today
+            today = timezone.now().date()
+            total_products_sold_today = UserCart.objects.filter(created_at__date=today).count()
+
+            # Fetch total amount earned today
+            total_amount_earned_today = PaymentP.objects.filter(timestamp__date=today).aggregate(total_amount=Sum('amount'))['total_amount']
+
+            # Ensure to handle cases where total_amount_earned_today might be None
+            total_amount_earned_today = total_amount_earned_today if total_amount_earned_today is not None else 0
+
+            return render(request, 'spects_dashboard.html', {
+                'total_products_sold_today': total_products_sold_today,
+                'total_amount_earned_today': total_amount_earned_today,
+                'form': form,  # Pass the form to the template for rendering
+            })
     else:
         return redirect(reverse('index'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # from django.contrib.auth.decorators import login_required
 # from django.shortcuts import render, redirect, reverse
@@ -1446,7 +1506,10 @@ razorpay_client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KE
 
 
 
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 from django.db import transaction
+
 
 @csrf_exempt
 def paymenthandler2(request, shipping_address_id):
@@ -1472,6 +1535,13 @@ def paymenthandler2(request, shipping_address_id):
 
         razorpay_client.payment.capture(payment_id, amount)
 
+        # Fetch cart items and serialize them
+        user = request.user
+        cart_items = UserCart.objects.filter(user=user)
+        purchased_items = [{'frame_name': cart_item.frame.name, 'quantity': cart_item.quantity} for cart_item in cart_items]
+
+        # Update the purchased_items field in the payment
+        payment.purchased_items = json.dumps(purchased_items, cls=DjangoJSONEncoder)
         payment.payment_id = payment_id
         payment.payment_status = PaymentP.PaymentStatusChoices.SUCCESSFUL
         payment.save()
@@ -1515,3 +1585,27 @@ def paymenthandler2(request, shipping_address_id):
 
     else:
         return HttpResponseBadRequest("Invalid request method.")
+
+
+
+
+
+# Modify the order_details view
+import json
+
+def order_details(request):
+    user = request.user
+
+    # Retrieve successful payments for the current user
+    successful_payments = PaymentP.objects.filter(user=user, payment_status='successful')
+
+    purchased_items = []
+    for payment in successful_payments:
+        if payment.purchased_items:
+            purchased_items.extend(json.loads(payment.purchased_items))
+
+    context = {
+        'purchased_items': purchased_items,
+    }
+
+    return render(request, 'order_details.html', context)

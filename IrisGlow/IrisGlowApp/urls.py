@@ -132,6 +132,8 @@ urlpatterns = [
     path('payment2/<int:shipping_address_id>/', views.payment2, name='payment2'),
     path('paymenthandler2/<int:shipping_address_id>/', views.paymenthandler2, name='paymenthandler2'),
 
+    path('order-details/', views.order_details, name='order_details'),
+
     
 
 

@@ -143,6 +143,10 @@
 
 
 
+
+
+
+
         {% comment %} <div class="content">
             
             <!-- Add your Spects dashboard content here -->
@@ -170,6 +174,27 @@
         <button id="startButton"><i class="bi bi-mic-fill text-white"></i></button>
 
     </div>
+
+
+
+    <div class="content">
+        
+
+        <!-- Display total products sold today -->
+        <div class="action-box total-products-sold-box">
+            <h3>Total Products Sold Today</h3>
+            <p>{{ total_products_sold_today }}</p>
+        </div>
+
+        <!-- Display total amount earned today -->
+        <div class="action-box total-amount-earned-box">
+            <h3>Total Amount Earned Today</h3>
+            <p>{{ total_amount_earned_today }}</p>
+        </div>
+
+        
+    </div>
+
 
 <script>
 const startButton = document.getElementById('startButton');

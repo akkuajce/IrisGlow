@@ -175,7 +175,13 @@
     <div class="collapse navbar-collapse ms-5 mr-5 justify-content-end" id="navbarCollapse">
       <div class="navbar-nav ms-5 mr-5 py-0 justify-content-end">
         <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
-        <a href="{% url 'patient_appointment_history' %}" class="nav-item nav-link active">View Appointment History</a>
+        <a href="about.html" class="nav-item nav-link">About</a>
+                
+                
+
+                
+                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+        
         <div class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Welcome,{{user.first_name}}</a>
           <div class="dropdown-menu m-0">
@@ -211,6 +217,7 @@
     <br>
     <a href="{% url 'index' %}" class="nav-item nav-link active">Home</a>
     <a href="{% url 'patient_appointment_history' %}" class="nav-item nav-link active">View Appointment History</a>
+    <li><a href="{% url 'order_details' %}">Order Details</a></li>
   </div>
 
   <!-- Page content -->
